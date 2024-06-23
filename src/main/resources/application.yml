@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  thymeleaf:
+    cache: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/autobiography
+    username: sahmyook
+    password: sahmyook
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+    jpa:
+      hibernate:
+        ddl-auto: update
+        dialect: org.hibernate.dialect.MySQLDialect
+      show-sql: true
+
+logging:
+  level:
+    root: INFO
+
+
