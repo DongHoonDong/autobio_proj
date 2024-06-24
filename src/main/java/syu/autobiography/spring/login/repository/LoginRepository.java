@@ -6,7 +6,7 @@ import syu.autobiography.spring.entity.Users;
 
 import java.util.Optional;
 
-public interface LoginRepository extends JpaRepository<Users, Long> {
+public interface LoginRepository extends JpaRepository<Users, Integer> {
     Optional<Users> findByUserIdAndUserPwd(String userId, String userPwd);
     boolean existsByUserId(String userId);
 

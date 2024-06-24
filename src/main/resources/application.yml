@@ -11,14 +11,19 @@ spring:
     password: sahmyook
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-    jpa:
-      hibernate:
-        ddl-auto: update
-        dialect: org.hibernate.dialect.MySQLDialect
-      show-sql: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+      dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: true
 
 logging:
   level:
     root: INFO
 
+spring.servlet.multipart.max-file-size: 10MB
+spring.servlet.multipart.max-request-size: 10MB
 
+flask:
+  api:
+    url: http://localhost:5000
