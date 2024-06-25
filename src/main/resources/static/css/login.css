@@ -1,0 +1,84 @@
+/* login.css */
+
+/* 전체 페이지 스타일링 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 40px;
+    width: 400px;
+    max-width: 90%;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 로고 이미지 */
+.container h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* 로그인 폼 스타일링 */
+.input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.login-button:hover {
+    background-color: #45a049;
+}
+
+.divider {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.divider hr {
+    flex-grow: 1;
+    height: 1px;
+    background-color: #ddd;
+    border: none;
+    margin: 0;
+}
+
+.divider span {
+    margin: 0 10px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* 하단 링크 스타일링 */
+.container a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.container a:hover {
+    text-decoration: underline;
+}
