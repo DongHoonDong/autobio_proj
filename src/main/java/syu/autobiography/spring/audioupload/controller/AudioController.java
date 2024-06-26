@@ -1,12 +1,14 @@
-package syu.autobiography.spring.controller;
+package syu.autobiography.spring.audioupload.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
@@ -36,13 +38,15 @@ public class AudioController {
             };
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-            body.add("audio", resource);
+            body.add("file", resource);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
             RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/upload", body, Map.class);
+            ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/upload", requestEntity, Map.class);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 return ResponseEntity.ok(response.getBody());
@@ -52,6 +56,26 @@ public class AudioController {
 
         } catch (IOException e) {
             return ResponseEntity.status(500).body(Map.of("error", "Failed to upload file: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/regenerate")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> regenerateGuideline(@RequestBody Map<String, String> payload) {
+        String updatedTranscript = payload.get("transcript");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(Map.of("transcript", updatedTranscript), headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/regenerate", requestEntity, Map.class);
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            return ResponseEntity.ok(response.getBody());
+        } else {
+            return ResponseEntity.status(500).body(Map.of("error", "Failed to get response from the server"));
         }
     }
 }

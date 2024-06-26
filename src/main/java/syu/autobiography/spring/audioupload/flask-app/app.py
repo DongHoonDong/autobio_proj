@@ -33,8 +33,8 @@ def get_gpt_response(recognized_text):
     }
     GPTUrl = "https://api.openai.com/v1/chat/completions"
     GPTData = {
-        "model": "gpt-4",
-        "max_tokens": 3000,
+        "model": "gpt-3.5-turbo",
+        "max_tokens": 1000,
         "n": 1,
         "stop": None,
         "temperature": 0.8,
@@ -45,7 +45,7 @@ def get_gpt_response(recognized_text):
             },
             {
                 "role": "user",
-                "content": f"해당 주제에 관한 자서전 초안을 써줘. '{recognized_text}'에 대한 글을 써주되 누구든지 기반 지식이 전혀 없는 사람들도 잘 이해할 수 있도록 친절하게 초안을 세세하게 써줘."
+                "content": f"해당 주제에 관한 자서전 초안을 써줘. '{recognized_text}'에 대한 글을 써주되 각주를 많이 사용하여서 글에 대한 지식이 많이 없는 사람들도 이해하기 쉽게 작성해줘."
             }
         ],
     }
@@ -60,10 +60,10 @@ def get_gpt_response(recognized_text):
 
 @app.route('/upload', methods=['POST'])
 def upload_audio():
-    if 'audio' not in request.files:
+    if 'file' not in request.files:
         return jsonify({"error": "No audio file provided"}), 400
 
-    audio_file = request.files['audio']
+    audio_file = request.files['file']
 
     try:
         audio = AudioSegment.from_file(audio_file)
@@ -88,6 +88,16 @@ def upload_audio():
         return jsonify({"transcript": recognized_text, "guideline": guideline})
     else:
         return jsonify({"error": "Speech recognition failed"}), 500
+
+@app.route('/regenerate', methods=['POST'])
+def regenerate_guideline():
+    data = request.get_json()
+    if not data or 'transcript' not in data:
+        return jsonify({"error": "No transcript provided"}), 400
+
+    updated_transcript = data['transcript']
+    guideline = get_gpt_response(updated_transcript)
+    return jsonify({"guideline": guideline})
 
 if __name__ == '__main__':
     app.run(debug=True)
