@@ -18,7 +18,9 @@
 <h1>인식 결과</h1>
 <div id="result">
     <p><strong>녹음된 내용:</strong> <span id="transcript">녹음된 내용이 표시됩니다</span></p>
+    <p><strong>녹음된 내용 수정:</strong><br> <textarea id="transcriptEditor" rows="10" cols="50"></textarea></p>
     <p><strong>초안:</strong> <span id="guideline">초안이 표시됩니다</span></p>
+    <p><strong>초안 수정:</strong><br> <textarea id="guidelineEditor" rows="10" cols="50"></textarea></p>
 </div>
 
 <div id="error"></div>
@@ -45,7 +47,9 @@
                         $('#error').text(data.error);
                     } else {
                         $('#transcript').text(data.transcript);
+                        $('#transcriptEditor').text(data.transcript);
                         $('#guideline').text(data.guideline);
+                        $('#guidelineEditor').text(data.guideline);
                         $('#error').text('');
                     }
                 },
