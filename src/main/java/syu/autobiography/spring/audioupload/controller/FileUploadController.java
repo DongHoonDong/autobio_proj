@@ -1,4 +1,4 @@
-package syu.autobiography.spring.controller;
+package syu.autobiography.spring.audioupload.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
