@@ -1,0 +1,92 @@
+/* 전체 레이아웃 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* 헤더 스타일 */
+header {
+    padding: 10px 0;
+    background-color: #f5f5f5; /* 메인 콘텐츠와 동일한 배경색 */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between; /* 좌우 공간 배분 */
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* 로고 스타일 */
+nav ul .logo {
+    margin-right: auto; /* 로고를 왼쪽 정렬 */
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* 로그인과 회원가입 링크를 오른쪽 정렬 */
+nav ul .spacer {
+    flex-grow: 1; /* 오른쪽 정렬을 위한 공간 확보 */
+}
+
+/* 메인 콘텐츠 스타일 */
+main {
+    flex: 1;
+    text-align: center;
+    padding: 100px 20px; /* 여백을 더 많이 차지하도록 조정 */
+    background-color: #f5f5f5;
+}
+
+main h1 {
+    margin-top: 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 40px; /* 여백을 더 많이 차지하도록 조정 */
+}
+
+.button {
+    padding: 15px 30px; /* 버튼 크기 조정 */
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* 푸터 스타일 */
+footer {
+    background-color: #f5f5f5; /* 메인 콘텐츠와 동일한 배경색 */
+    color: #333;
+    text-align: center;
+    padding: 10px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

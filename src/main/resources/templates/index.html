@@ -1,12 +1,34 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>아모여: 메인 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
+<header>
+    <nav>
+        <ul>
+            <li class="logo"><a th:href="@{/}">Autobiography</a></li>
+            <li class="spacer"></li>
+            <li><a th:href="@{/login}">로그인</a></li>
+            <li><a th:href="@{/register}">회원가입</a></li>
+        </ul>
+    </nav>
+</header>
 
+<main>
+    <h1>환영합니다!</h1>
+    <p>지금, 당신의 중요한 순간들과 경험을 기록해 보세요.</p>
+    <div class="buttons">
+        <a class="button" th:href="@{/fileupload}"><b>시작하기</b></a>
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2024 autobiography</p>
+</footer>
 </body>
 </html>

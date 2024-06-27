@@ -8,6 +8,6 @@ public class FileUploadController {
 
     @GetMapping("/fileupload")
     public String fileUploadForm() {
-        return "fileupload";
+        return "fileupload/fileupload";
     }
 }
