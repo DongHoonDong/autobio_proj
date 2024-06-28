@@ -25,7 +25,7 @@ def recognize_speech(audio_data):
     except sr.RequestError as e:
         return f"Request Error; {0}".format(e)
 
-def get_gpt_response(recognized_text):
+def get_gpt_response(transcript):
     api_key = os.getenv("OPENAI_API_KEY")
     GPTHeaders = {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ def get_gpt_response(recognized_text):
             },
             {
                 "role": "user",
-                "content": f"해당 주제에 관한 자서전 초안을 써줘. '{recognized_text}'에 대한 글을 써주되 각주를 많이 사용하여서 글에 대한 지식이 많이 없는 사람들도 이해하기 쉽게 작성해줘."
+                "content": f"해당 주제에 관한 자서전 초안을 써줘. '{transcript}'에 대한 글을 써주되 각주를 많이 사용하여서 글에 대한 지식이 많이 없는 사람들도 이해하기 쉽게 작성해줘."
             }
         ],
     }
@@ -90,14 +90,17 @@ def upload_audio():
         return jsonify({"error": "Speech recognition failed"}), 500
 
 @app.route('/regenerate', methods=['POST'])
-def regenerate_guideline():
+def regenerate():
     data = request.get_json()
-    if not data or 'transcript' not in data:
-        return jsonify({"error": "No transcript provided"}), 400
+    transcript = data.get('transcript')
 
-    updated_transcript = data['transcript']
-    guideline = get_gpt_response(updated_transcript)
-    return jsonify({"guideline": guideline})
+    guideline = get_gpt_response(transcript)
+
+    response = {
+        'transcript': transcript,
+        'guideline': guideline
+    }
+    return jsonify(response)
 
 if __name__ == '__main__':
     app.run(debug=True)

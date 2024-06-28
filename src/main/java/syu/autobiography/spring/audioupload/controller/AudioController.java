@@ -1,5 +1,6 @@
 package syu.autobiography.spring.audioupload.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
+import syu.autobiography.spring.audioupload.service.AudioService;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,6 +26,9 @@ public class AudioController {
 
     @Value("${flask.api.url}")
     private String flaskApiUrl;
+
+    @Autowired
+    private AudioService audioService;
 
     @PostMapping("/upload")
     @ResponseBody
@@ -49,7 +54,12 @@ public class AudioController {
             ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/upload", requestEntity, Map.class);
 
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                return ResponseEntity.ok(response.getBody());
+                Map<String, Object> responseBody = response.getBody();
+                String transcript = (String) responseBody.get("transcript");
+                String guideline = (String) responseBody.get("guideline");
+                audioService.saveDraft(transcript, guideline); // 데이터베이스에 저장
+
+                return ResponseEntity.ok(responseBody);
             } else {
                 return ResponseEntity.status(500).body(Map.of("error", "Failed to get response from the server"));
             }
@@ -73,7 +83,13 @@ public class AudioController {
         ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/regenerate", requestEntity, Map.class);
 
         if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            return ResponseEntity.ok(response.getBody());
+            Map<String, Object> responseBody = response.getBody();
+            String newTranscript = (String) responseBody.get("transcript");
+            String newGuideline = (String) responseBody.get("guideline");
+
+            audioService.saveDraft(newTranscript, newGuideline); // 데이터베이스에 저장
+
+            return ResponseEntity.ok(responseBody);
         } else {
             return ResponseEntity.status(500).body(Map.of("error", "Failed to get response from the server"));
         }
