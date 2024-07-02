@@ -80,3 +80,21 @@ button[type=submit]:hover, #regenerateBtn:hover {
     display: flex;
     align-items: center;
 }
+
+
+button.fixed-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 50px;
+    font-size: 16px;
+    position: fixed;
+    bottom: 60px;
+    right: 40px;
+}
+
+button.fixed-button:hover {
+    background-color: #0056b3;
+}
