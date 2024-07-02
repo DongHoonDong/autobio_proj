@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter 1 - 파일을 업로드해주세요</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/fileupload/style.css">
+</head>
+<body>
+<h2>Chapter 1 - 파일을 업로드해주세요</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="file" required>
+    <input type="hidden" name="chapter" value="1">
+    <br><br>
+    <button type="submit">업로드하기</button>
+    <span id="uploadingMsg" class="loader-container" style="display: none;">생성중입니다... <div class="loader"></div></span>
+</form>
+
+<h1>인식 결과</h1>
+<div id="result">
+    <p><strong>녹음된 내용:</strong> <span id="transcript">녹음된 내용이 표시됩니다</span></p>
+    <p><strong>녹음된 내용 수정:</strong><br> <textarea id="transcriptEditor" rows="10" cols="50"></textarea></p>
+    <p><strong>초안:</strong> <span id="guideline">초안이 표시됩니다</span></p>
+    <p><strong>초안 수정:</strong><br> <textarea id="guidelineEditor" rows="10" cols="50"></textarea></p>
+    <button id="regenerateBtn">재생성하기</button>
+    <span id="regeneratingMsg" class="loader-container" style="display: none;">재생성 중입니다... <div class="loader"></div></span>
+</div>
+
+<div id="error"></div>
+
+<script>
+    $(document).ready(function() {
+        $('#uploadForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+            $.ajax({
+                url: '/upload',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#uploadingMsg').show();
+                },
+                success: function(data) {
+                    $('#uploadingMsg').hide();
+
+                    if (data.error) {
+                        $('#error').text(data.error);
+                    } else {
+                        $('#transcript').text(data.transcript);
+                        $('#transcriptEditor').val(data.transcript);
+                        $('#guideline').text(data.guideline);
+                        $('#guidelineEditor').val(data.guideline);
+                        $('#error').text('');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#uploadingMsg').hide();
+                    $('#error').text('An error occurred: ' + errorThrown);
+                }
+            });
+        });
+
+        $('#regenerateBtn').on('click', function() {
+            var updatedTranscript = $('#transcriptEditor').val();
+            var chapter = $('input[name="chapter"]').val();
+
+            $.ajax({
+                url: '/regenerate',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ transcript: updatedTranscript, chapter: chapter }),
+                beforeSend: function() {
+                    $('#regeneratingMsg').show();
+                },
+                success: function(data) {
+                    $('#regeneratingMsg').hide();
+
+                    if (data.error) {
+                        $('#error').text(data.error);
+                    } else {
+                        $('#guideline').text(data.guideline);
+                        $('#guidelineEditor').val(data.guideline);
+                        $('#error').text('');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#regeneratingMsg').hide();
+                    $('#error').text('An error occurred: ' + errorThrown);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

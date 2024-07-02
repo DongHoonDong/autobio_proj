@@ -32,7 +32,7 @@ public class AudioController {
 
     @PostMapping("/upload")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> handleFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<Map<String, Object>> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam("chapter") int chapter) {
         try {
             byte[] bytes = file.getBytes();
             ByteArrayResource resource = new ByteArrayResource(bytes) {
@@ -57,7 +57,7 @@ public class AudioController {
                 Map<String, Object> responseBody = response.getBody();
                 String transcript = (String) responseBody.get("transcript");
                 String guideline = (String) responseBody.get("guideline");
-                audioService.saveDraft(transcript, guideline); // 데이터베이스에 저장
+                audioService.saveDraft(transcript, guideline, chapter); // 데이터베이스에 저장
 
                 return ResponseEntity.ok(responseBody);
             } else {
@@ -73,6 +73,7 @@ public class AudioController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> regenerateGuideline(@RequestBody Map<String, String> payload) {
         String updatedTranscript = payload.get("transcript");
+        int chapter = Integer.parseInt(payload.get("chapter"));
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -87,7 +88,7 @@ public class AudioController {
             String newTranscript = (String) responseBody.get("transcript");
             String newGuideline = (String) responseBody.get("guideline");
 
-            audioService.saveDraft(newTranscript, newGuideline); // 데이터베이스에 저장
+            audioService.saveDraft(newTranscript, newGuideline, chapter);
 
             return ResponseEntity.ok(responseBody);
         } else {
