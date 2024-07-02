@@ -30,9 +30,5 @@ public class FileUploadController {
     public String chapter5Page() {
         return "fileupload/chapter5";
     }
-
-    @GetMapping("/makedraft")
-    public String makedraftPage() {
-        return "fileupload/makedraft";
     }
-}
+

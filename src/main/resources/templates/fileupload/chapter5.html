@@ -26,7 +26,14 @@
 
 <div id="error"></div>
 
-<button class="fixed-button" onclick="window.location.href='/makedraft'">완료하기</button>
+<button id="completeBtn" class="fixed-button">완료하기</button>
+
+<div id="loadingOverlay" class="overlay">
+    <div class="loading-content">
+        <div class="spinner"></div>
+        <p>초안을 생성 중입니다...</p>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {
@@ -86,6 +93,30 @@
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#updatingMsg').hide();
                     $('#error').text('An error occurred: ' + errorThrown);
+                }
+            });
+        });
+
+        $('#completeBtn').on('click', function() {
+            $.ajax({
+                url: '/generate-final-draft',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({}),
+                beforeSend: function() {
+                    $('#loadingOverlay').fadeIn(300);
+                },
+                success: function(data) {
+                    if (data.error) {
+                        $('#error').text("Error: " + data.error);
+                        $('#loadingOverlay').fadeOut(300);
+                    } else {
+                        window.location.href = '/final-draft';
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#error').text("초안 생성 중 오류가 발생했습니다: " + errorThrown);
+                    $('#loadingOverlay').fadeOut(300);
                 }
             });
         });

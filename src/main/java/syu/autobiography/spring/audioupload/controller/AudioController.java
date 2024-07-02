@@ -5,14 +5,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import syu.autobiography.spring.audioupload.service.AudioService;
+import syu.autobiography.spring.entity.Drafts;
+import syu.autobiography.spring.audioupload.repository.AudioRepository;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,6 +27,9 @@ public class AudioController {
 
     @Autowired
     private AudioService audioService;
+
+    @Autowired
+    private AudioRepository audioRepository;
 
     @PostMapping("/upload")
     @ResponseBody
@@ -50,7 +57,7 @@ public class AudioController {
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> responseBody = response.getBody();
                 String transcript = (String) responseBody.get("transcript");
-                audioService.saveDraft(transcript, chapter); // 데이터베이스에 저장
+                audioService.saveDraft(transcript, chapter);
 
                 return ResponseEntity.ok(responseBody);
             } else {
@@ -71,5 +78,49 @@ public class AudioController {
         audioService.saveDraft(updatedTranscript, chapter);
 
         return ResponseEntity.ok(Map.of("message", "Transcript updated successfully"));
+    }
+
+    @PostMapping("/generate-final-draft")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> generateFinalDraft() {
+        try {
+            List<Drafts> allDrafts = audioRepository.findAllByOrderByChapterNumberAsc();
+            if (allDrafts.isEmpty()) {
+                return ResponseEntity.status(400).body(Map.of("error", "No drafts found"));
+            }
+
+            StringBuilder contentBuilder = new StringBuilder();
+            for (Drafts draft : allDrafts) {
+                contentBuilder.append("Chapter ").append(draft.getChapterNumber()).append(":\n");
+                contentBuilder.append(draft.getDraftContent()).append("\n\n");
+            }
+
+            String compiledContent = contentBuilder.toString();
+
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String, String> requestBody = Map.of("content", compiledContent);
+            HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
+
+            ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/generate-final-draft", request, Map.class);
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                return ResponseEntity.ok(response.getBody());
+            } else {
+                return ResponseEntity.status(500).body(Map.of("error", "Failed to generate final draft"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("error", "Failed to generate final draft: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/final-draft")
+    public String showFinalDraft(Model model) {
+        String finalDraft = audioService.generateFinalDraft();
+        model.addAttribute("finalDraft", finalDraft);
+        return "fileupload/finaldraft";
     }
 }
