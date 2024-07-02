@@ -13,17 +13,15 @@
     <input type="hidden" name="chapter" value="4">
     <br><br>
     <button type="submit">업로드하기</button>
-    <span id="uploadingMsg" class="loader-container" style="display: none;">생성중입니다... <div class="loader"></div></span>
+    <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
 </form>
 
 <h1>인식 결과</h1>
 <div id="result">
     <p><strong>녹음된 내용:</strong> <span id="transcript">녹음된 내용이 표시됩니다</span></p>
     <p><strong>녹음된 내용 수정:</strong><br> <textarea id="transcriptEditor" rows="10" cols="50"></textarea></p>
-    <p><strong>초안:</strong> <span id="guideline">초안이 표시됩니다</span></p>
-    <p><strong>초안 수정:</strong><br> <textarea id="guidelineEditor" rows="10" cols="50"></textarea></p>
-    <button id="regenerateBtn">재생성하기</button>
-    <span id="regeneratingMsg" class="loader-container" style="display: none;">재생성 중입니다... <div class="loader"></div></span>
+    <button id="updateBtn">수정하기</button>
+    <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
 </div>
 
 <div id="error"></div>
@@ -53,8 +51,6 @@
                     } else {
                         $('#transcript').text(data.transcript);
                         $('#transcriptEditor').val(data.transcript);
-                        $('#guideline').text(data.guideline);
-                        $('#guidelineEditor').val(data.guideline);
                         $('#error').text('');
                     }
                 },
@@ -65,31 +61,30 @@
             });
         });
 
-        $('#regenerateBtn').on('click', function() {
+        $('#updateBtn').on('click', function() {
             var updatedTranscript = $('#transcriptEditor').val();
             var chapter = $('input[name="chapter"]').val();
 
             $.ajax({
-                url: '/regenerate',
+                url: '/update',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({ transcript: updatedTranscript, chapter: chapter }),
                 beforeSend: function() {
-                    $('#regeneratingMsg').show();
+                    $('#updatingMsg').show();
                 },
                 success: function(data) {
-                    $('#regeneratingMsg').hide();
+                    $('#updatingMsg').hide();
 
                     if (data.error) {
                         $('#error').text(data.error);
                     } else {
-                        $('#guideline').text(data.guideline);
-                        $('#guidelineEditor').val(data.guideline);
+                        $('#transcript').text(updatedTranscript);
                         $('#error').text('');
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
-                    $('#regeneratingMsg').hide();
+                    $('#updatingMsg').hide();
                     $('#error').text('An error occurred: ' + errorThrown);
                 }
             });

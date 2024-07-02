@@ -3,15 +3,9 @@ package syu.autobiography.spring.audioupload.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -56,8 +50,7 @@ public class AudioController {
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> responseBody = response.getBody();
                 String transcript = (String) responseBody.get("transcript");
-                String guideline = (String) responseBody.get("guideline");
-                audioService.saveDraft(transcript, guideline, chapter); // 데이터베이스에 저장
+                audioService.saveDraft(transcript, chapter); // 데이터베이스에 저장
 
                 return ResponseEntity.ok(responseBody);
             } else {
@@ -69,30 +62,14 @@ public class AudioController {
         }
     }
 
-    @PostMapping("/regenerate")
+    @PostMapping("/update")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> regenerateGuideline(@RequestBody Map<String, String> payload) {
+    public ResponseEntity<Map<String, Object>> updateTranscript(@RequestBody Map<String, String> payload) {
         String updatedTranscript = payload.get("transcript");
         int chapter = Integer.parseInt(payload.get("chapter"));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        audioService.saveDraft(updatedTranscript, chapter);
 
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(Map.of("transcript", updatedTranscript), headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/regenerate", requestEntity, Map.class);
-
-        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-            Map<String, Object> responseBody = response.getBody();
-            String newTranscript = (String) responseBody.get("transcript");
-            String newGuideline = (String) responseBody.get("guideline");
-
-            audioService.saveDraft(newTranscript, newGuideline, chapter);
-
-            return ResponseEntity.ok(responseBody);
-        } else {
-            return ResponseEntity.status(500).body(Map.of("error", "Failed to get response from the server"));
-        }
+        return ResponseEntity.ok(Map.of("message", "Transcript updated successfully"));
     }
 }

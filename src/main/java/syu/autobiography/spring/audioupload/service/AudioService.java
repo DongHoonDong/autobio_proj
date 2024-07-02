@@ -14,8 +14,7 @@ public class AudioService {
     @Autowired
     private AudioRepository audioRepository;
 
-    public void saveDraft(String transcript, String guideline, int chapter) {
-
+    public void saveDraft(String transcript, int chapter) {
         Users user = new Users(); // 임의로 사용자 생성
         user.setUserNo(1); // 임의로 1로 설정
 
@@ -23,9 +22,9 @@ public class AudioService {
         draft.setUsers(user);
         draft.setRequestTime(LocalDateTime.now());
         draft.setDraftContent(transcript);
-        draft.setResponseContent(guideline);
-        draft.setChapterNumber(chapter); // 챕터 번호 설정
+        draft.setChapterNumber(chapter);
 
         audioRepository.save(draft);
     }
+
 }

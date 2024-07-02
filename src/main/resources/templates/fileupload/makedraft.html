@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>자서전 초안 만들기</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="/css/fileupload/style.css">
+    <style>
+        #draftContent {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<h2>자서전 초안 만들기</h2>
+<div id="draftContainer">
+    <textarea id="draftContent" placeholder="이곳에 자서전 초안이 생성됩니다..."></textarea>
+    <button id="generateDraftBtn">초안 생성하기</button>
+    <button id="saveDraftBtn" style="display: none;">초안 저장하기</button>
+    <span id="generatingMsg" class="loader-container" style="display: none;">초안을 생성중입니다... <div class="loader"></div></span>
+    <span id="savingMsg" class="loader-container" style="display: none;">초안을 저장중입니다... <div class="loader"></div></span>
+</div>
+
+<div id="error"></div>
+
+<script>
+    $(document).ready(function() {
+        $('#generateDraftBtn').on('click', function() {
+            $.ajax({
+                url: '/generate-draft',
+                type: 'POST',
+                contentType: 'application/json',
+                beforeSend: function() {
+                    $('#generatingMsg').show();
+                },
+                success: function(data) {
+                    $('#generatingMsg').hide();
+                    if (data.error) {
+                        $('#error').text(data.error);
+                    } else {
+                        $('#draftContent').val(data.draft);
+                        $('#generateDraftBtn').hide();
+                        $('#saveDraftBtn').show();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#generatingMsg').hide();
+                    $('#error').text('An error occurred: ' + errorThrown);
+                }
+            });
+        });
+
+        $('#saveDraftBtn').on('click', function() {
+            var draft = $('#draftContent').val();
+            $.ajax({
+                url: '/save-draft',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ draft: draft }),
+                beforeSend: function() {
+                    $('#savingMsg').show();
+                },
+                success: function(data) {
+                    $('#savingMsg').hide();
+                    if (data.error) {
+                        $('#error').text(data.error);
+                    } else {
+                        alert('초안이 성공적으로 저장되었습니다!');
+                        window.location.href = '/'; // 메인 페이지로 이동
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    $('#savingMsg').hide();
+                    $('#error').text('An error occurred: ' + errorThrown);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

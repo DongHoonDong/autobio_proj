@@ -1,4 +1,3 @@
-/* 파일 업로드 폼 스타일 */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -21,7 +20,7 @@ input[type=file] {
     margin-bottom: 10px;
 }
 
-button[type=submit], #regenerateBtn {
+button[type=submit], #updateBtn {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
@@ -31,11 +30,10 @@ button[type=submit], #regenerateBtn {
     font-size: 16px;
 }
 
-button[type=submit]:hover, #regenerateBtn:hover {
+button[type=submit]:hover, #updateBtn:hover {
     background-color: #0056b3;
 }
 
-/* 로딩 스피너 스타일 */
 .loader {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3498db;
@@ -53,7 +51,6 @@ button[type=submit]:hover, #regenerateBtn:hover {
     100% { transform: rotate(360deg); }
 }
 
-/* 인식 결과 스타일 */
 #result {
     background-color: #fff;
     padding: 20px;
@@ -70,7 +67,7 @@ button[type=submit]:hover, #regenerateBtn:hover {
     color: red;
 }
 
-#regeneratingMsg {
+#uploadingMsg, #updatingMsg {
     display: none;
     color: #333;
     margin-top: 10px;
@@ -80,7 +77,6 @@ button[type=submit]:hover, #regenerateBtn:hover {
     display: flex;
     align-items: center;
 }
-
 
 button.fixed-button {
     background-color: #007bff;
