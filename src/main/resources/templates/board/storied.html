@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>Stories Page</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
@@ -32,21 +32,15 @@
         </div>
     </div>
 </header>
-<section class="hero">
-    <a th:href="@{/fileupload}" class="hero-image-link">
-        <img th:src="@{/img/banner-image.png}" alt="Banner Image" class="hero-image">
-    </a>
-</section>
 <section class="auto-content">
-    <h2>내 이야기 들려주기</h2>
-    <p>제 인생 스토리 읽어보실래요?</p>
+    <h2>자서전 구경하기</h2>
     <div class="stories">
         <div th:each="story : ${stories}" class="story">
             <div class="story-info">
                 <h3 th:text="${story.draftContent}">제목</h3>
                 <p th:text="${story.userName}">이름</p>
                 <p th:text="${story.userAge + '세'}">나이</p>
-                <p th:utext="${story.responseContent}" class="content-preview">내용</p>
+                <p th:text="${story.responseContent}">내용</p>
             </div>
         </div>
     </div>
@@ -60,15 +54,5 @@
     </div>
     <p>© 2024 autobiography all rights reserved</p>
 </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.content-preview').forEach(function(element) {
-            let text = element.innerText;
-            if (text.length > 300) {
-                element.innerText = text.substring(0, 300) + '...';
-            }
-        });
-    });
-</script>
 </body>
 </html>

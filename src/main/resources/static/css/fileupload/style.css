@@ -1,3 +1,4 @@
+/* 파일 업로드 폼 스타일 */
 body {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
@@ -20,7 +21,7 @@ input[type=file] {
     margin-bottom: 10px;
 }
 
-button[type=submit], #updateBtn {
+button[type=submit], #regenerateBtn {
     background-color: #007bff;
     color: white;
     padding: 10px 20px;
@@ -30,10 +31,11 @@ button[type=submit], #updateBtn {
     font-size: 16px;
 }
 
-button[type=submit]:hover, #updateBtn:hover {
+button[type=submit]:hover, #regenerateBtn:hover {
     background-color: #0056b3;
 }
 
+/* 로딩 스피너 스타일 */
 .loader {
     border: 4px solid #f3f3f3;
     border-top: 4px solid #3498db;
@@ -51,6 +53,7 @@ button[type=submit]:hover, #updateBtn:hover {
     100% { transform: rotate(360deg); }
 }
 
+/* 인식 결과 스타일 */
 #result {
     background-color: #fff;
     padding: 20px;
@@ -67,7 +70,7 @@ button[type=submit]:hover, #updateBtn:hover {
     color: red;
 }
 
-#uploadingMsg, #updatingMsg {
+#regeneratingMsg {
     display: none;
     color: #333;
     margin-top: 10px;
@@ -76,56 +79,4 @@ button[type=submit]:hover, #updateBtn:hover {
 .loader-container {
     display: flex;
     align-items: center;
-}
-
-button.fixed-button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 50px;
-    font-size: 16px;
-    position: fixed;
-    bottom: 60px;
-    right: 40px;
-}
-
-button.fixed-button:hover {
-    background-color: #0056b3;
-}
-
-.overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.loading-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-}
-
-.spinner {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 20px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
 }

@@ -8,6 +8,7 @@ import syu.autobiography.spring.dto.UserDTO;
 import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.login.repository.LoginRepository;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,7 @@ public class UserServiceImpl implements UserService {
         user.setUserName(userDTO.getUserName());
         user.setUserPwd(userDTO.getUserPwd());
         user.setUserPhone(userDTO.getUserPhone());
-        user.setUserBirth(userDTO.getUserBirth());
+        user.setUserBirth(LocalDate.parse(userDTO.getUserBirth()));
         user.setUserGender(userDTO.getUserGender());
         user.setUserRole("N");
 

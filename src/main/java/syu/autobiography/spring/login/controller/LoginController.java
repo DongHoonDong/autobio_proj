@@ -26,7 +26,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginForm() {
-        return "user/login";
+        return "auth/login";
     }
 
     @PostMapping("/login")
@@ -41,7 +41,7 @@ public class LoginController {
         session.setAttribute("user", user);
 
         if ("Y".equals(user.getUserRole())) {
-            return "redirect:/admin/admin-user";
+            return "redirect:/admin/adminpage";
         }
 
         return "redirect:/";
@@ -55,7 +55,7 @@ public class LoginController {
 
     @GetMapping("/register")
     public String registerForm() {
-        return "user/register";
+        return "auth/register";
     }
 
     @PostMapping("/register")
