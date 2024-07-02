@@ -28,7 +28,7 @@ public class Drafts {
     @Column(name = "draft_content", nullable = false, columnDefinition = "TEXT")
     private String draftContent;
 
-    @Column(name = "response_content", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "response_content", nullable = true, columnDefinition = "TEXT")
     private String responseContent;
 
     @Column(name = "chapter_number", nullable = false)
