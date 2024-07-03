@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stories Page</title>
+    <link rel="stylesheet" th:href="@{/css/board/storied.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<section class="post-content">
+    <h2>자서전 구경하기</h2>
+    <div class="story_board">
+        <div th:each="story : ${stories}" class="story_post">
+            <div class="post-info">
+                <h3 th:text="${story.draftContent}">제목</h3>
+                <p th:text="${story.userName}">이름</p>
+                <p th:text="${story.userAge + '세'}">나이</p>
+                <p th:text="${story.responseContent}">내용</p>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+        <a th:if="${currentPage > 1}" th:href="@{/board/post_story(page=${currentPage - 1})}">&laquo; 이전</a>
+        <span>페이지 <span th:text="${currentPage}">1</span> / <span th:text="${totalPages}">1</span></span>
+        <a th:if="${currentPage < totalPages}" th:href="@{/board/post_story(page=${currentPage + 1})}">다음 &raquo;</a>
+    </div>
+</section>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

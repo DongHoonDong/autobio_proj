@@ -5,39 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script type="text/javascript" th:src="@{/js/index.js}" th:defer></script>
+
 </head>
 <body>
-<header>
-    <div class="logo">로고</div>
-    <nav>
-        <ul>
-            <li><a th:href="@{/}">홈</a></li>
-            <li><a th:href="@{/fileupload}">자서전 쓰기</a></li>
-            <li><a th:href="@{/stories}">자서전 구경하기</a></li>
-        </ul>
-    </nav>
-    <div class="mypage-button" th:if="${session.user != null}">
-        <button th:onclick="|window.location='@{/mypage}'|">마이페이지</button>
-    </div>
-    <div class="auth-buttons">
-        <div th:if="${session.user != null and session.user.userRole == 'Y'}">
-            <button th:onclick="|window.location='@{/admin/admin-user}'|">관리자 페이지</button>
-        </div>
-        <div th:if="${session.user == null}">
-            <button th:onclick="|window.location='@{/login}'|">로그인</button>
-            <button th:onclick="|window.location='@{/register}'|">회원가입</button>
-        </div>
-        <div th:if="${session.user != null}">
-            <button th:onclick="|window.location='@{/logout}'|">로그아웃</button>
-        </div>
-    </div>
-</header>
-<section class="hero">
-    <a th:href="@{/fileupload}" class="hero-image-link">
-        <img th:src="@{/img/banner-image.png}" alt="Banner Image" class="hero-image">
+<div th:replace="~{fragments/header :: header}"></div>
+<section class="banner">
+    <a th:href="@{/fileupload}" class="banner-image-link">
+        <img th:src="@{/img/banner-image.png}" alt="Banner Image" class="banner-image">
     </a>
 </section>
-<section class="auto-content">
+<section class="my_story">
     <h2>내 이야기 들려주기</h2>
     <p>제 인생 스토리 읽어보실래요?</p>
     <div class="stories">
@@ -51,24 +29,6 @@
         </div>
     </div>
 </section>
-<footer>
-    <div class="footer-content">
-        <div class="footer-section">푸터</div>
-        <div class="footer-section">푸터</div>
-        <div class="footer-section">푸터</div>
-        <div class="footer-section">푸터</div>
-    </div>
-    <p>© 2024 autobiography all rights reserved</p>
-</footer>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.content-preview').forEach(function(element) {
-            let text = element.innerText;
-            if (text.length > 300) {
-                element.innerText = text.substring(0, 300) + '...';
-            }
-        });
-    });
-</script>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

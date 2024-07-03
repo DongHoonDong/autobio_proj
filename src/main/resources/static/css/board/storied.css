@@ -1,0 +1,42 @@
+.post-content {
+    padding: 20px 50px;
+}
+
+.story_board {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.story_post {
+    flex: 1 1 calc(50% - 60px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.post-info h3 {
+    margin-top: 0;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+}
+
+.pagination a, .pagination span {
+    margin: 0 8px;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a {
+    color: #007bff;
+}
+
+.pagination a:hover {
+    text-decoration: underline;
+}
