@@ -10,7 +10,7 @@
 <h2>Chapter 5 - 파일을 업로드해주세요</h2>
 <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="file" required>
-    <input type="hidden" name="chapter" value="5">
+    <input type="hidden" name="questionNumber" value="5">  <!-- 각 챕터/질문에 맞는 번호로 변경 -->
     <br><br>
     <button type="submit">업로드하기</button>
     <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
@@ -70,13 +70,16 @@
 
         $('#updateBtn').on('click', function() {
             var updatedTranscript = $('#transcriptEditor').val();
-            var chapter = $('input[name="chapter"]').val();
+            var questionNumber = $('input[name="questionNumber"]').val();
 
             $.ajax({
                 url: '/update',
                 type: 'POST',
                 contentType: 'application/json',
-                data: JSON.stringify({ transcript: updatedTranscript, chapter: chapter }),
+                data: JSON.stringify({
+                    transcript: updatedTranscript,
+                    questionNumber: questionNumber
+                }),
                 beforeSend: function() {
                     $('#updatingMsg').show();
                 },
@@ -109,13 +112,14 @@
                 success: function(data) {
                     if (data.error) {
                         $('#error').text("Error: " + data.error);
-                        $('#loadingOverlay').fadeOut(300);
                     } else {
                         window.location.href = '/final-draft';
                     }
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#error').text("초안 생성 중 오류가 발생했습니다: " + errorThrown);
+                },
+                complete: function() {
                     $('#loadingOverlay').fadeOut(300);
                 }
             });

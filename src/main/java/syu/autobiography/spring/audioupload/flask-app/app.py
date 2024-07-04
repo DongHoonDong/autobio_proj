@@ -6,6 +6,10 @@ import json
 from pydub import AudioSegment
 from io import BytesIO
 from dotenv import load_dotenv
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
 
 load_dotenv()
 
@@ -14,6 +18,37 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template('fileupload.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_audio():
+    if 'file' not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+
+    audio_file = request.files['file']
+
+    try:
+        audio = AudioSegment.from_file(audio_file)
+        audio = audio.set_frame_rate(16000)
+        audio = audio.set_channels(1)
+        audio = audio.set_sample_width(2)
+
+        wav_io = BytesIO()
+        audio.export(wav_io, format="wav")
+        wav_io.seek(0)
+    except Exception as e:
+        return jsonify({"error": f"Audio file conversion error: {str(e)}"}), 500
+
+    recognizer = sr.Recognizer()
+
+    with sr.AudioFile(wav_io) as source:
+        audio_data = recognizer.record(source)
+
+    recognized_text = recognize_speech(audio_data)
+    if recognized_text:
+        guideline = get_gpt_response(recognized_text)
+        return jsonify({"transcript": recognized_text, "guideline": guideline})
+    else:
+        return jsonify({"error": "Speech recognition failed"}), 500
 
 def recognize_speech(audio_data):
     r = sr.Recognizer()

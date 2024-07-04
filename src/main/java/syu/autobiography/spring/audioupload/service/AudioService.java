@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import syu.autobiography.spring.entity.Drafts;
+import syu.autobiography.spring.entity.Posts;
 import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.audioupload.repository.AudioRepository;
 
@@ -25,26 +25,26 @@ public class AudioService {
     @Value("${flask.api.url}")
     private String flaskApiUrl;
 
-    public void saveDraft(String transcript, int chapter) {
+    public void saveDraft(String transcript, int questionNumber) {
         Users user = new Users();
         user.setUserNo(1);
 
-        Drafts draft = new Drafts();
-        draft.setUsers(user);
-        draft.setRequestTime(LocalDateTime.now());
-        draft.setDraftContent(transcript);
-        draft.setChapterNumber(chapter);
+        Posts post = new Posts();
+        post.setUser(user);
+        post.setCreatedAt(LocalDateTime.now());
+        post.setDraftText(transcript);
+        post.setQuestionNumber(questionNumber);
 
-        audioRepository.save(draft);
+        audioRepository.save(post);
     }
 
     public String generateFinalDraft() {
-        List<Drafts> latestDrafts = audioRepository.getLatestDraftsForAllChapters();
+        List<Posts> latestPosts = audioRepository.getLatestPostsForAllQuestions();
         StringBuilder content = new StringBuilder();
 
-        for (Drafts draft : latestDrafts) {
-            content.append("Chapter ").append(draft.getChapterNumber()).append(": ");
-            content.append(draft.getDraftContent()).append(" ");
+        for (Posts post : latestPosts) {
+            content.append("Question ").append(post.getQuestionNumber()).append(": ");
+            content.append(post.getDraftText()).append(" ");
         }
 
         RestTemplate restTemplate = new RestTemplate();
