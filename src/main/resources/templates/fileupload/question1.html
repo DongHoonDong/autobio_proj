@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chapter 3 - 파일을 업로드해주세요</title>
+    <title>Chapter 1 - 파일을 업로드해주세요</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="/css/fileupload/style.css">
 </head>
 <body>
-<h2>Chapter 3 - 파일을 업로드해주세요</h2>
+<h2>Chapter 1 - 파일을 업로드해주세요</h2>
 <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="file" required>
-    <input type="hidden" name="questionNumber" value="3">  <!-- 각 챕터/질문에 맞는 번호로 변경 -->
+    <input type="hidden" name="questionNumber" value="1">
     <br><br>
     <button type="submit">업로드하기</button>
     <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
@@ -26,7 +26,7 @@
 
 <div id="error"></div>
 
-<button class="fixed-button" onclick="window.location.href='/chapter4'">챕터 4로 이동하기 →</button>
+<button class="fixed-button" onclick="window.location.href='/question2'">두 번째 질문으로 이동하기 →</button>
 
 <script>
     $(document).ready(function() {
