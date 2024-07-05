@@ -1,33 +1,49 @@
 package syu.autobiography.spring.audioupload.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class FileUploadController {
 
-    @GetMapping("/chapter1")
-    public String chapter1Page() {
-        return "fileupload/chapter1";
+    @GetMapping("/question1")
+    public String question1Page(HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        return "fileupload/question1";
     }
 
-    @GetMapping("/chapter2")
-    public String chapter2Page() {
-        return "fileupload/chapter2";
+    @GetMapping("/question2")
+    public String question2Page(HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        return "fileupload/question2";
     }
 
-    @GetMapping("/chapter3")
-    public String chapter3Page() {
-        return "fileupload/chapter3";
+    @GetMapping("/question3")
+    public String question3Page(HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        return "fileupload/question3";
     }
 
-    @GetMapping("/chapter4")
-    public String chapter4Page() {
-        return "fileupload/chapter4";
+    @GetMapping("/question4")
+    public String question4Page(HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        return "fileupload/question4";
     }
 
-    @GetMapping("/chapter5")
-    public String chapter5Page() {
-        return "fileupload/chapter5";
+    @GetMapping("/question5")
+    public String question5Page(HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return "redirect:/login";
+        }
+        return "fileupload/question5";
     }
 }

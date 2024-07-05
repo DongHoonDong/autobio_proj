@@ -8,8 +8,6 @@ import syu.autobiography.spring.dto.UserDTO;
 import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.login.repository.LoginRepository;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Service
@@ -17,7 +15,6 @@ public class UserServiceImpl implements UserService {
 
     private final LoginRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     @Autowired
     public UserServiceImpl(LoginRepository userRepository) {
@@ -33,14 +30,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(UserDTO userDTO) throws Exception {
         if (userRepository.existsByUserId(userDTO.getUserId())) {
-            throw new Exception("아이디가 이미 사용 중입니다.");
+            throw new Exception("Id already in use");
         }
         Users user = new Users();
         user.setUserId(userDTO.getUserId());
         user.setUserName(userDTO.getUserName());
         user.setUserPwd(userDTO.getUserPwd());
         user.setUserPhone(userDTO.getUserPhone());
-        user.setUserBirth(LocalDate.parse(userDTO.getUserBirth(), DATE_FORMATTER));
+        user.setUserBirth(userDTO.getUserBirth());
         user.setUserGender(userDTO.getUserGender());
         user.setUserRole("N");
 

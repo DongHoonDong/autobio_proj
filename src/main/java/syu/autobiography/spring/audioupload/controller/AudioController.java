@@ -11,8 +11,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
+import jakarta.servlet.http.HttpSession;
 import syu.autobiography.spring.audioupload.service.AudioService;
-import syu.autobiography.spring.entity.Drafts;
+import syu.autobiography.spring.entity.Posts;
+import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.audioupload.repository.AudioRepository;
 
 import java.io.IOException;
@@ -33,7 +35,13 @@ public class AudioController {
 
     @PostMapping("/upload")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam("chapter") int chapter) {
+    public ResponseEntity<Map<String, Object>> handleFileUpload(@RequestParam("file") MultipartFile file, @RequestParam(value = "questionNumber", required = false, defaultValue = "1") int questionNumber, HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
+
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "User not logged in"));
+        }
+
         try {
             byte[] bytes = file.getBytes();
             ByteArrayResource resource = new ByteArrayResource(bytes) {
@@ -57,7 +65,7 @@ public class AudioController {
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> responseBody = response.getBody();
                 String transcript = (String) responseBody.get("transcript");
-                audioService.saveDraft(transcript, chapter);
+                audioService.saveDraft(transcript, questionNumber, user);
 
                 return ResponseEntity.ok(responseBody);
             } else {
@@ -71,28 +79,40 @@ public class AudioController {
 
     @PostMapping("/update")
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> updateTranscript(@RequestBody Map<String, String> payload) {
-        String updatedTranscript = payload.get("transcript");
-        int chapter = Integer.parseInt(payload.get("chapter"));
+    public ResponseEntity<Map<String, Object>> updateTranscript(@RequestBody Map<String, String> payload, HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
 
-        audioService.saveDraft(updatedTranscript, chapter);
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "User not logged in"));
+        }
+
+        String updatedTranscript = payload.get("transcript");
+        int questionNumber = Integer.parseInt(payload.get("questionNumber"));
+
+        audioService.saveDraft(updatedTranscript, questionNumber, user);
 
         return ResponseEntity.ok(Map.of("message", "Transcript updated successfully"));
     }
 
     @PostMapping("/generate-final-draft")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> generateFinalDraft() {
+    public ResponseEntity<Map<String, String>> generateFinalDraft(HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
+
+        if (user == null) {
+            return ResponseEntity.status(401).body(Map.of("error", "User not logged in"));
+        }
+
         try {
-            List<Drafts> allDrafts = audioRepository.findAllByOrderByChapterNumberAsc();
-            if (allDrafts.isEmpty()) {
-                return ResponseEntity.status(400).body(Map.of("error", "No drafts found"));
+            List<Posts> allPosts = audioRepository.findAllByOrderByQuestionNumberAsc();
+            if (allPosts.isEmpty()) {
+                return ResponseEntity.status(400).body(Map.of("error", "No posts found"));
             }
 
             StringBuilder contentBuilder = new StringBuilder();
-            for (Drafts draft : allDrafts) {
-                contentBuilder.append("Chapter ").append(draft.getChapterNumber()).append(":\n");
-                contentBuilder.append(draft.getDraftContent()).append("\n\n");
+            for (Posts post : allPosts) {
+                contentBuilder.append("Question ").append(post.getQuestionNumber()).append(":\n");
+                contentBuilder.append(post.getDraftText()).append("\n\n");
             }
 
             String compiledContent = contentBuilder.toString();
@@ -118,8 +138,14 @@ public class AudioController {
     }
 
     @GetMapping("/final-draft")
-    public String showFinalDraft(Model model) {
-        String finalDraft = audioService.generateFinalDraft();
+    public String showFinalDraft(Model model, HttpSession session) {
+        Users user = (Users) session.getAttribute("user");
+
+        if (user == null) {
+            throw new IllegalStateException("User is not logged in");
+        }
+
+        String finalDraft = audioService.generateFinalDraft(user);
         model.addAttribute("finalDraft", finalDraft);
         return "fileupload/finaldraft";
     }

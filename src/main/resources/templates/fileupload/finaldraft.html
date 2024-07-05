@@ -8,6 +8,8 @@
     <link rel="stylesheet" th:href="@{/css/fileupload/finaldraft.css}">
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
+
 <div class="container">
     <h1>나의 자서전 초안</h1>
     <div class="draft-content" th:text="${finalDraft}"></div>
@@ -15,5 +17,7 @@
         <p>생성일: <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일')}"></span></p>
     </div>
 </div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

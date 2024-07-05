@@ -34,91 +34,7 @@
     font-weight: 800;
     font-style: normal;
 }
-
-body {
-    font-family: 'Pretendard-Light', sans-serif;
-    font-weight: bold;
-    margin: 0;
-    color: #0c1219;
-    padding: 0;
-    font-size: 17px;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    background-color: white;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 20px;
-}
-
-nav {
-    flex-grow: 1;
-    text-align: right;
-}
-
-nav ul {
-    display: inline-flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 18px;
-}
-
-nav ul li {
-    margin: 0 10px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: black;
-    margin-left: 50px;
-    margin-right: 50px;
-}
-
-nav ul li a:hover {
-    color: #352F36;
-}
-
-.mypage-button button {
-    margin-left: 30px;
-    padding: 8px 18px;
-    border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(77, 209, 170, 0.42);
-    cursor: pointer;
-    border-radius: 14px;
-    text-decoration: none !important;
-    color: #333333;
-    font-family: 'Pretendard-Regular', serif;
-}
-
-.mypage-button button:hover {
-    background-color: rgba(66, 181, 147, 0.42);
-}
-
-.auth-buttons button {
-    font-family: 'Pretendard-Regular', serif;
-    margin-left: 10px;
-    padding: 8px 18px;
-    border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(30, 223, 169, 0.16);
-    color: #333333;
-    cursor: pointer;
-    border-radius: 14px;
-}
-
-.auth-buttons button:hover {
-    background-color: rgba(33, 225, 171, 0.24);
-}
-
+/* 배너 스타일 */
 .banner {
     display: flex;
     align-items: center;
@@ -128,7 +44,7 @@ nav ul li a:hover {
     width: 100%;
 }
 
-.banner-image {
+.banner img {
     width: 100%;
     height: auto;
     object-fit: cover;
@@ -139,15 +55,16 @@ nav ul li a:hover {
     height: auto;
 }
 
+
 .my_story {
     padding: 50px;
-    background-color: #fff;
     text-align: left;
     font-family: 'Chosunilbo_myungjo';
 }
 
 .my_story h2 {
     font-size: 28px;
+    margin-bottom: 10px;
 }
 
 .my_story p {
@@ -155,54 +72,167 @@ nav ul li a:hover {
     color: gray;
 }
 
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
 
-footer {
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
     padding: 20px;
-    background-color: #333;
-    color: #fff;
-    text-align: center;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
 }
 
-.footer-content {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 10px;
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.footer-section {
-    flex: 1;
-    text-align: center;
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1024px) {
+    .stories {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .my_story {
+        padding: 30px;
+    }
+
+    .my_story h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stories {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .my_story {
+        padding: 30px;
+    }
+
+    .my_story h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stories {
+        grid-template-columns: 1fr;
+    }
+
+    .my_story {
+        padding: 20px;
+    }
+
+    .my_story h2 {
+        font-size: 20px;
+    }
 }
 
 .stories {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 50px;
-    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /*1열에 2개*/
+    gap: 40px;
+    background-color: #f5f5f5;
+    border: none;
+    max-width: 1600px;
+    width: 100%;
+    margin: 50px auto;
 }
 
 .story {
-    width: calc(33.33% - 50px);
-    margin-bottom: 50px;
-    border: 1px solid #ddd;
-    padding: 20px;
-    box-sizing: border-box;
+    background: #fff;
+    border-radius: 0px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 300px; /* 박스 크기 크게 */
+}
+
+.story:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .story-info {
-    padding: 20px;
-    box-sizing: border-box;
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .story h3 {
-    margin: 0;
+    margin: 0 0 10px 0;
     font-size: 20px;
     font-weight: bold;
+    color: #333;
 }
 
 .story p {
-    margin: 10px 0;
+    margin: 5px 0;
     font-size: 16px;
-    line-height: 1.5;
+    color: #666;
+    line-height: 1.4;
+    flex-grow: 1;
+}
+
+.content-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.story-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #999;
+}
+
+.author {
+    display: flex;
+    align-items: center;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+}
+
+.likes svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    fill: #ff4757;
+
 }

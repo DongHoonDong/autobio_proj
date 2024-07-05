@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -19,17 +18,17 @@ public class Users implements Serializable {
     @Column(name = "user_no")
     private int userNo;
 
-    @Column(name = "user_id", nullable = false, unique = true)
+    @Column(name = "user_id", nullable = false)
     private String userId;
-
-    @Column(name = "user_name", nullable = false)
-    private String userName;
 
     @Column(name = "user_pwd", nullable = false)
     private String userPwd;
 
-    @Column(name = "user_birth", nullable = false)
-    private LocalDate userBirth;
+    @Column(name = "user_name")
+    private String userName;
+
+    @Column(name = "user_birth")
+    private String userBirth;
 
     @Column(name = "user_phone")
     private String userPhone;
@@ -37,10 +36,10 @@ public class Users implements Serializable {
     @Column(name = "user_gender")
     private String userGender;
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "user_role")
     private String userRole;
 
-    public Users(int userNo, String userId, String userPwd, String userName, LocalDate userBirth, String userPhone, String userGender, String userRole) {
+    public Users(int userNo, String userId, String userPwd, String userName, String userBirth, String userPhone, String userGender, String userRole) {
         this.userNo = userNo;
         this.userId = userId;
         this.userPwd = userPwd;

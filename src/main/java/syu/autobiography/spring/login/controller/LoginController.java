@@ -26,7 +26,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginForm() {
-        return "auth/login";
+        return "user/login";
     }
 
     @PostMapping("/login")
@@ -39,13 +39,15 @@ public class LoginController {
         }
 
         session.setAttribute("user", user);
+        logger.info("User {} logged in and stored in session", user.getUserId());
 
         if ("Y".equals(user.getUserRole())) {
-            return "redirect:/admin/adminpage";
+            return "redirect:/admin/admin-user";
         }
 
         return "redirect:/";
     }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -55,8 +57,9 @@ public class LoginController {
 
     @GetMapping("/register")
     public String registerForm() {
-        return "auth/register";
+        return "user/register";
     }
+
 
     @PostMapping("/register")
     public String register(UserDTO userDTO, Model model) {

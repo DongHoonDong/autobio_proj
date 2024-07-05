@@ -25,6 +25,6 @@ public class Likes {
     private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "edit_no", nullable = false)
-    private Edit edit;
+    @JoinColumn(name = "posts_id", nullable = false)
+    private Posts posts;
 }

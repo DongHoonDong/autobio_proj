@@ -5,28 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stories Page</title>
     <link rel="stylesheet" th:href="@{/css/board/storied.css}">
-    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<section class="post-content">
-    <h2>자서전 구경하기</h2>
-    <div class="story_board">
-        <div th:each="story : ${stories}" class="story_post">
-            <div class="post-info">
-                <h3 th:text="${story.draftContent}">제목</h3>
-                <p th:text="${story.userName}">이름</p>
-                <p th:text="${story.userAge + '세'}">나이</p>
-                <p th:text="${story.responseContent}">내용</p>
+<main>
+    <section class="post-content">
+        <h2>자서전 구경하기</h2>
+        <div class="story_board">
+            <div th:if="${stories.isEmpty()}" style="text-align:left; left:50%;">아직 공개된 자서전이 없어요</div>
+            <div th:each="story, iterStat : ${stories}" class="story_post">
+                <div class="post-info">
+                    <h3 th:text="${story.title}">제목</h3>
+                    <p th:utext="${story.finalText}" class="content-preview">내용</p>
+                    <div class="story-meta">
+                        <div class="author">
+                            <span th:text="'By ' +${story.userAge + '세'} +  ${story.userName}">By User</span>
+                        </div>
+                    <div class="likes">
+                        <button class="like-button" th:data-user-no="${session.user != null ? session.user.userNo : -1}" th:data-post-id="${story.postsId}" th:classappend="${story.liked} ? 'liked' : 'unliked'" onclick="toggleLike(event)">
+                            <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" th:attr="fill=${story.liked} ? 'red' : 'none'" stroke="red" stroke-width="2"/>
+                            </svg>
+                        </button>
+                        <span class="likeCount" th:text="${story.likesCount}"></span>
+                    </div>
+                </div>
             </div>
         </div>
+            <div class="pagination-container">
+                <a th:if="${currentPage > 1}" th:href="@{/board/post_story(page=${currentPage - 1})}">&laquo; 이전</a>
+                <div class="pagination">
+        <span th:each="pageNum: ${#numbers.sequence(1, totalPages)}" th:classappend="${pageNum == currentPage} ? 'current' : ''">
+            <a th:if="${pageNum != currentPage}" th:href="@{/board/post_story(page=${pageNum})}" th:text="${pageNum}"></a>
+            <span th:if="${pageNum == currentPage}" th:text="${pageNum}"></span>
+        </span>
+                </div>
+                <a th:if="${currentPage < totalPages}" th:href="@{/board/post_story(page=${currentPage + 1})}">다음 &raquo;</a>
+            </div>
+        </div>
+    </section>
+</main>
+<footer>
+
+    <div class="footer-content">
+        <div class="footer-section">푸터</div>
+        <div class="footer-section">푸터</div>
+        <div class="footer-section">푸터</div>
+        <div class="footer-section">푸터</div>
     </div>
-    <div class="pagination">
-        <a th:if="${currentPage > 1}" th:href="@{/board/post_story(page=${currentPage - 1})}">&laquo; 이전</a>
-        <span>페이지 <span th:text="${currentPage}">1</span> / <span th:text="${totalPages}">1</span></span>
-        <a th:if="${currentPage < totalPages}" th:href="@{/board/post_story(page=${currentPage + 1})}">다음 &raquo;</a>
+    <p>© 2024 autobiography all rights reserved</p>
+</footer>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>로그인이 필요합니다.</p>
     </div>
-</section>
-<div th:replace="~{fragments/footer :: footer}"></div>
+</div>
+<script>
+    function toggleLike(event) {
+        const button = event.currentTarget;
+        const userNo = button.getAttribute('data-user-no');
+        const postId = button.getAttribute('data-post-id');
+
+        if (userNo == -1) {
+            document.getElementById('loginModal').style.display = 'block';
+            return;
+        }
+
+        fetch('/toggleLike', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                userNo: userNo,
+                postsId: postId
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    const likeCountElement = button.nextElementSibling;
+                    const heartIcon = button.querySelector('.heart-icon path');
+
+                    if (data.liked) {
+                        button.classList.add('liked');
+                        button.classList.remove('unliked');
+                        heartIcon.setAttribute('fill', 'red');
+                    } else {
+                        button.classList.add('unliked');
+                        button.classList.remove('liked');
+                        heartIcon.setAttribute('fill', 'none');
+                    }
+
+                    likeCountElement.textContent = data.likeCount;
+                } else {
+                    document.getElementById('loginModal').style.display = 'block';
+                }
+            });
+    }
+
+    // Close the modal
+    document.querySelector('.modal .close').onclick = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('loginModal')) {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+    }
+</script>
+
+
 </body>
 </html>

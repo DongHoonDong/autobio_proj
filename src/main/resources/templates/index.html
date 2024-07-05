@@ -6,7 +6,6 @@
     <title>Main Page</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <script type="text/javascript" th:src="@{/js/index.js}" th:defer></script>
-
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
@@ -21,10 +20,20 @@
     <div class="stories">
         <div th:each="story : ${stories}" class="story">
             <div class="story-info">
-                <h3 th:text="${story.draftContent}">제목</h3>
-                <p th:text="${story.userName}">이름</p>
-                <p th:text="${story.userAge + '세'}">나이</p>
-                <p th:utext="${story.responseContent}" class="content-preview">내용</p>
+                <h3 th:text="${story.title}">제목</h3>
+                <p th:utext="${story.finalText}" class="content-preview">내용</p>
+                <div class="story-meta">
+                    <div class="author">
+                        <span th:text="'By ' +${story.userAge + '세'} +  ${story.userName}">By User</span>
+
+                    </div>
+                    <div class="likes">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <span th:text="${story.likesCount}"></span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
