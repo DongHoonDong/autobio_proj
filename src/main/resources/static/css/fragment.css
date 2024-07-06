@@ -136,6 +136,192 @@ nav ul li a:hover {
     background-color: rgba(66, 181, 147, 0.42);
 }
 
+.mypage-button button {
+    margin-left: 30px;
+    padding: 8px 18px;
+    border: 1px solid rgba(52, 95, 83, 0.3);
+    background-color: rgba(77, 209, 170, 0.42);
+    cursor: pointer;
+    border-radius: 14px;
+    text-decoration: none !important;
+    color: #333333;
+    font-family: 'Pretendard-Regular', serif;
+}
+
+.mypage-button button:hover {
+    background-color: rgba(66, 181, 147, 0.42);
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons button {
+    font-family: 'Pretendard-Regular', serif;
+    margin-left: 10px;
+    padding: 8px 18px;
+    border: 1px solid rgba(52, 95, 83, 0.3);
+    background-color: rgba(30, 223, 169, 0.16);
+    color: #333333;
+    cursor: pointer;
+    border-radius: 14px;
+}
+
+.auth-buttons button:hover {
+    background-color: rgba(33, 225, 171, 0.24);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+@media (max-width: 767px) {
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .hamburger-menu {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    .logo {
+        margin-left: 20px;
+    }
+
+    .hamburger-menu {
+        margin-right: 20px;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        text-align: center;
+        transition: right 0.3s ease-in-out;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 20px 0;
+    }
+
+    nav ul li a {
+        font-size: 18px;
+        text-decoration: none;
+        color: black;
+    }
+
+    nav ul li a:hover {
+        color: #352F36;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: none;
+    }
+
+    .auth-buttons.active, .mypage-button.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+}
+/* 기본 스타일 유지 */
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f5f5f5;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+nav {
+    flex-grow: 1;
+    text-align: right;
+}
+
+nav ul {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 18px;
+}
+
+nav ul li {
+    margin: 0 10px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+}
+
+nav ul li a:hover {
+    color: #352F36;
+}
+
+.mypage-button button {
+    margin-left: 30px;
+    padding: 8px 18px;
+    border: 1px solid rgba(52, 95, 83, 0.3);
+    background-color: rgba(77, 209, 170, 0.42);
+    cursor: pointer;
+    border-radius: 14px;
+    text-decoration: none !important;
+    color: #333333;
+    font-family: 'Pretendard-Regular', serif;
+}
+
+.mypage-button button:hover {
+    background-color: rgba(66, 181, 147, 0.42);
+}
+
 .auth-buttons {
     display: flex;
     align-items: center;
@@ -163,3 +349,224 @@ nav ul li a:hover {
 }
 
 
+/* 모바일 스타일 */
+@media (max-width: 767px) {
+    .hamburger-menu {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000; /* Make hamburger menu icon black */
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        text-align: center;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column; /* Make the menu vertical */
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 20px 0;
+    }
+
+    nav ul li a {
+        font-size: 18px; /* Reduce font size */
+        text-decoration: none;
+        color: black;
+    }
+
+    nav ul li a:hover {
+        color: #352F36;
+    }
+
+    .auth-section {
+        position: absolute;
+        top: 60px; /* Position below the close button */
+        left: 20px;
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .mypage-button button, .auth-buttons button {
+        display: block;
+        margin: 5px 0;
+        padding: 0;
+        border: none;
+        background: none;
+        color: gray;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    nav.active .mypage-button, nav.active .auth-buttons {
+        display: flex;
+    }
+}
+
+
+@media (max-width: 767px) {
+    .hamburger-menu {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        text-align: center;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 20px 0;
+    }
+
+    nav ul li a {
+        font-size: 18px;
+        text-decoration: none;
+        color: black;
+    }
+
+    nav ul li a:hover {
+        color: #352F36;
+    }
+
+    .auth-section {
+        position: absolute;
+        top: 60px;
+        left: 20px;
+        display: none;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .mypage-button button, .auth-buttons button {
+        display: block;
+        margin: 5px;
+        padding: 0;
+        border: none;
+        background: none;
+        color: gray;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    nav.active .mypage-button, nav.active .auth-buttons {
+        display: flex;
+    }
+}
+
+
+@media (min-width: 768px) {
+    .hamburger-menu {
+        display: none;
+    }
+
+    nav {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        height: auto;
+        background-color: transparent;
+        width: auto;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .close-menu {
+        display: none;
+    }
+}

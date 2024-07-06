@@ -1,26 +1,31 @@
 <header>
     <link rel="stylesheet" th:href="@{/css/fragment.css}">
+    <script type="text/javascript" th:src="@{/js/hamburger.js}" th:defer></script>
     <div class="logo">로고</div>
+    <button class="hamburger-menu" onclick="toggleMenu()">☰</button>
     <nav>
-        <ul>
+        <button class="close-menu" onclick="toggleMenu()">✖</button>
+        <ul class="nav-links">
             <li><a th:href="@{/}">홈</a></li>
             <li><a th:href="@{/question1}">자서전 쓰기</a></li>
             <li><a th:href="@{/board/post_story}">자서전 구경하기</a></li>
         </ul>
+        <div class="auth-section">
+            <div class="mypage-button" th:if="${session.user != null}">
+                <button th:onclick="|window.location='@{/mypage}'|">마이페이지</button>
+            </div>
+            <div class="auth-buttons">
+                <div th:if="${session.user != null and session.user.userRole == 'Y'}">
+                    <button th:onclick="|window.location='@{/admin/admin-user}'|">관리자 페이지</button>
+                </div>
+                <div th:if="${session.user == null}">
+                    <button th:onclick="|window.location='@{/login}'|">로그인</button>
+                    <button th:onclick="|window.location='@{/register}'|">회원가입</button>
+                </div>
+                <div th:if="${session.user != null}">
+                    <button th:onclick="|window.location='@{/logout}'|">로그아웃</button>
+                </div>
+            </div>
+        </div>
     </nav>
-    <div class="mypage-button" th:if="${session.user != null}">
-        <button th:onclick="|window.location='@{/mypage}'|">마이페이지</button>
-    </div>
-    <div class="auth-buttons">
-        <div th:if="${session.user != null and session.user.userRole == 'Y'}">
-            <button th:onclick="|window.location='@{/admin/admin-user}'|">관리자 페이지</button>
-        </div>
-        <div th:if="${session.user == null}">
-            <button th:onclick="|window.location='@{/login}'|">로그인</button>
-            <button th:onclick="|window.location='@{/register}'|">회원가입</button>
-        </div>
-        <div th:if="${session.user != null}">
-            <button th:onclick="|window.location='@{/logout}'|">로그아웃</button>
-        </div>
-    </div>
 </header>

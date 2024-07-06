@@ -61,7 +61,6 @@
     height: auto;
 }
 
-
 .my_story {
     padding: 50px;
     text-align: left;
@@ -114,52 +113,9 @@
     text-decoration: none;
 }
 
-/* 반응형 디자인 */
-@media (max-width: 1024px) {
-    .stories {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    .my_story {
-        padding: 30px;
-    }
-
-    .my_story h2 {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 768px) {
-    .stories {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    .my_story {
-        padding: 30px;
-    }
-
-    .my_story h2 {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .stories {
-        grid-template-columns: 1fr;
-    }
-
-    .my_story {
-        padding: 20px;
-    }
-
-    .my_story h2 {
-        font-size: 20px;
-    }
-}
-
 .stories {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); /*1열에 2개*/
+    grid-template-columns: repeat(5, 1fr);
     gap: 40px;
     background-color: #f5f5f5;
     border: none;
@@ -176,7 +132,7 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
-    height: 300px; /* 박스 크기 크게 */
+    height: 300px;
 }
 
 .story:hover {
@@ -227,7 +183,6 @@
 
 .author {
     display: block;
-
     align-items: center;
 }
 
@@ -241,5 +196,70 @@
     height: 16px;
     margin-right: 5px;
     fill: #ff4757;
+}
 
+@media (max-width: 1024px) {
+    .stories {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .my_story {
+        padding: 30px;
+    }
+
+    .my_story h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stories {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .my_story {
+        padding: 30px;
+    }
+
+    .my_story h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .stories {
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .story {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .story-info {
+        padding: 15px;
+        text-align: left;
+        word-wrap: break-word;
+        overflow: visible;
+    }
+
+    .story h3 {
+        font-size: 24px;
+    }
+
+    .story p {
+        font-size: 18px;
+    }
+
+    .my_story {
+        padding: 20px;
+    }
+
+    .my_story h2 {
+        font-size: 20px;
+    }
 }
