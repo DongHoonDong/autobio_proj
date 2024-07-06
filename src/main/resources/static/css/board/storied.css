@@ -1,24 +1,24 @@
-body {
-    font-family: 'Pretendard-Light', sans-serif;
-    font-weight: bold;
-    margin: 0;
-    color: #0c1219;
-    padding: 0;
-    font-size: 17px;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    background-color: #f5f5f5;
-    padding: 20px;
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
 }
+
 .post-content {
     padding: 50px;
     text-align: center;
+    font-size: 20px;
     font-family: 'Chosunilbo_myungjo';
+}
+
+.post-content h2 {
+    font-weight: bold;
+    font-family: 'ChosunCentennial';
 }
 .my_story {
     padding: 50px;
     text-align: left;
-    font-family: 'Chosunilbo_myungjo';
 }
 .my_story h2 {
     font-size: 28px;
@@ -144,18 +144,18 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-top: 20px;
+
     padding-top: 10px;
     border-top: 1px solid #eee;
     font-size: 14px;
     color: #999;
 }
 .author {
-    display: flex;
+    display: block;
     align-items: center;
 }
-.likes {
-    display: flex;
-    align-items: center;
+.author span{
+    display: block;
 }
 .likes svg {
     width: 16px;
@@ -163,7 +163,6 @@ body {
     margin-right: 5px;
     fill: #ff4757;
     border: none;
-
 }
 .modal {
     display: none;
@@ -227,6 +226,7 @@ body {
 .like-button.unliked .heart-icon {
     fill: none;
 }
+
 .story_board {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -237,6 +237,7 @@ body {
     width: 100%;
     margin: 50px auto;
 }
+
 .story_post {
     background: #fff;
     border-radius: 0px;
@@ -248,6 +249,12 @@ body {
     height: 400px;
     margin-bottom: 20px;
 }
+
+.story_post:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
 
 .story-info {
     padding: 15px;
@@ -268,10 +275,7 @@ body {
     padding-top: 10px;
 }
 
-.story_post:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3);
-}
+
 .post-info {
     padding: 15px;
     flex-grow: 1;
@@ -284,30 +288,34 @@ body {
     align-items: center;
 }
 
-
-.pagination a, .pagination span {
-    display: inline-block;
+.likes {
+    display: flex;
+    align-items: center;
 }
 
 
-/* storied.css */
-
-/* Pagination Styles */
 .pagination-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
     font-size: 16px;
     color: gray;
-    text-align: center;
     width: 100%;
     position: relative;
-    left: 100%;
+    left: 50%;
     transform: translateX(-50%);
-    bottom: 20px;
-
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
+
+.pagination-container a {
+    text-decoration: none;
+}
+
+.pagination-container a:hover {
+    color: #0c1219;
+}
+
 
 .pagination {
     display: flex;
@@ -315,28 +323,34 @@ body {
 
 .pagination a {
     color: gray;
-    text-decoration: none !important;
     margin: 0 5px;
     padding: 5px 10px;
 }
 
 .pagination a:hover {
-    text-decoration: none !important;
+    color: #0c1219;
 }
 
 .pagination span {
-    text-decoration: none !important;
     margin: 0 5px;
     padding: 5px 10px;
 }
 
 .pagination .current {
     font-weight: bold;
+    color: #0c1219;
 }
-
 
 .pagination-container span,
 .pagination-container a {
     margin: 0 5px;
     color: gray;
+}
+
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

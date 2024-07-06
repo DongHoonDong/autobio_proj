@@ -8,7 +8,7 @@
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
-<main>
+<main class="content-wrapper">
     <section class="post-content">
         <h2>자서전 구경하기</h2>
         <div class="story_board">
@@ -19,34 +19,34 @@
                     <p th:utext="${story.finalText}" class="content-preview">내용</p>
                     <div class="story-meta">
                         <div class="author">
-                            <span th:text="'By ' +${story.userAge + '세'} +  ${story.userName}">By User</span>
+                            <span th:utext="${story.userAge} + '세&nbsp;&nbsp;By ' + ${story.userName}">By User</span>
+
                         </div>
-                    <div class="likes">
-                        <button class="like-button" th:data-user-no="${session.user != null ? session.user.userNo : -1}" th:data-post-id="${story.postsId}" th:classappend="${story.liked} ? 'liked' : 'unliked'" onclick="toggleLike(event)">
-                            <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" th:attr="fill=${story.liked} ? 'red' : 'none'" stroke="red" stroke-width="2"/>
-                            </svg>
-                        </button>
-                        <span class="likeCount" th:text="${story.likesCount}"></span>
+                        <div class="likes">
+                            <button class="like-button" th:data-user-no="${session.user != null ? session.user.userNo : -1}" th:data-post-id="${story.postsId}" th:classappend="${story.liked} ? 'liked' : 'unliked'" onclick="toggleLike(event)">
+                                <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" th:attr="fill=${story.liked} ? 'red' : 'none'" stroke="red" stroke-width="2"/>
+                                </svg>
+                            </button>
+                            <span class="likeCount" th:text="${story.likesCount}"></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-            <div class="pagination-container">
-                <a th:if="${currentPage > 1}" th:href="@{/board/post_story(page=${currentPage - 1})}">&laquo; 이전</a>
-                <div class="pagination">
-        <span th:each="pageNum: ${#numbers.sequence(1, totalPages)}" th:classappend="${pageNum == currentPage} ? 'current' : ''">
-            <a th:if="${pageNum != currentPage}" th:href="@{/board/post_story(page=${pageNum})}" th:text="${pageNum}"></a>
-            <span th:if="${pageNum == currentPage}" th:text="${pageNum}"></span>
-        </span>
-                </div>
-                <a th:if="${currentPage < totalPages}" th:href="@{/board/post_story(page=${currentPage + 1})}">다음 &raquo;</a>
-            </div>
-        </div>
     </section>
+    <div class="pagination-container">
+        <a th:if="${currentPage > 1}" th:href="@{/board/post_story(page=${currentPage - 1})}">&lt;</a>
+        <div class="pagination">
+            <span th:each="pageNum : ${#numbers.sequence(1, totalPages)}" th:classappend="${pageNum == currentPage} ? 'current' : ''">
+                <a th:if="${pageNum != currentPage}" th:href="@{/board/post_story(page=${pageNum})}" th:text="${pageNum}"></a>
+                <span th:if="${pageNum == currentPage}" th:text="${pageNum}"></span>
+            </span>
+        </div>
+        <a th:if="${currentPage < totalPages}" th:href="@{/board/post_story(page=${currentPage + 1})}">&gt;</a>
+    </div>
 </main>
 <footer>
-
     <div class="footer-content">
         <div class="footer-section">푸터</div>
         <div class="footer-section">푸터</div>
@@ -59,7 +59,7 @@
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <p>로그인이 필요합니다.</p>
+        <p>로그인이 필요한 서비스입니다.</p>
     </div>
 </div>
 <script>
@@ -106,7 +106,7 @@
             });
     }
 
-    // Close the modal
+
     document.querySelector('.modal .close').onclick = function() {
         document.getElementById('loginModal').style.display = 'none';
     }
@@ -117,7 +117,6 @@
         }
     }
 </script>
-
 
 </body>
 </html>

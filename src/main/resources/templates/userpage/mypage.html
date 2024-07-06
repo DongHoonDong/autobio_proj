@@ -1,10 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" th:href="@{/css/mypage/mypage.css}">
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+    <section class="side_info">
+        <h3>마이 메뉴</h3>
+        <ul>
+            <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
+            <li><a th:href="@{/likelist}">좋아요 목록</a></li>
+            <li><a th:href="@{/myinfo}">정보 수정</a></li>
+            <li><a th:href="@{/delete-account}">회원 탈퇴</a></li>
+        </ul>
+    </section>
+    <section class="main_content">
+        <div class="my_posts_info">
+            <h2>내가 쓴 자서전</h2>
+            <div class="stories">
+                <div th:each="post : ${myPosts}" class="story">
+                    <div class="story-info">
+                        <h3 th:text="${post.title}">제목</h3>
+                        <p th:utext="${post.finalText}" class="content-preview">내용</p>
+                        <div class="story-meta">
+                            <div class="author">
+                                <span th:text="'By ' + ${post.userName}">By User</span>
+                            </div>
+                            <div class="likes">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+                                <span th:text="${post.likesCount}"></span>
+                            </div>
+                        </div>
+                        <div class="visibility-toggle">
+                            <form th:action="@{/toggleVisibility}" method="post">
+                                <input type="hidden" th:name="postsId" th:value="${post.postsId}">
+                                <label>
+                                    <input type="radio" th:checked="${post.isPublic == 'Y'}" name="isPublic" value="Y"> 공개
+                                </label>
+                                <label>
+                                    <input type="radio" th:checked="${post.isPublic == 'N'}" name="isPublic" value="N"> 비공개
+                                </label>
+                                <button type="submit">변경</button>
+                            </form>
+                        </div>
+                        <button class="deletepost" type="button" th:attr="onclick=|showDeletePostModal(${post.postsId})|">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
+<!-- 자서전 삭제 확인-->
+<div id="deletePostModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeDeletePostModal()">&times;</span>
+        <p>정말로 이 자서전을 삭제하시겠습니까?</p>
+        <form id="deletePostForm" th:action="@{/delete-post}" method="post">
+            <input type="hidden" name="postId" id="postIdToDelete" />
+            <button class = "realdel" type="button" onclick="submitDeletePostForm()">확인</button>
+            <button class = "realcancel" type="button" onclick="closeDeletePostModal()">취소</button>
+        </form>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    function showDeletePostModal(postId) {
+        document.getElementById("postIdToDelete").value = postId;
+        document.getElementById("deletePostModal").style.display = "block";
+    }
+
+    function closeDeletePostModal() {
+        document.getElementById("deletePostModal").style.display = "none";
+    }
+
+    function submitDeletePostForm() {
+        document.getElementById("deletePostForm").submit();
+    }
+
+    window.onclick = function(event) {
+        if (event.target === document.getElementById("deletePostModal")) {
+            closeDeletePostModal();
+        }
+    }
+</script>
 </body>
 </html>

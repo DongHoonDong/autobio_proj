@@ -1,0 +1,381 @@
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.side_info {
+    width: 200px;
+    background-color: #f8f8f8;
+    padding: 0 20px 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin: 20px 20px 20px 50px;
+    height: fit-content;
+    align-self: flex-start;
+
+}
+.side_info h3 {
+    text-align: center;
+    font-family: 'Pretendard-Black', serif;
+}
+.side_info ul li {
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    list-style-type: none;
+}
+.side_info ul li a {
+    color: #0c1219;
+    list-style-type: none;
+    text-decoration: none;
+
+}
+.side_info ul li a:hover{
+    color: #4b4b4b;
+}
+.main_content {
+    margin: 20px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.my_posts_info {
+    margin-top: 0;
+}
+
+.my_posts_info h2 {
+    text-align: left;
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-family: 'ChosunCentennial';
+
+}
+
+.radio-buttons {
+    text-align: left;
+    margin-top: 10px;
+}
+
+.radio-buttons label {
+    margin-right: 10px;
+}
+
+.radio-buttons input {
+    margin-right: 5px;
+}
+
+.stories {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.story {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.story-info h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.content-preview {
+    margin: 10px 0;
+    white-space: pre-wrap;
+}
+
+.story-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.author {
+    font-size: 14px;
+    color: #777;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+}
+
+.likes svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    fill: #ff4757;
+}
+.visibility-toggle {
+    margin: 20px 0;
+}
+.visibility-toggle button{
+    background-color: #007bff;
+    border-radius: 15px;
+    border:none;
+    color: white;
+    padding: 8px 12px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+.visibility-toggle button:hover{
+    background-color: #3383ff;
+}
+
+.like-list h2{
+    text-align: left;
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-family: 'ChosunCentennial';
+}
+.like-list h3{
+    text-align: left;
+    color: #6e6e6e;
+    font-size: 25px;
+    margin-bottom: 20px;
+    font-family: 'ChosunCentennial';
+}
+.like-list{
+    margin: 20px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+.my_info h2 {
+    text-align: left;
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-family: 'Pretendard-Black', serif;
+}
+.my_info {
+    margin: 20px;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+
+}
+.my_info p {
+    font-family: 'Pretendard-Regular', serif;
+    font-size: 18px;
+}
+.my_info input{
+    background-color: #e3e3e3;
+    padding: 13px 30px;
+    border-radius: 10px;
+    border: #6e6e6e;
+}
+.my_info span{
+    background-color: #e3e3e3;
+    padding: 13px 30px;
+    border-radius: 10px;
+    border: #6e6e6e;
+}
+.my_info button{
+    margin: 50px 0;
+}
+.userdelete h2 {
+    text-align: left;
+    font-size: 30px;
+    margin-bottom: 20px;
+    font-family: 'ChosunCentennial';
+}
+.userdelete {
+    margin: 20px;
+    padding: 20px;
+    cursor: pointer;
+    flex-direction: column;
+    align-self: flex-start;
+}
+.userdelete input{
+    background-color: #e3e3e3;
+    padding: 13px 30px;
+    border-radius: 10px;
+    border: #6e6e6e;
+}
+.userdelete .button {
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    margin-top: 20px;
+    margin-right: 10px;
+    font-family: Pretendard-Light;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.userdelete .ok {
+    background-color: #777777;
+    color: white;
+}
+
+.userdelete .ok:hover {
+    background-color: #9e9e9e;
+}
+
+.userdelete .cancel {
+    background-color: #ff3030;
+    color: white;
+}
+
+.userdelete .cancel:hover {
+    background-color: #ff6666;
+}
+.userdelete a{
+    text-decoration: none;
+    font-family: 'Pretendard-Black', serif;
+    font-size: 20px;
+    color: #004fd3;
+}.modal {
+     display: none;
+     position: fixed;
+     z-index: 1;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     overflow: auto;
+     background-color: rgb(0,0,0);
+     background-color: rgba(0,0,0,0.4);
+ }
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.mypage_content .post {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.mypage_content .post button {
+    background-color: #ff3030;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.mypage_content .post button:hover {
+    background-color: #ff6666;
+}
+.deletepost {
+    background-color: #ff3030;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin: 5px 0;
+}
+.deletepost:hover{
+    background-color: #fb4a4a;
+
+}
+.modal-content .realdel {
+    background-color: #616161;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin: 5px 0;
+    font-family: Pretendard-Regular;
+}
+
+.modal-content .realdel:hover {
+    background-color: #7e7e7e;
+
+
+ }
+
+.modal-content .realcancel {
+     background-color: #ff3030;
+     color: white;
+     padding: 8px 10px;
+     border-radius: 12px;
+     border: none;
+     cursor: pointer;
+     margin: 5px 0;
+     font-family: Pretendard-Regular;
+
+}
+
+.modal-content .realcancel:hover{
+    background-color: #ff5252;
+}

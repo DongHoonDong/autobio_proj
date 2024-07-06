@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Page</title>
+    <title>메인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <script type="text/javascript" th:src="@{/js/index.js}" th:defer></script>
 </head>
@@ -24,8 +24,8 @@
                 <p th:utext="${story.finalText}" class="content-preview">내용</p>
                 <div class="story-meta">
                     <div class="author">
-                        <span th:text="'By ' +${story.userAge + '세'} +  ${story.userName}">By User</span>
-
+                        <span th:text="'By ' + ${story.userName}">By User</span><br><br>
+                        <span th:text="${story.userAge + '세'}"></span>
                     </div>
                     <div class="likes">
                         <svg viewBox="0 0 24 24">

@@ -37,9 +37,9 @@ public class BoardService {
 
     public List<PostsDTO> getTopStories(int limit, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
-        int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1; // 기본값 -1 설정
+        int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1;
 
-        return boardRepository.findAllPublicWithUsersAndEdits(PageRequest.of(0, limit)).getContent().stream()
+        return boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(PageRequest.of(0, limit)).getContent().stream()
                 .map(posts -> {
                     int userAge = calculateAge(posts.getUser().getUserBirth());
                     String truncatedText = truncateContent(posts.getFinalText());
@@ -52,9 +52,9 @@ public class BoardService {
 
     public Page<PostsDTO> getAllDrafts(PageRequest pageRequest, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
-        int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1; // 기본값 -1 설정
+        int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1;
 
-        return boardRepository.findAllPublicWithUsersAndEdits(pageRequest).map(posts -> {
+        return boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(pageRequest).map(posts -> {
             int userAge = calculateAge(posts.getUser().getUserBirth());
             String truncatedText = truncateContent(posts.getFinalText());
             int likesCount = likesRepository.countByPostsId(posts.getPostsId());
@@ -128,6 +128,7 @@ public class BoardService {
         int likeCount = likesRepository.countByPostsId(postsId);
         return new LikeResponse(isLiked, likeCount);
     }
+
     public static class LikeResponse {
         private boolean liked;
         private int likeCount;

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "posts")
@@ -47,6 +48,9 @@ public class Posts {
 
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Likes> likes;
 
     public Posts(int postsId, Users user, int questionNumber, String draftText, String gptText, String finalText, String title, String isPublic, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.postsId = postsId;

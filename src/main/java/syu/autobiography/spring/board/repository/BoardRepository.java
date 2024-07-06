@@ -8,6 +8,6 @@ import syu.autobiography.spring.entity.Posts;
 
 public interface BoardRepository extends JpaRepository<Posts, Integer> {
 
-    @Query("SELECT p FROM Posts p JOIN FETCH p.user WHERE p.isPublic = 'Y'")
-    Page<Posts> findAllPublicWithUsersAndEdits(Pageable pageable);
+    @Query("SELECT p FROM Posts p LEFT JOIN p.user u LEFT JOIN p.likes l WHERE p.isPublic = 'Y' GROUP BY p.postsId ORDER BY COUNT(l) DESC")
+    Page<Posts> findAllPublicWithUsersAndLikesOrderByLikesCountDesc(Pageable pageable);
 }

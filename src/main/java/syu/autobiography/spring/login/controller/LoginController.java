@@ -48,7 +48,6 @@ public class LoginController {
         return "redirect:/";
     }
 
-
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -59,7 +58,6 @@ public class LoginController {
     public String registerForm() {
         return "user/register";
     }
-
 
     @PostMapping("/register")
     public String register(UserDTO userDTO, Model model) {

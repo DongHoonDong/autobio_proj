@@ -34,7 +34,13 @@
     font-weight: 800;
     font-style: normal;
 }
-/* 배너 스타일 */
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .banner {
     display: flex;
     align-items: center;
@@ -220,7 +226,8 @@
 }
 
 .author {
-    display: flex;
+    display: block;
+
     align-items: center;
 }
 
