@@ -13,6 +13,7 @@
         <div class="auth-section">
             <div class="mypage-button" th:if="${session.user != null}">
                 <button th:onclick="|window.location='@{/mypage}'|">마이페이지</button>
+                <button th:onclick="|window.location='@{/logout}'|">로그아웃</button>
             </div>
             <div class="auth-buttons">
                 <div th:if="${session.user != null and session.user.userRole == 'Y'}">
@@ -21,9 +22,6 @@
                 <div th:if="${session.user == null}">
                     <button th:onclick="|window.location='@{/login}'|">로그인</button>
                     <button th:onclick="|window.location='@{/register}'|">회원가입</button>
-                </div>
-                <div th:if="${session.user != null}">
-                    <button th:onclick="|window.location='@{/logout}'|">로그아웃</button>
                 </div>
             </div>
         </div>
