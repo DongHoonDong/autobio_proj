@@ -46,6 +46,7 @@ public class MyPageController {
         myPageService.updatePostVisibility(postsId, isPublic);
         return "redirect:/mypage";
     }
+
     @GetMapping("/likelist")
     public String getLikedPosts(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -98,7 +99,7 @@ public class MyPageController {
         }
         currentUser.setUserPhone(userPhone);
 
-        //비밀번호 변경
+        // 비밀번호 변경
         if (currentPwd != null && !currentPwd.isEmpty() && newPwd != null && !newPwd.isEmpty() && confirmPwd != null && !confirmPwd.isEmpty()) {
             if (!currentUser.getUserPwd().equals(currentPwd)) {
                 model.addAttribute("error", "현재 비밀번호가 일치하지 않습니다.");
@@ -149,6 +150,7 @@ public class MyPageController {
 
         return "redirect:/delete-success";
     }
+
     @PostMapping("/delete-post")
     public String deletePost(@RequestParam int postId, HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
