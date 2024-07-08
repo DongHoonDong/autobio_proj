@@ -2,6 +2,7 @@ package syu.autobiography.spring.mypage.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import syu.autobiography.spring.board.repository.LikesRepository;
 import syu.autobiography.spring.dto.PostsDTO;
 import syu.autobiography.spring.entity.Posts;
 import syu.autobiography.spring.mypage.repository.MyPageRepository;
@@ -15,15 +16,41 @@ import java.util.stream.Collectors;
 @Service
 public class MyPageService {
 
+
     private final MyPageRepository myPageRepository;
+    private final LikesRepository likesRepository;
 
     @Autowired
-    public MyPageService(MyPageRepository myPageRepository) {
+    public MyPageService(MyPageRepository myPageRepository, LikesRepository likesRepository) {
         this.myPageRepository = myPageRepository;
+        this.likesRepository = likesRepository;
     }
 
     public List<PostsDTO> getPostsByUser(int userNo) {
         return myPageRepository.findByUserUserNo(userNo).stream()
+                .filter(posts -> posts.getFinalText() != null)
+                .map(posts -> new PostsDTO(
+                        posts.getPostsId(),
+                        posts.getUser().getUserNo(),
+                        posts.getQuestionNumber(),
+                        posts.getDraftText(),
+                        posts.getGptText(),
+                        posts.getFinalText(),
+                        posts.getTitle(),
+                        posts.getIsPublic(),
+                        posts.getCreatedAt(),
+                        posts.getUpdatedAt(),
+                        posts.getUser().getUserName(),
+                        calculateAge(posts.getUser().getUserBirth()),
+                        likesRepository.countByPostsId(posts.getPostsId()),
+                        false
+                ))
+                .collect(Collectors.toList());
+    }
+
+    public List<PostsDTO> getDraftsByUser(int userNo) {
+        return myPageRepository.findByUserUserNo(userNo).stream()
+                .filter(posts -> posts.getFinalText() == null)
                 .map(posts -> new PostsDTO(
                         posts.getPostsId(),
                         posts.getUser().getUserNo(),
@@ -58,7 +85,7 @@ public class MyPageService {
                         posts.getUpdatedAt(),
                         posts.getUser().getUserName(),
                         calculateAge(posts.getUser().getUserBirth()),
-                        posts.getLikes().size(),
+                        likesRepository.countByPostsId(posts.getPostsId()),
                         true
                 ))
                 .collect(Collectors.toList());
@@ -70,6 +97,7 @@ public class MyPageService {
         post.setIsPublic(isPublic);
         myPageRepository.save(post);
     }
+
     public void deletePost(int postId) {
         myPageRepository.deleteById(postId);
     }

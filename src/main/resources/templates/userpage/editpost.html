@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>작성 중인 자서전</title>
+  <link rel="stylesheet" th:href="@{/css/mypage/mypage.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+  <section class="side_info">
+    <h3>마이 메뉴</h3>
+    <ul>
+      <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
+      <li><a th:href="@{/edit}">작성 중인 자서전</a></li>
+      <li><a th:href="@{/likelist}">좋아요 목록</a></li>
+      <li><a th:href="@{/myinfo}">정보 수정</a></li>
+      <li><a th:href="@{/delete-account}">회원 탈퇴</a></li>
+    </ul>
+  </section>
+  <section class="main_content">
+    <div class="my_posts_info">
+      <h2>작성 중인 자서전</h2>
+      <div class="stories">
+        <div th:each="draft : ${draftPosts}" class="story">
+          <div class="story-info">
+            <h3 th:text="${draft.title}"></h3><br>
+            <h3 th:text="${draft.questionNumber} + '장'"></h3>
+            <br>
+            <h3>작성 중인 내용</h3>
+            <p th:utext="${draft.draftText}"></p><br>
+            <h3>GPT 응답</h3>
+            <p th:utext="${draft.gptText}"></p>
+            <button class="deletepost" type="button" th:attr="onclick=|showDeleteDraftModal(${draft.postsId})|">삭제</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- 자서전 삭제 확인-->
+<div id="deleteDraftModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeDeleteDraftModal()">&times;</span>
+    <p>정말로 이 자서전을 삭제하시겠습니까?</p>
+    <form id="deleteDraftForm" th:action="@{/delete-draft}" method="post">
+      <input type="hidden" name="postId" id="draftIdToDelete" />
+      <button class="realdel" type="button" onclick="submitDeleteDraftForm()">확인</button>
+      <button class="realcancel" type="button" onclick="closeDeleteDraftModal()">취소</button>
+    </form>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+  function showDeleteDraftModal(postId) {
+    document.getElementById("draftIdToDelete").value = postId;
+    document.getElementById("deleteDraftModal").style.display = "block";
+  }
+
+  function closeDeleteDraftModal() {
+    document.getElementById("deleteDraftModal").style.display = "none";
+  }
+
+  function submitDeleteDraftForm() {
+    document.getElementById("deleteDraftForm").submit();
+  }
+
+  window.onclick = function(event) {
+    if (event.target === document.getElementById("deleteDraftModal")) {
+      closeDeleteDraftModal();
+    }
+  }
+</script>
+</body>
+</html>

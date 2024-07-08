@@ -52,10 +52,9 @@
     padding: 0 20px 10px 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin: 20px 20px 20px 50px;
+    margin: 20px;
     height: fit-content;
     align-self: flex-start;
-
 }
 .side_info h3 {
     text-align: center;
@@ -64,16 +63,14 @@
 .side_info ul li {
     padding-top: 6px;
     padding-bottom: 6px;
-
     list-style-type: none;
 }
 .side_info ul li a {
     color: #0c1219;
     list-style-type: none;
     text-decoration: none;
-
 }
-.side_info ul li a:hover{
+.side_info ul li a:hover {
     color: #4b4b4b;
 }
 .main_content {
@@ -84,70 +81,61 @@
     flex-direction: column;
     align-self: flex-start;
 }
-
 .my_posts_info {
     margin-top: 0;
 }
-
 .my_posts_info h2 {
     text-align: left;
     font-size: 30px;
     margin-bottom: 20px;
     font-family: 'ChosunCentennial';
-
 }
-
 .radio-buttons {
     text-align: left;
     margin-top: 10px;
 }
-
 .radio-buttons label {
     margin-right: 10px;
 }
-
 .radio-buttons input {
     margin-right: 5px;
 }
-
 .stories {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
-
 .story {
     width: 100%;
     border-bottom: 1px solid #ddd;
     padding: 15px 0;
 }
-
 .story-info h3 {
     margin: 0;
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Pretendard-Black', serif;
 }
-
+.story-info p {
+    color: #191919;
+}
 .content-preview {
     margin: 10px 0;
     white-space: pre-wrap;
 }
-
 .story-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
 .author {
     font-size: 14px;
     color: #777;
 }
-
 .likes {
     display: flex;
     align-items: center;
 }
-
 .likes svg {
     width: 16px;
     height: 16px;
@@ -157,33 +145,32 @@
 .visibility-toggle {
     margin: 20px 0;
 }
-.visibility-toggle button{
+.visibility-toggle button {
     background-color: #007bff;
     border-radius: 15px;
-    border:none;
+    border: none;
     color: white;
     padding: 8px 12px;
     margin-left: 15px;
     cursor: pointer;
 }
-.visibility-toggle button:hover{
+.visibility-toggle button:hover {
     background-color: #3383ff;
 }
-
-.like-list h2{
+.like-list h2 {
     text-align: left;
     font-size: 30px;
     margin-bottom: 20px;
     font-family: 'ChosunCentennial';
 }
-.like-list h3{
+.like-list h3 {
     text-align: left;
     color: #6e6e6e;
     font-size: 25px;
     margin-bottom: 20px;
     font-family: 'ChosunCentennial';
 }
-.like-list{
+.like-list {
     margin: 20px;
     padding: 20px;
     flex: 1;
@@ -204,25 +191,24 @@
     display: flex;
     flex-direction: column;
     align-self: center;
-
 }
 .my_info p {
     font-family: 'Pretendard-Regular', serif;
     font-size: 18px;
 }
-.my_info input{
+.my_info input {
     background-color: #e3e3e3;
     padding: 13px 30px;
     border-radius: 10px;
     border: #6e6e6e;
 }
-.my_info span{
+.my_info span {
     background-color: #e3e3e3;
     padding: 13px 30px;
     border-radius: 10px;
     border: #6e6e6e;
 }
-.my_info button{
+.my_info button {
     margin: 50px 0;
 }
 .userdelete h2 {
@@ -238,7 +224,7 @@
     flex-direction: column;
     align-self: flex-start;
 }
-.userdelete input{
+.userdelete input {
     background-color: #e3e3e3;
     padding: 13px 30px;
     border-radius: 10px;
@@ -257,42 +243,38 @@
     display: inline-block;
     text-decoration: none;
 }
-
 .userdelete .ok {
     background-color: #777777;
     color: white;
 }
-
 .userdelete .ok:hover {
     background-color: #9e9e9e;
 }
-
 .userdelete .cancel {
     background-color: #ff3030;
     color: white;
 }
-
 .userdelete .cancel:hover {
     background-color: #ff6666;
 }
-.userdelete a{
+.userdelete a {
     text-decoration: none;
     font-family: 'Pretendard-Black', serif;
     font-size: 20px;
     color: #004fd3;
-}.modal {
-     display: none;
-     position: fixed;
-     z-index: 1;
-     left: 0;
-     top: 0;
-     width: 100%;
-     height: 100%;
-     overflow: auto;
-     background-color: rgb(0,0,0);
-     background-color: rgba(0,0,0,0.4);
- }
-
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
@@ -301,27 +283,23 @@
     width: 80%;
     max-width: 400px;
 }
-
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
-
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-
 .mypage_content .post {
     border: 1px solid #ccc;
     padding: 15px;
     margin-bottom: 10px;
 }
-
 .mypage_content .post button {
     background-color: #ff3030;
     color: white;
@@ -330,7 +308,6 @@
     border: none;
     cursor: pointer;
 }
-
 .mypage_content .post button:hover {
     background-color: #ff6666;
 }
@@ -341,11 +318,10 @@
     border-radius: 12px;
     border: none;
     cursor: pointer;
-    margin: 5px 0;
+    margin: 0 0 5px 0;
 }
-.deletepost:hover{
+.deletepost:hover {
     background-color: #fb4a4a;
-
 }
 .modal-content .realdel {
     background-color: #616161;
@@ -357,25 +333,54 @@
     margin: 5px 0;
     font-family: Pretendard-Regular;
 }
-
 .modal-content .realdel:hover {
     background-color: #7e7e7e;
-
-
- }
-
+}
 .modal-content .realcancel {
-     background-color: #ff3030;
-     color: white;
-     padding: 8px 10px;
-     border-radius: 12px;
-     border: none;
-     cursor: pointer;
-     margin: 5px 0;
-     font-family: Pretendard-Regular;
-
+    background-color: #ff3030;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    margin: 5px 0;
+    font-family: Pretendard-Regular;
+}
+.modal-content .realcancel:hover {
+    background-color: #ff5252;
 }
 
-.modal-content .realcancel:hover{
-    background-color: #ff5252;
+@media (max-width: 1024px) {
+    .container {
+        width: 80%;
+        flex-direction: column;
+        padding: 20px;
+        margin:0 auto;
+    }
+
+    .side_info {
+        margin: 0 auto;
+    }
+
+    .main_content {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+@media (max-width: 768px) {
+    .container {
+        width: 80%;
+        flex-direction: column;
+        padding: 20px;
+        margin-right: auto;
+    }
+
+    .side_info {
+
+    }
+
+    .main_content {
+        width: 100%;
+        margin: 0 auto;
+    }
 }

@@ -3,6 +3,7 @@ package syu.autobiography.spring.board.service;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 @Service
 public class BoardService {
 
@@ -40,6 +40,7 @@ public class BoardService {
         int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1;
 
         return boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(PageRequest.of(0, limit)).getContent().stream()
+                .filter(posts -> posts.getFinalText() != null) // 필터링 추가
                 .map(posts -> {
                     int userAge = calculateAge(posts.getUser().getUserBirth());
                     String truncatedText = truncateContent(posts.getFinalText());
@@ -54,13 +55,20 @@ public class BoardService {
         Users currentUser = (Users) session.getAttribute("user");
         int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1;
 
-        return boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(pageRequest).map(posts -> {
-            int userAge = calculateAge(posts.getUser().getUserBirth());
-            String truncatedText = truncateContent(posts.getFinalText());
-            int likesCount = likesRepository.countByPostsId(posts.getPostsId());
-            boolean liked = (currentUserNo != -1) && likesRepository.findByUserUserNoAndPostsPostsId(currentUserNo, posts.getPostsId()).isPresent();
-            return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getFinalText(), truncatedText, posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
-        });
+        Page<Posts> postsPage = boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(pageRequest);
+
+        List<PostsDTO> postsDTOList = postsPage.stream()
+                .filter(posts -> posts.getFinalText() != null) // 필터링 추가
+                .map(posts -> {
+                    int userAge = calculateAge(posts.getUser().getUserBirth());
+                    String truncatedText = truncateContent(posts.getFinalText());
+                    int likesCount = likesRepository.countByPostsId(posts.getPostsId());
+                    boolean liked = (currentUserNo != -1) && likesRepository.findByUserUserNoAndPostsPostsId(currentUserNo, posts.getPostsId()).isPresent();
+                    return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getFinalText(), truncatedText, posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
+                })
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(postsDTOList, pageRequest, postsPage.getTotalElements());
     }
 
     private int calculateAge(String birthDateString) {
@@ -70,6 +78,9 @@ public class BoardService {
     }
 
     private String truncateContent(String content) {
+        if (content == null) {
+            return "";
+        }
         if (content.length() > 500) {
             return content.substring(0, 500) + "...";
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아모여: 회원가입</title>
+    <title>회원가입</title>
     <link rel="icon" th:href="@{/img/logo.jpeg}">
     <link rel="stylesheet" th:href="@{/css/user/signup.css}">
 </head>
@@ -11,14 +11,18 @@
 <form id="signupForm" th:action="@{/register}" method="post">
     <div class="sign-container">
         <h3>회원가입</h3>
-        <p>test용</p>
+        <p>아이디</p>
         <input class="input" type="text" name="userId" placeholder="아이디를 입력해주세요." required />
+        <p>비밀번호</p>
         <input id="password" class="input" type="password" name="userPwd" placeholder="비밀번호를 입력해주세요." required />
         <input id="confirmPassword" class="input" type="password" placeholder="비밀번호를 확인해주세요." required />
+        <p>이름</p>
         <input class="input" type="text" name="userName" placeholder="이름을 입력해주세요." required />
+        <p>전화번호</p>
         <input class="input" type="text" name="userPhone" placeholder="010-1234-5678" required pattern="010-\d{4}-\d{4}" title="전화번호 형식이 맞지 않습니다."/>
+        <p>생년월일</p>
         <div class="horizontal-group">
-            <input class="input" type="text" name="userBirth" placeholder="생년월일을 입력해주세요." required />
+            <input class="input" type="text" name="userBirth" placeholder="8자리 입력 (예시. 19600101)" required />
             <select class="input" name="userGender" required>
                 <option value="" disabled selected>성별</option>
                 <option value="남">남</option>

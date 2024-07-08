@@ -41,6 +41,33 @@ public class MyPageController {
         return "userpage/mypage";
     }
 
+    @GetMapping("/edit")
+    public String getDrafts(Model model, HttpSession session) {
+        Users currentUser = (Users) session.getAttribute("user");
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        List<PostsDTO> draftPosts = myPageService.getDraftsByUser(currentUser.getUserNo());
+        model.addAttribute("user", currentUser);
+        model.addAttribute("draftPosts", draftPosts);
+
+        return "userpage/editpost";
+    }
+
+    @PostMapping("/delete-draft")
+    public String deleteDraft(@RequestParam int postId, HttpSession session, Model model) {
+        Users currentUser = (Users) session.getAttribute("user");
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        myPageService.deletePost(postId);
+        return "redirect:/edit";
+    }
+
     @PostMapping("/toggleVisibility")
     public String toggleVisibility(@RequestParam int postsId, @RequestParam String isPublic) {
         myPageService.updatePostVisibility(postsId, isPublic);
