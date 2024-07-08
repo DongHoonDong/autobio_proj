@@ -20,7 +20,6 @@ import syu.autobiography.spring.audioupload.repository.AudioRepository;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -125,13 +124,15 @@ public class AudioController {
         try {
             Map<String, String> result = audioService.generateFinalDraft(user);
             if (!result.containsKey("error")) {
-                return ResponseEntity.ok(result);
+                // 생성된 초안과 제목을 세션에 저장
+                session.setAttribute("guideline", result.get("guideline"));
+                session.setAttribute("title", result.get("title"));
+                return ResponseEntity.ok(Map.of("success", "Final draft generated successfully"));
             } else {
                 return ResponseEntity.status(500).body(result);
             }
         } catch (ConstraintViolationException e) {
-            // 제약 조건 위반 예외 처리
-            return ResponseEntity.status(400).body(Map.of("error", "Invalid title length. Title must be between 5 and 20 characters."));
+            return ResponseEntity.status(400).body(Map.of("error", "Invalid title length. Title must be between 5 and 100 characters."));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body(Map.of("error", "Failed to generate final draft: " + e.getMessage()));
@@ -140,15 +141,21 @@ public class AudioController {
 
     @GetMapping("/final-draft")
     public String showFinalDraft(Model model, HttpSession session) {
-        Users user = (Users) session.getAttribute("user");
+        String guideline = (String) session.getAttribute("guideline");
+        String title = (String) session.getAttribute("title");
 
-        if (user == null) {
-            throw new IllegalStateException("User is not logged in");
+        if (guideline == null || title == null) {
+            // 초안이 생성되지 않았다면 에러 페이지나 다른 페이지로 리디렉션
+            return "redirect:/error";
         }
 
-        Map<String, String> result = audioService.generateFinalDraft(user);
-        model.addAttribute("guideline", result.get("guideline"));
-        model.addAttribute("title", result.get("title"));
+        model.addAttribute("guideline", guideline);
+        model.addAttribute("title", title);
+
+        // 세션에서 초안과 제목 제거
+        session.removeAttribute("guideline");
+        session.removeAttribute("title");
+
         return "fileupload/finaldraft";
     }
 }
