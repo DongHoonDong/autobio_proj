@@ -13,6 +13,7 @@
         <h3>마이 메뉴</h3>
         <ul>
             <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
+            <li><a th:href="@{/edit}">작성 중인 자서전</a> </li>
             <li><a th:href="@{/likelist}">좋아요 목록</a></li>
             <li><a th:href="@{/myinfo}">정보 수정</a></li>
             <li><a th:href="@{/delete-account}">회원 탈퇴</a></li>
@@ -24,8 +25,8 @@
             <div class="stories">
                 <div th:each="post : ${myPosts}" class="story">
                     <div class="story-info">
-                        <h3 th:text="${post.title}">제목</h3>
-                        <p th:utext="${post.finalText}" class="content-preview">내용</p>
+                        <h3 th:text="${post.title}"></h3>
+                        <p th:utext="${post.finalText}" class="content-preview"></p>
                         <div class="story-meta">
                             <div class="author">
                                 <span th:text="'By ' + ${post.userName}">By User</span>
@@ -34,7 +35,7 @@
                                 <svg viewBox="0 0 24 24">
                                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                                 </svg>
-                                <span th:text="${post.likesCount}">0</span>
+                                <span th:text="${post.likesCount}"></span>
                             </div>
                         </div>
                         <div class="visibility-toggle">

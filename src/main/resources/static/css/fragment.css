@@ -55,7 +55,6 @@ body {
 }
 
 header {
-
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -175,10 +174,9 @@ nav ul li a:hover {
 .logo {
     font-size: 24px;
     font-weight: bold;
-    margin-left: 20px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
     header {
         display: flex;
         justify-content: space-between;
@@ -188,6 +186,7 @@ nav ul li a:hover {
 
     .hamburger-menu {
         display: block;
+        margin-right: 0;
         background: none;
         border: none;
         font-size: 24px;
@@ -195,12 +194,9 @@ nav ul li a:hover {
         color: #000;
     }
 
-    .logo {
-        margin-left: 20px;
-    }
 
     .hamburger-menu {
-        margin-right: 20px;
+        margin-right: 0;
     }
 
     nav {
@@ -268,7 +264,38 @@ nav ul li a:hover {
         margin-top: 20px;
     }
 }
-/* 기본 스타일 유지 */
+
+@media (min-width: 1025px) {
+    .hamburger-menu {
+        margin-left: 0;
+        display: none;
+    }
+
+    nav {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        height: auto;
+        background-color: transparent;
+        width: auto;
+    }
+
+    nav ul {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .close-menu {
+        display: none;
+    }
+}
 
 header {
     display: flex;
@@ -345,107 +372,9 @@ nav ul li a:hover {
 .logo {
     font-size: 24px;
     font-weight: bold;
-    margin-left: 20px;
 }
 
-
-/* 모바일 스타일 */
-@media (max-width: 767px) {
-    .hamburger-menu {
-        display: block;
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #000; /* Make hamburger menu icon black */
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        text-align: center;
-    }
-
-    nav.active {
-        right: 0;
-    }
-
-    .close-menu {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #000;
-    }
-
-    nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column; /* Make the menu vertical */
-        align-items: center;
-    }
-
-    nav ul li {
-        margin: 20px 0;
-    }
-
-    nav ul li a {
-        font-size: 18px; /* Reduce font size */
-        text-decoration: none;
-        color: black;
-    }
-
-    nav ul li a:hover {
-        color: #352F36;
-    }
-
-    .auth-section {
-        position: absolute;
-        top: 60px; /* Position below the close button */
-        left: 20px;
-        display: none;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .mypage-button, .auth-buttons {
-        display: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .mypage-button button, .auth-buttons button {
-        display: block;
-        margin: 5px 0;
-        padding: 0;
-        border: none;
-        background: none;
-        color: gray;
-        font-size: 14px;
-        cursor: pointer;
-    }
-
-    nav.active .mypage-button, nav.active .auth-buttons {
-        display: flex;
-    }
-}
-
-
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
     .hamburger-menu {
         display: block;
         background: none;
@@ -468,6 +397,7 @@ nav ul li a:hover {
         align-items: center;
         z-index: 1000;
         text-align: center;
+        transition: right 0.3s ease-in-out;
     }
 
     nav.active {
@@ -499,9 +429,9 @@ nav ul li a:hover {
     }
 
     nav ul li a {
-        font-size: 18px;
         text-decoration: none;
         color: black;
+        font-size:40px;
     }
 
     nav ul li a:hover {
@@ -512,6 +442,7 @@ nav ul li a:hover {
         position: absolute;
         top: 60px;
         left: 20px;
+        margin-right: 10px;
         display: none;
         flex-direction: row;
         align-items: center;
@@ -525,12 +456,13 @@ nav ul li a:hover {
 
     .mypage-button button, .auth-buttons button {
         display: block;
-        margin: 5px;
+        margin: 5px 10px 5px 15px;
         padding: 0;
         border: none;
         background: none;
         color: gray;
-        font-size: 14px;
+
+        font-size: 30px;
         cursor: pointer;
     }
 
@@ -539,8 +471,7 @@ nav ul li a:hover {
     }
 }
 
-
-@media (min-width: 768px) {
+@media (min-width: 1025px) {
     .hamburger-menu {
         display: none;
     }
@@ -560,7 +491,6 @@ nav ul li a:hover {
         display: flex;
         flex-direction: row;
     }
-
     .mypage-button, .auth-buttons {
         display: flex;
         flex-direction: row;
@@ -568,5 +498,33 @@ nav ul li a:hover {
 
     .close-menu {
         display: none;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .mypage-button button, .auth-buttons button {
+        font-size: 15px;
+    }
+    .nav ul li a {
+        font-size: 18px;
+    }
+}
+@media (max-width: 360px) {
+    .mypage-button button, .auth-buttons button {
+        font-size: 15px;
+    }
+    .nav ul li a {
+        font-size: 18px;
+
+    }
+}
+
+@media (max-width: 375px) {
+    .mypage-button button, .auth-buttons button {
+        font-size: 15px;
+    }
+    nav ul li a {
+        font-size: 18px;
     }
 }

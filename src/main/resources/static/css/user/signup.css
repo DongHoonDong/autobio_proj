@@ -45,20 +45,20 @@
 body {
     font-family: 'Pretendard-Light', sans-serif;
     background-color: #f5f5f5;
-    margin: 0;
+
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    /*align-items: center;*/
+
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .sign-container {
     background-color: white;
     padding: 40px;
-    width: 400px;
     max-width: 90%;
-    text-align: center;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -119,9 +119,45 @@ body {
 /* 하단 링크 스타일링 */
 .sign-container a {
     text-decoration: none;
-    color: #007bff;
+    color: #434343;
 }
 
 .sign-container a:hover {
     text-decoration: underline;
+}
+.sign-container p {
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+@media (max-width: 1024px) {
+    .sign-container {
+        width:100%;
+        /*margin: auto;*/
+        margin: 150px auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .sign-container {
+        width:70%;
+        margin: 60px auto 30px auto;
+
+    }
+}
+@media (max-width: 480px) {
+    .sign-container {
+        width:60%;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 10px;
+        margin-bottom: 0px;
+    }
+}
+@media (max-width: 360px) {
+    .sign-container {
+        width:60%;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
 }

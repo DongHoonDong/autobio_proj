@@ -36,7 +36,8 @@ public class Posts {
     @Column(name = "final_text", columnDefinition = "TEXT")
     private String finalText;
 
-    @Size(max = 100, message = "제목은 100자를 초과할 수 없습니다.")
+    @Size(min = 5, max = 20)
+    @Column(name = "title", length = 20)
     private String title;
 
     @Column(name = "is_public", columnDefinition = "VARCHAR(255) DEFAULT 'N'")

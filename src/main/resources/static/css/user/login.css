@@ -128,3 +128,17 @@ body {
 .container a:hover {
     text-decoration: underline;
 }
+@media (max-width: 1024px) {
+    .container {
+        overflow-x: hidden;
+        width:70%;
+    }
+
+}
+@media (max-width: 768px) {
+    .container {
+        width:70%;
+        overflow-x: hidden;
+        margin: auto;
+    }
+}

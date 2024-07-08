@@ -79,6 +79,7 @@
     .my_story {
         padding: 30px;
     }
+
     .my_story h2 {
         font-size: 24px;
     }
@@ -90,8 +91,39 @@
     .my_story {
         padding: 20px;
     }
+    .story_post {
+        width: 100%;
+        margin: 0 auto;
+    }
+
     .my_story h2 {
         font-size: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .story_post {
+        width: 100%;
+        margin-right:100px;
+        margin-left: auto;
+    }
+    .story_board {
+        grid-template-columns: 1fr;
+    }
+    .post-content {
+        padding: 20px;
+    }
+}
+@media (max-width: 375px) {
+    .story_post {
+        width: 100%;
+        margin-left: auto;
+    }
+    .story_board {
+        grid-template-columns: 1fr;
+    }
+    .post-content {
+        padding: 20px;
     }
 }
 .stories {
