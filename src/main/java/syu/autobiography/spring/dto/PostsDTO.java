@@ -1,11 +1,16 @@
 package syu.autobiography.spring.dto;
 
-import lombok.*;
-import syu.autobiography.spring.entity.Users;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
-@Getter @Setter @NoArgsConstructor @ToString
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
 public class PostsDTO {
     private int postsId;
     private int userNo;
@@ -14,11 +19,16 @@ public class PostsDTO {
     private String gptText;
     private String finalText;
     private String title;
-    private boolean isPublic;
+    private String isPublic;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String userName;
+    private int userAge;
+    private int likesCount;
+    private boolean liked;
 
-    public PostsDTO(int postsId, int userNo, int questionNumber, String draftText, String gptText, String finalText, String title, boolean isPublic, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
+    public PostsDTO(int postsId, int userNo, int questionNumber, String draftText, String gptText, String finalText, String title, String isPublic, LocalDateTime createdAt, LocalDateTime updatedAt, String userName, int userAge, int likesCount, boolean liked) {
         this.postsId = postsId;
         this.userNo = userNo;
         this.questionNumber = questionNumber;
@@ -29,5 +39,9 @@ public class PostsDTO {
         this.isPublic = isPublic;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.userName = userName;
+        this.userAge = userAge;
+        this.likesCount = likesCount;
+        this.liked = liked;
     }
 }

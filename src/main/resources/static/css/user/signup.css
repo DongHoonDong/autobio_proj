@@ -1,6 +1,49 @@
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* 전체 페이지 스타일링 */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Pretendard-Light', sans-serif;
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
@@ -34,6 +77,7 @@ body {
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 50px;
+    font-family: 'Pretendard-Regular', serif;
 }
 
 /* 수평으로 배치될 요소 그룹 */
@@ -52,16 +96,17 @@ body {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 50px;
+    background-color: rgba(77, 209, 170, 0.42);
+    color: #333333;
+    border: 1px solid rgba(52, 95, 83, 0.3);
+    border-radius: 14px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Pretendard-Regular', serif;
 }
 
 .login-button:hover {
-    background-color: #0056b3;
+    background-color: rgba(66, 181, 147, 0.42);
 }
 
 /* 오류 메시지 스타일링 */

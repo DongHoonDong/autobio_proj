@@ -1,0 +1,265 @@
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.banner-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.my_story {
+    padding: 50px;
+    text-align: left;
+    font-family: 'Chosunilbo_myungjo';
+}
+
+.my_story h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.my_story p {
+    margin-bottom: 20px;
+    color: gray;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 8px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.stories {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+    background-color: #f5f5f5;
+    border: none;
+    max-width: 1600px;
+    width: 100%;
+    margin: 50px auto;
+}
+
+.story {
+    background: #fff;
+    border-radius: 0px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+}
+
+.story:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.story-info {
+    padding: 15px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.story h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.story p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #666;
+    line-height: 1.4;
+    flex-grow: 1;
+}
+
+.content-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.story-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #999;
+}
+
+.author {
+    display: block;
+    align-items: center;
+}
+
+.likes {
+    display: flex;
+    align-items: center;
+}
+
+.likes svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+    fill: #ff4757;
+}
+
+@media (max-width: 1024px) {
+    .stories {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .my_story {
+        padding: 30px;
+    }
+
+    .my_story h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .stories {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .my_story {
+        padding: 30px;
+    }
+
+    .my_story h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 767px) {
+    .stories {
+        display: flex;
+        flex-direction: column;
+        padding: 0 10px;
+    }
+
+    .story {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+
+    .story-info {
+        padding: 15px;
+        text-align: left;
+        word-wrap: break-word;
+        overflow: visible;
+    }
+
+    .story h3 {
+        font-size: 24px;
+    }
+
+    .story p {
+        font-size: 18px;
+    }
+
+    .my_story {
+        padding: 20px;
+    }
+
+    .my_story h2 {
+        font-size: 20px;
+    }
+}

@@ -39,6 +39,7 @@ public class LoginController {
         }
 
         session.setAttribute("user", user);
+        logger.info("User {} logged in and stored in session", user.getUserId());
 
         if ("Y".equals(user.getUserRole())) {
             return "redirect:/admin/admin-user";

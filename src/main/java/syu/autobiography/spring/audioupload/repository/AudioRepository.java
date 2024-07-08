@@ -2,13 +2,18 @@ package syu.autobiography.spring.audioupload.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import syu.autobiography.spring.entity.Posts;
+import syu.autobiography.spring.entity.Users;
 
 import java.util.List;
 
-public interface AudioRepository extends JpaRepository<Posts, Long> {
+public interface AudioRepository extends JpaRepository<Posts, Integer> {
+
+    @Query("SELECT p FROM Posts p WHERE p.user.userNo = :userNo ORDER BY p.createdAt DESC")
+    List<Posts> getLatestPostsForAllQuestions(@Param("userNo") int userNo);
+
     List<Posts> findAllByOrderByQuestionNumberAsc();
 
-    @Query("SELECT p FROM Posts p WHERE p.createdAt = (SELECT MAX(p2.createdAt) FROM Posts p2 WHERE p2.questionNumber = p.questionNumber) AND p.questionNumber BETWEEN 1 AND 5 ORDER BY p.questionNumber")
-    List<Posts> getLatestPostsForAllQuestions();
+    Posts findByUserAndQuestionNumber(Users user, int questionNumber);
 }

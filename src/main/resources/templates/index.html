@@ -1,34 +1,43 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>아모여: 메인 페이지</title>
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script type="text/javascript" th:src="@{/js/index.js}" th:defer></script>
 </head>
 <body>
-<header>
-    <nav>
-        <ul>
-            <li class="logo"><a th:href="@{/}">Autobiography</a></li>
-            <li class="spacer"></li>
-            <li><a th:href="@{/login}">로그인</a></li>
-            <li><a th:href="@{/register}">회원가입</a></li>
-        </ul>
-    </nav>
-</header>
-
-<main>
-    <h1>환영합니다!</h1>
-    <p>지금, 당신의 중요한 순간들과 경험을 기록해 보세요.</p>
-    <div class="buttons">
-        <a class="button" th:href="@{/question1}"><b>시작하기</b></a>
+<div th:replace="~{fragments/header :: header}"></div>
+<section class="banner">
+    <a th:href="@{/fileupload}" class="banner-image-link">
+        <img th:src="@{/img/banner-image.png}" alt="Banner Image" class="banner-image">
+    </a>
+</section>
+<section class="my_story">
+    <h2>내 이야기 들려주기</h2>
+    <p>제 인생 스토리 읽어보실래요?</p>
+    <div class="stories">
+        <div th:each="story : ${stories}" class="story">
+            <div class="story-info">
+                <h3 th:text="${story.title}">제목</h3>
+                <p th:utext="${story.finalText}" class="content-preview">내용</p>
+                <div class="story-meta">
+                    <div class="author">
+                        <span th:text="'By ' + ${story.userName}">By User</span><br><br>
+                        <span th:text="${story.userAge + '세'}"></span>
+                    </div>
+                    <div class="likes">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        <span th:text="${story.likesCount}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</main>
-
-<footer>
-    <p>&copy; 2024 autobiography</p>
-</footer>
+</section>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>

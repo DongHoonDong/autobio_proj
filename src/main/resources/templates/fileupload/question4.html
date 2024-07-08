@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Chapter 4 - 파일을 업로드해주세요</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="/css/fileupload/style.css">
+    <link rel="stylesheet" th:href="@{/css/fileupload/style.css}">
 </head>
 <body>
+<div th:replace="~{fragments/header :: header}"></div>
+
 <h2>Chapter 4 - 파일을 업로드해주세요</h2>
 <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="file" required>
@@ -94,5 +96,7 @@
         });
     });
 </script>
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 </body>
 </html>

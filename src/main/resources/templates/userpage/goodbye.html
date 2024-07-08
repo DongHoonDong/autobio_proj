@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 탈퇴</title>
+  <link rel="stylesheet" th:href="@{/css/mypage/mypage.css}">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container">
+<section class="side_info">
+  <h3>마이 메뉴</h3>
+  <ul>
+    <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
+    <li><a th:href="@{/likelist}">좋아요 목록</a></li>
+    <li><a th:href="@{/myinfo}">정보 수정</a></li>
+    <li><a th:href="@{/delete-account}">회원 탈퇴</a></li>
+  </ul>
+</section>
+<div class = "userdelete">
+    <h2>회원 탈퇴</h2>
+    <form id="deleteForm" th:action="@{/delete-account}" method="post">
+      <p>비밀번호를 입력하세요</p>
+      <input type="password" name="password" placeholder="비밀번호" required/>
+      <div th:if="${error}" style="color: red;">
+        <p th:text="${error}"></p>
+      </div><br>
+      <button type="button" class="button ok" onclick="submitForm()">확인</button>
+      <a class="button cancel" th:href="@{/myinfo}">취소</a>
+    </form>
+</div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<script>
+  function submitForm() {
+    document.getElementById("deleteForm").submit();
+  }
+</script>
+</body>
+</html>

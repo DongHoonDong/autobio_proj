@@ -1,7 +1,5 @@
 package syu.autobiography.spring.login.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import syu.autobiography.spring.dto.UserDTO;
@@ -14,7 +12,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final LoginRepository userRepository;
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     public UserServiceImpl(LoginRepository userRepository) {
@@ -43,4 +40,14 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public void updateUser(Users user) {
+        userRepository.save(user);
+    }
+    @Override
+    public void deleteUser(int userNo) {
+        userRepository.deleteById(userNo);
+    }
+
 }

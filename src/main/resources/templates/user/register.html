@@ -25,7 +25,7 @@
                 <option value="여">여</option>
             </select>
         </div>
-        <div id="errorMessage" style="color: red; display: none; font-size: 13px; padding: 0 0 15px 0">비밀번호가 일치하지 않습니다.</div>
+        <div id="errorMessage" style="color: red; display: none; font-size: 13px; padding: 0 0 15px 0"></div>
         <button class="login-button" type="submit">회원가입</button>
         <p>
             <a th:href="@{/terms}">이용약관</a><br><br>
@@ -38,11 +38,21 @@
     document.getElementById('signupForm').addEventListener('submit', function(event) {
         var password = document.getElementById('password').value;
         var confirmPassword = document.getElementById('confirmPassword').value;
+        var errorMessage = document.getElementById('errorMessage');
+
+        // 비밀번호 검증 정규식: 최소 8자, 대소문자 구분 없이 영문자와 숫자 포함
+        var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
         if (password !== confirmPassword) {
             event.preventDefault();
-            document.getElementById('errorMessage').style.display = 'block';
+            errorMessage.textContent = '비밀번호가 일치하지 않습니다.';
+            errorMessage.style.display = 'block';
+        } else if (!passwordRegex.test(password)) {
+            event.preventDefault();
+            errorMessage.textContent = '비밀번호는 최소 8자 이상, 영문자와 숫자를 포함해야 합니다.';
+            errorMessage.style.display = 'block';
         } else {
-            document.getElementById('errorMessage').style.display = 'none';
+            errorMessage.style.display = 'none';
         }
     });
 </script>
