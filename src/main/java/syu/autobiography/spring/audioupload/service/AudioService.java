@@ -35,21 +35,26 @@ public class AudioService {
         return audioRepository.findByUserAndQuestionNumber(user, questionNumber);
     }
 
-    public void saveFinalDraft(String finalDraft, String title, Users user) {
-        Posts newPost = new Posts();
-        newPost.setUser(user);
-        newPost.setCreatedAt(LocalDateTime.now());
-        newPost.setGptText(finalDraft);
-        newPost.setDraftText(null);
-        newPost.setQuestionNumber(0);
-        newPost.setIsPublic("N");
-        newPost.setTitle(limitTitleLength(title));  // 제목 길이 제한 적용
+    public Posts getDraftByUser(Users user) {
+        return audioRepository.findByUserAndQuestionNumber(user, 0);
+    }
 
-        audioRepository.save(newPost);
+    public void saveFinalDraft(String finalText, String title, Users user) {
+        Posts finalDraft = audioRepository.findByUserAndQuestionNumber(user, 0);
+        if (finalDraft == null) {
+            finalDraft = new Posts();
+            finalDraft.setUser(user);
+            finalDraft.setQuestionNumber(0);
+            finalDraft.setCreatedAt(LocalDateTime.now());
+        }
+        finalDraft.setFinalText(finalText);
+        finalDraft.setTitle(limitTitleLength(title));
+        finalDraft.setUpdatedAt(LocalDateTime.now());
+        audioRepository.save(finalDraft);
     }
 
     private String limitTitleLength(String title) {
-        final int MAX_TITLE_LENGTH = 100;  // 데이터베이스의 VARCHAR(100)과 일치
+        final int MAX_TITLE_LENGTH = 100;
         if (title == null) {
             return "Untitled";
         }
@@ -86,5 +91,22 @@ public class AudioService {
         } else {
             return Map.of("error", "Failed to generate final draft");
         }
+    }
+
+    public Posts getFinalDraftByUser(Users user) {
+        return audioRepository.findByUserAndQuestionNumber(user, 0);
+    }
+
+    public void updateFinalDraft(String finalText, Users user) {
+        Posts finalDraft = audioRepository.findByUserAndQuestionNumber(user, 0);
+        if (finalDraft == null) {
+            finalDraft = new Posts();
+            finalDraft.setUser(user);
+            finalDraft.setQuestionNumber(0);
+            finalDraft.setCreatedAt(LocalDateTime.now());
+        }
+        finalDraft.setFinalText(finalText);
+        finalDraft.setUpdatedAt(LocalDateTime.now());
+        audioRepository.save(finalDraft);
     }
 }
