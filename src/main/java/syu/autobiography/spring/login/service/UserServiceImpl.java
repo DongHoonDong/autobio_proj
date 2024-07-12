@@ -7,7 +7,6 @@ import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.login.repository.LoginRepository;
 
 import java.util.Optional;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -27,7 +26,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void register(UserDTO userDTO) throws Exception {
         if (userRepository.existsByUserId(userDTO.getUserId())) {
-            throw new Exception("Id already in use");
+            throw new Exception("이미 존재하는 아이디입니다.");
+        }
+        if (userRepository.existsByUserPhone(userDTO.getUserPhone())) {
+            throw new Exception("이미 존재하는 전화번호입니다.");
         }
         Users user = new Users();
         user.setUserId(userDTO.getUserId());
@@ -45,9 +47,37 @@ public class UserServiceImpl implements UserService {
     public void updateUser(Users user) {
         userRepository.save(user);
     }
+
     @Override
     public void deleteUser(int userNo) {
         userRepository.deleteById(userNo);
     }
 
+    @Override
+    public String findUserId(String userName, String userPhone) {
+        Optional<Users> userOptional = userRepository.findByUserNameAndUserPhone(userName, userPhone);
+        return userOptional.map(Users::getUserId).orElse(null);
+    }
+
+    @Override
+    public Users findUserByIdAndPhone(String userId, String userPhone) {
+        return userRepository.findByUserIdAndUserPhone(userId, userPhone).orElse(null);
+    }
+
+    @Override
+    public void updatePassword(String userId, String newPassword) {
+        Users user = userRepository.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setUserPwd(newPassword);
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean existsByUserId(String userId) {
+        return userRepository.existsByUserId(userId);
+    }
+
+    @Override
+    public boolean existsByUserPhone(String userPhone) {
+        return userRepository.existsByUserPhone(userPhone);
+    }
 }

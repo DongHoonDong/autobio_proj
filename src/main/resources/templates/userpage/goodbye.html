@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,8 +13,6 @@
 <div class="container">
 <section class="side_info">
   <h3>마이 메뉴</h3>
-  <section class="side_info">
-    <h3>마이 메뉴</h3>
     <ul>
       <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
       <li><a th:href="@{/edit}">작성 중인 자서전</a> </li>

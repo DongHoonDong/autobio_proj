@@ -4,36 +4,42 @@
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Pretendard-Regular';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
     font-weight: 400;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Pretendard-Medium';
-    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Pretendard-Light';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Pretendard-Black';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
     font-weight: 900;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Pretendard-ExtraBold';
     src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
     font-weight: 800;
     font-style: normal;
 }
+
 html, body {
     margin: 0;
     display: flex;
@@ -59,6 +65,9 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+    background-color: #f5f5f5;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 main {
@@ -75,6 +84,7 @@ footer {
     flex-shrink: 0;
     margin-top: auto;
 }
+
 .footer-content {
     display: flex;
     justify-content: space-around;
@@ -89,6 +99,11 @@ footer {
 footer p {
     margin: 10px 0 0 0;
     font-size: 14px;
+}
+
+footer p a {
+    text-decoration: none;
+    color: white;
 }
 
 nav {
@@ -119,56 +134,22 @@ nav ul li a:hover {
     color: #352F36;
 }
 
-.mypage-button button {
-    margin-left: 10px;
-    padding: 8px 18px;
-    border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(77, 209, 170, 0.42);
-    cursor: pointer;
-    border-radius: 14px;
-    text-decoration: none !important;
-    color: #333333;
-    font-family: 'Pretendard-Regular', serif;
-}
-
-.mypage-button button:hover {
-    background-color: rgba(66, 181, 147, 0.42);
-}
-
-.mypage-button button {
-    margin-left: 30px;
-    padding: 8px 18px;
-    border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(77, 209, 170, 0.42);
-    cursor: pointer;
-    border-radius: 14px;
-    text-decoration: none !important;
-    color: #333333;
-    font-family: 'Pretendard-Regular', serif;
-}
-
-.mypage-button button:hover {
-    background-color: rgba(66, 181, 147, 0.42);
-}
-
-.auth-buttons {
-    display: flex;
-    align-items: center;
-}
-
+.mypage-button button,
 .auth-buttons button {
-    font-family: 'Pretendard-Regular', serif;
     margin-left: 10px;
     padding: 8px 18px;
     border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(30, 223, 169, 0.16);
-    color: #333333;
+    background-color: rgba(77, 209, 170, 0.42);
     cursor: pointer;
     border-radius: 14px;
+    text-decoration: none !important;
+    color: #333333;
+    font-family: 'Pretendard-Regular', serif;
 }
 
+.mypage-button button:hover,
 .auth-buttons button:hover {
-    background-color: rgba(33, 225, 171, 0.24);
+    background-color: rgba(66, 181, 147, 0.42);
 }
 
 .logo {
@@ -176,207 +157,10 @@ nav ul li a:hover {
     font-weight: bold;
 }
 
-@media (max-width: 1024px) {
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px;
-    }
-
+@media (max-width: 767px) {
     .hamburger-menu {
         display: block;
         margin-right: 0;
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #000;
-    }
-
-
-    .hamburger-menu {
-        margin-right: 0;
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 100%;
-        height: 100%;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        text-align: center;
-        transition: right 0.3s ease-in-out;
-    }
-
-    nav.active {
-        right: 0;
-    }
-
-    .close-menu {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        background: none;
-        border: none;
-        font-size: 24px;
-        cursor: pointer;
-        color: #000;
-    }
-
-    nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav ul li {
-        margin: 20px 0;
-    }
-
-    nav ul li a {
-        font-size: 18px;
-        text-decoration: none;
-        color: black;
-    }
-
-    nav ul li a:hover {
-        color: #352F36;
-    }
-
-    .mypage-button, .auth-buttons {
-        display: none;
-    }
-
-    .auth-buttons.active, .mypage-button.active {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
-    }
-}
-
-@media (min-width: 1025px) {
-    .hamburger-menu {
-        margin-left: 0;
-        display: none;
-    }
-
-    nav {
-        position: static;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        height: auto;
-        background-color: transparent;
-        width: auto;
-    }
-
-    nav ul {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .mypage-button, .auth-buttons {
-        display: flex;
-        flex-direction: row;
-    }
-
-    .close-menu {
-        display: none;
-    }
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background-color: #f5f5f5;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-nav {
-    flex-grow: 1;
-    text-align: right;
-}
-
-nav ul {
-    display: inline-flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 18px;
-}
-
-nav ul li {
-    margin: 0 10px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: black;
-}
-
-nav ul li a:hover {
-    color: #352F36;
-}
-
-.mypage-button button {
-    margin-left: 30px;
-    padding: 8px 18px;
-    border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(77, 209, 170, 0.42);
-    cursor: pointer;
-    border-radius: 14px;
-    text-decoration: none !important;
-    color: #333333;
-    font-family: 'Pretendard-Regular', serif;
-}
-
-.mypage-button button:hover {
-    background-color: rgba(66, 181, 147, 0.42);
-}
-
-.auth-buttons {
-    display: flex;
-    align-items: center;
-}
-
-.auth-buttons button {
-    font-family: 'Pretendard-Regular', serif;
-    margin-left: 10px;
-    padding: 8px 18px;
-    border: 1px solid rgba(52, 95, 83, 0.3);
-    background-color: rgba(30, 223, 169, 0.16);
-    color: #333333;
-    cursor: pointer;
-    border-radius: 14px;
-}
-
-.auth-buttons button:hover {
-    background-color: rgba(33, 225, 171, 0.24);
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-@media (max-width: 1024px) {
-    .hamburger-menu {
-        display: block;
         background: none;
         border: none;
         font-size: 24px;
@@ -429,9 +213,9 @@ nav ul li a:hover {
     }
 
     nav ul li a {
+        font-size: 18px; /* Font size for smaller devices */
         text-decoration: none;
         color: black;
-        font-size:40px;
     }
 
     nav ul li a:hover {
@@ -442,7 +226,6 @@ nav ul li a:hover {
         position: absolute;
         top: 60px;
         left: 20px;
-        margin-right: 10px;
         display: none;
         flex-direction: row;
         align-items: center;
@@ -461,8 +244,200 @@ nav ul li a:hover {
         border: none;
         background: none;
         color: gray;
+        font-size: 18px; /* Font size for smaller devices */
+        cursor: pointer;
+    }
 
-        font-size: 30px;
+    nav.active .mypage-button, nav.active .auth-buttons {
+        display: flex;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 820px) {
+    .hamburger-menu {
+        display: block;
+        margin-right: 0;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        text-align: center;
+        transition: right 0.3s ease-in-out;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 20px 0;
+    }
+
+    nav ul li a {
+        font-size: 24px;
+        text-decoration: none;
+        color: black;
+    }
+
+    nav ul li a:hover {
+        color: #352F36;
+    }
+
+    .auth-section {
+        position: absolute;
+        top: 60px;
+        left: 20px;
+        display: none;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .mypage-button button, .auth-buttons button {
+        display: block;
+        margin: 5px 10px 5px 15px;
+        padding: 0;
+        border: none;
+        background: none;
+        color: gray;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    nav.active .mypage-button, nav.active .auth-buttons {
+        display: flex;
+    }
+}
+
+@media (min-width: 821px) and (max-width: 1025px) {
+    .hamburger-menu {
+        display: block;
+        margin-right: 0;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav {
+        position: fixed;
+        top: 0;
+
+        right: -100%;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        text-align: center;
+        transition: right 0.3s ease-in-out;
+    }
+
+    nav.active {
+        right: 0;
+    }
+
+    .close-menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #000;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 20px 0;
+    }
+
+    nav ul li a {
+        font-size: 32px;
+        text-decoration: none;
+        color: black;
+    }
+
+    nav ul li a:hover {
+        color: #352F36;
+    }
+
+    .auth-section {
+        position: absolute;
+        top: 60px;
+        left: 20px;
+        display: none;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .mypage-button, .auth-buttons {
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .mypage-button button, .auth-buttons button {
+        display: block;
+        margin: 5px 10px 5px 15px;
+        padding: 0;
+        border: none;
+        background: none;
+        color: gray;
+        font-size: 32px;
         cursor: pointer;
     }
 
@@ -491,6 +466,7 @@ nav ul li a:hover {
         display: flex;
         flex-direction: row;
     }
+
     .mypage-button, .auth-buttons {
         display: flex;
         flex-direction: row;
@@ -501,30 +477,20 @@ nav ul li a:hover {
     }
 }
 
-
 @media (max-width: 480px) {
     .mypage-button button, .auth-buttons button {
         font-size: 15px;
     }
-    .nav ul li a {
-        font-size: 18px;
-    }
 }
+
 @media (max-width: 360px) {
     .mypage-button button, .auth-buttons button {
         font-size: 15px;
-    }
-    .nav ul li a {
-        font-size: 18px;
-
     }
 }
 
 @media (max-width: 375px) {
     .mypage-button button, .auth-buttons button {
         font-size: 15px;
-    }
-    nav ul li a {
-        font-size: 18px;
     }
 }

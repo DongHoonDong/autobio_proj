@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface LikesRepository extends JpaRepository<Likes, Integer> {
-    Optional<Likes> findByUserUserNoAndPostsPostsId(int userNo, int postsId);
+    Optional<Likes> findByUserUserNoAndPostsPostsId(@Param("userNo") int userNo, @Param("postsId") int postsId);
 
     @Query("SELECT COUNT(l) FROM Likes l WHERE l.posts.postsId = :postsId")
     int countByPostsId(@Param("postsId") int postsId);

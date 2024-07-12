@@ -25,7 +25,7 @@ public class MyPageController {
         this.myPageService = myPageService;
         this.userService = userService;
     }
-
+    //마이페이지
     @GetMapping("/mypage")
     public String getMyPage(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -40,7 +40,7 @@ public class MyPageController {
 
         return "userpage/mypage";
     }
-
+    //마이페이지 정보수정
     @GetMapping("/edit")
     public String getDrafts(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -55,7 +55,7 @@ public class MyPageController {
 
         return "userpage/editpost";
     }
-
+    //글삭제
     @PostMapping("/delete-draft")
     public String deleteDraft(@RequestParam int postId, HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -67,13 +67,13 @@ public class MyPageController {
         myPageService.deletePost(postId);
         return "redirect:/edit";
     }
-
+    //비공개-공개처리
     @PostMapping("/toggleVisibility")
     public String toggleVisibility(@RequestParam int postsId, @RequestParam String isPublic) {
         myPageService.updatePostVisibility(postsId, isPublic);
         return "redirect:/mypage";
     }
-
+    //좋아요목록
     @GetMapping("/likelist")
     public String getLikedPosts(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -88,7 +88,7 @@ public class MyPageController {
 
         return "userpage/likelist";
     }
-
+    //내정보
     @GetMapping("/myinfo")
     public String getMyInfo(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -100,7 +100,7 @@ public class MyPageController {
         model.addAttribute("user", currentUser);
         return "userpage/myinfo";
     }
-
+    //내정보
     @PostMapping("/myinfo")
     public String updateMyInfo(@RequestParam String userName,
                                @RequestParam String userPhone,
@@ -146,7 +146,7 @@ public class MyPageController {
 
         return "redirect:/myinfo";
     }
-
+    //탈퇴
     @GetMapping("/delete-account")
     public String getDeleteAccountPage(HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -158,7 +158,7 @@ public class MyPageController {
         model.addAttribute("user", currentUser);
         return "userpage/goodbye";
     }
-
+    //탈퇴
     @PostMapping("/delete-account")
     public String deleteAccount(@RequestParam String password, HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -177,7 +177,7 @@ public class MyPageController {
 
         return "redirect:/delete-success";
     }
-
+    //글지우기
     @PostMapping("/delete-post")
     public String deletePost(@RequestParam int postId, HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -189,9 +189,10 @@ public class MyPageController {
         myPageService.deletePost(postId);
         return "redirect:/mypage";
     }
-
+    //탈퇴완료
     @GetMapping("/delete-success")
     public String getDeleteSuccessPage() {
         return "userpage/delete-success";
     }
+
 }
