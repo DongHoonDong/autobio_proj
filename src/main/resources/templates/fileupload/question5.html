@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chapter 5 - 파일을 업로드해주세요</title>
+    <title>우리 후손들이 행복하게 살아가려면 어떻게 해야 할까요? 삶의 지혜를 나눠주세요.</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/fileupload/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h2>Chapter 5 - 파일을 업로드해주세요</h2>
+<h2>우리 후손들이 행복하게 살아가려면 어떻게 해야 할까요? 삶의 지혜를 나눠주세요.</h2>
 <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="file" required>
-    <input type="hidden" name="questionNumber" value="5">  <!-- 각 챕터/질문에 맞는 번호로 변경 -->
+    <input type="hidden" name="questionNumber" value="5">
     <br><br>
     <button type="submit">업로드하기</button>
     <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
@@ -28,9 +28,9 @@
 
 <div id="error"></div>
 
-<button id="completeBtn" class="fixed-button">완료하기</button>
+<button id="completeBtn" class="fixed-button">초안 생성하기</button>
 
-<div id="loadingOverlay" class="overlay">
+<div id="loadingOverlay" class="overlay" style="display: none;">
     <div class="loading-content">
         <div class="spinner"></div>
         <p>초안을 생성 중입니다...</p>
@@ -39,8 +39,20 @@
 
 <script>
     $(document).ready(function() {
+        let isRequesting = false;
+
+        function log(message) {
+            console.log(new Date().toISOString() + ": " + message);
+        }
+
         $('#uploadForm').on('submit', function(e) {
             e.preventDefault();
+            if (isRequesting) {
+                log("Upload already in progress");
+                return;
+            }
+            isRequesting = true;
+            log("Starting file upload");
 
             var formData = new FormData(this);
             $.ajax({
@@ -54,6 +66,7 @@
                 },
                 success: function(data) {
                     $('#uploadingMsg').hide();
+                    log("Upload successful");
 
                     if (data.error) {
                         $('#error').text(data.error);
@@ -66,11 +79,22 @@
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#uploadingMsg').hide();
                     $('#error').text('An error occurred: ' + errorThrown);
+                    log("Upload error: " + errorThrown);
+                },
+                complete: function() {
+                    isRequesting = false;
                 }
             });
         });
 
         $('#updateBtn').on('click', function() {
+            if (isRequesting) {
+                log("Update already in progress");
+                return;
+            }
+            isRequesting = true;
+            log("Starting transcript update");
+
             var updatedTranscript = $('#transcriptEditor').val();
             var questionNumber = $('input[name="questionNumber"]').val();
 
@@ -87,6 +111,7 @@
                 },
                 success: function(data) {
                     $('#updatingMsg').hide();
+                    log("Update successful");
 
                     if (data.error) {
                         $('#error').text(data.error);
@@ -98,11 +123,24 @@
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#updatingMsg').hide();
                     $('#error').text('An error occurred: ' + errorThrown);
+                    log("Update error: " + errorThrown);
+                },
+                complete: function() {
+                    isRequesting = false;
                 }
             });
         });
 
         $('#completeBtn').on('click', function() {
+            if (isRequesting) {
+                log("Final draft generation already in progress");
+                return;
+            }
+            isRequesting = true;
+            log("Starting final draft generation");
+
+            $(this).prop('disabled', true);  // 버튼 비활성화
+
             $.ajax({
                 url: '/generate-final-draft',
                 type: 'POST',
@@ -112,6 +150,7 @@
                     $('#loadingOverlay').fadeIn(300);
                 },
                 success: function(data) {
+                    log("Final draft generation successful");
                     if (data.error) {
                         $('#error').text("Error: " + data.error);
                     } else {
@@ -120,9 +159,12 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#error').text("초안 생성 중 오류가 발생했습니다: " + errorThrown);
+                    log("Final draft generation error: " + errorThrown);
                 },
                 complete: function() {
                     $('#loadingOverlay').fadeOut(300);
+                    $('#completeBtn').prop('disabled', false);
+                    isRequesting = false;
                 }
             });
         });

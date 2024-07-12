@@ -36,8 +36,8 @@ public class Posts {
     @Column(name = "final_text", columnDefinition = "TEXT")
     private String finalText;
 
-    @Size(min = 5, max = 20)
-    @Column(name = "title", length = 20)
+    @Size(min = 5, max = 100)
+    @Column(name = "title", length = 100)
     private String title;
 
     @Column(name = "is_public", columnDefinition = "VARCHAR(255) DEFAULT 'N'")

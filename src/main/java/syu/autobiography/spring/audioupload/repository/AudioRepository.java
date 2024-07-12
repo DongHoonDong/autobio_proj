@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import syu.autobiography.spring.entity.Posts;
+import syu.autobiography.spring.entity.Users;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface AudioRepository extends JpaRepository<Posts, Integer> {
     List<Posts> getLatestPostsForAllQuestions(@Param("userNo") int userNo);
 
     List<Posts> findAllByOrderByQuestionNumberAsc();
+
+    Posts findByUserAndQuestionNumber(Users user, int questionNumber);
 }

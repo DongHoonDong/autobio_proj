@@ -1,5 +1,6 @@
 package syu.autobiography.spring.audioupload.controller;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,7 +19,7 @@ import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.audioupload.repository.AudioRepository;
 
 import java.io.IOException;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Controller
@@ -65,7 +66,14 @@ public class AudioController {
             if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
                 Map<String, Object> responseBody = response.getBody();
                 String transcript = (String) responseBody.get("transcript");
-                audioService.saveDraft(transcript, questionNumber, user);
+
+                Posts newPost = new Posts();
+                newPost.setUser(user);
+                newPost.setCreatedAt(LocalDateTime.now());
+                newPost.setDraftText(transcript);
+                newPost.setQuestionNumber(questionNumber);
+                newPost.setIsPublic("N");
+                audioService.savePost(newPost);
 
                 return ResponseEntity.ok(responseBody);
             } else {
@@ -89,7 +97,17 @@ public class AudioController {
         String updatedTranscript = payload.get("transcript");
         int questionNumber = Integer.parseInt(payload.get("questionNumber"));
 
-        audioService.saveDraft(updatedTranscript, questionNumber, user);
+        Posts post = audioService.findPostByUserAndQuestionNumber(user, questionNumber);
+        if (post == null) {
+            post = new Posts();
+            post.setUser(user);
+            post.setCreatedAt(LocalDateTime.now());
+            post.setQuestionNumber(questionNumber);
+            post.setIsPublic("N");
+        }
+        post.setDraftText(updatedTranscript);
+        post.setUpdatedAt(LocalDateTime.now());
+        audioService.savePost(post);
 
         return ResponseEntity.ok(Map.of("message", "Transcript updated successfully"));
     }
@@ -104,33 +122,17 @@ public class AudioController {
         }
 
         try {
-            List<Posts> allPosts = audioRepository.findAllByOrderByQuestionNumberAsc();
-            if (allPosts.isEmpty()) {
-                return ResponseEntity.status(400).body(Map.of("error", "No posts found"));
-            }
-
-            StringBuilder contentBuilder = new StringBuilder();
-            for (Posts post : allPosts) {
-                contentBuilder.append("Question ").append(post.getQuestionNumber()).append(":\n");
-                contentBuilder.append(post.getDraftText()).append("\n\n");
-            }
-
-            String compiledContent = contentBuilder.toString();
-
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-
-            Map<String, String> requestBody = Map.of("content", compiledContent);
-            HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
-
-            ResponseEntity<Map> response = restTemplate.postForEntity(flaskApiUrl + "/generate-final-draft", request, Map.class);
-
-            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
-                return ResponseEntity.ok(response.getBody());
+            Map<String, String> result = audioService.generateFinalDraft(user);
+            if (!result.containsKey("error")) {
+                // 생성된 초안과 제목을 세션에 저장
+                session.setAttribute("guideline", result.get("guideline"));
+                session.setAttribute("title", result.get("title"));
+                return ResponseEntity.ok(Map.of("success", "Final draft generated successfully"));
             } else {
-                return ResponseEntity.status(500).body(Map.of("error", "Failed to generate final draft"));
+                return ResponseEntity.status(500).body(result);
             }
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(400).body(Map.of("error", "Invalid title length. Title must be between 5 and 100 characters."));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body(Map.of("error", "Failed to generate final draft: " + e.getMessage()));
@@ -139,14 +141,21 @@ public class AudioController {
 
     @GetMapping("/final-draft")
     public String showFinalDraft(Model model, HttpSession session) {
-        Users user = (Users) session.getAttribute("user");
+        String guideline = (String) session.getAttribute("guideline");
+        String title = (String) session.getAttribute("title");
 
-        if (user == null) {
-            throw new IllegalStateException("User is not logged in");
+        if (guideline == null || title == null) {
+            // 초안이 생성되지 않았다면 에러 페이지나 다른 페이지로 리디렉션
+            return "redirect:/error";
         }
 
-        String finalDraft = audioService.generateFinalDraft(user);
-        model.addAttribute("finalDraft", finalDraft);
+        model.addAttribute("guideline", guideline);
+        model.addAttribute("title", title);
+
+        // 세션에서 초안과 제목 제거
+        session.removeAttribute("guideline");
+        session.removeAttribute("title");
+
         return "fileupload/finaldraft";
     }
 }

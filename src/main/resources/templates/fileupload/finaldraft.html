@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>자서전 최종 초안</title>
+    <title>자서전 가이드라인</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/fileupload/finaldraft.css}">
 </head>
@@ -11,8 +11,11 @@
 <div th:replace="~{fragments/header :: header}"></div>
 
 <div class="container">
-    <h1>나의 자서전 초안</h1>
-    <div class="draft-content" th:text="${finalDraft}"></div>
+    <h1 th:text="${title}">자서전 제목</h1>
+    <div class="draft-content">
+        <h2>초안</h2>
+        <div th:utext="${guideline}"></div>
+    </div>
     <div class="meta-info">
         <p>생성일: <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일')}"></span></p>
     </div>
