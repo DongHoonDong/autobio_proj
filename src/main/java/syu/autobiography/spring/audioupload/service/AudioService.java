@@ -39,20 +39,6 @@ public class AudioService {
         return audioRepository.findByUserAndQuestionNumber(user, 0);
     }
 
-    public void saveFinalDraft(String finalText, String title, Users user) {
-        Posts finalDraft = audioRepository.findByUserAndQuestionNumber(user, 0);
-        if (finalDraft == null) {
-            finalDraft = new Posts();
-            finalDraft.setUser(user);
-            finalDraft.setQuestionNumber(0);
-            finalDraft.setCreatedAt(LocalDateTime.now());
-        }
-        finalDraft.setFinalText(finalText);
-        finalDraft.setTitle(limitTitleLength(title));
-        finalDraft.setUpdatedAt(LocalDateTime.now());
-        audioRepository.save(finalDraft);
-    }
-
     private String limitTitleLength(String title) {
         final int MAX_TITLE_LENGTH = 100;
         if (title == null) {
@@ -86,18 +72,32 @@ public class AudioService {
             if (guideline == null) guideline = "Failed to generate guideline";
             if (title == null) title = "Untitled";
 
-            saveFinalDraft(guideline, title, user);
+            saveGptDraft(guideline, title, user);
             return Map.of("guideline", guideline, "title", title);
         } else {
             return Map.of("error", "Failed to generate final draft");
         }
     }
 
+    private void saveGptDraft(String gptText, String title, Users user) {
+        Posts draft = audioRepository.findByUserAndQuestionNumber(user, 0);
+        if (draft == null) {
+            draft = new Posts();
+            draft.setUser(user);
+            draft.setQuestionNumber(0);
+            draft.setCreatedAt(LocalDateTime.now());
+        }
+        draft.setGptText(gptText);  // gptText 필드에 저장
+        draft.setTitle(title);
+        draft.setUpdatedAt(LocalDateTime.now());
+        audioRepository.save(draft);
+    }
+
     public Posts getFinalDraftByUser(Users user) {
         return audioRepository.findByUserAndQuestionNumber(user, 0);
     }
 
-    public void updateFinalDraft(String finalText, Users user) {
+    public void updateFinalDraftAndTitle(String finalText, String title, Users user) {
         Posts finalDraft = audioRepository.findByUserAndQuestionNumber(user, 0);
         if (finalDraft == null) {
             finalDraft = new Posts();
@@ -106,6 +106,7 @@ public class AudioService {
             finalDraft.setCreatedAt(LocalDateTime.now());
         }
         finalDraft.setFinalText(finalText);
+        finalDraft.setTitle(title);
         finalDraft.setUpdatedAt(LocalDateTime.now());
         audioRepository.save(finalDraft);
     }
