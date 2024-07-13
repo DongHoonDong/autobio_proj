@@ -1,0 +1,129 @@
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    font-family: 'Pretendard-Regular', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+span {
+    color: #1f5c26;
+}
+.findinfo-title {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.findinfo-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px; /* 위쪽 여백 조정 */
+    width: 80%;
+    flex-wrap: wrap; /* 모바일에서 위아래 배치를 위해 flex-wrap 추가 */
+}
+
+.findinfo-section {
+    margin-top: 20px; /* 섹션 간격 조정 */
+    padding: 20px;
+    border-radius: 8px;
+    width: 45%;
+    text-align: center;
+}
+
+.findinfo-section h2 {
+    margin-bottom: 20px;
+}
+
+.findinfo-section form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 중앙 정렬 */
+}
+
+.findinfo-section input,
+.findinfo-section button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    width: 80%; /* 원하는 너비로 조정 */
+    max-width: 300px; /* 최대 너비 설정 */
+    box-sizing: border-box;
+}
+
+.findinfo-section input {
+    border: 1px solid #a1a1a1;
+}
+
+.findinfo-section button {
+    background-color: #1f5c26;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.findinfo-section button:hover {
+    background-color: #2b8035;
+}
+
+.result {
+    margin-top: 10px;
+    color: green;
+}
+
+.error {
+    margin-top: 10px;
+    color: red;
+}
+h1{
+    font-family: 'Pretendard-Black', serif;
+}
+/* 모바일을 위한 CSS */
+@media (max-width: 768px) {
+    .findinfo-section {
+        width: 100%; /* 모바일에서 전체 너비로 조정 */
+    }
+}

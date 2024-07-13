@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/css/user/login.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="login-container">
+    <div class="logo">LOG<span>IN</span></div>
+    <p class="message">로그인을 하시면 자서전 서비스를 이용하실 수 있습니다.</p>
+    <form th:action="@{/login}" method="post">
+        <input type="text" name="userId" placeholder="아이디를 입력해주세요." required>
+        <input type="password" name="userPwd" placeholder="비밀번호를 입력해주세요." required>
+        <div th:if="${loginError != null}" style="color: red; font-size: 15px;">
+            <p th:text="${loginError}"></p>
+        </div>
+
+        <button type="submit" class="login-btn">로그인</button>
+    </form>
+    <div class="links">
+        <a th:href="@{/register}">회원가입</a>
+        <a th:href="@{/findinfo}">아이디 / 비밀번호 찾기</a>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

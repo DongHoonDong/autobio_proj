@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이디/비밀번호 찾기</title>
+    <link rel="stylesheet" th:href="@{/css/user/findinfo.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="findinfo-title">
+    <h1><span>아이디 / 비밀번호 </span>찾기</h1>
+</div>
+<div class="findinfo-container">
+    <div class="findinfo-section">
+        <h2>아이디 찾기</h2>
+        <form th:action="@{/findId}" method="post">
+            <input type="text" name="userName" placeholder="이름을 입력해주세요." required>
+            <input type="text" name="userPhone" placeholder="전화번호를 입력해주세요." required>
+            <button type="submit">아이디 찾기</button>
+            <div th:if="${foundUserId != null}" class="result">
+                <p>아이디: <span th:text="${foundUserId}"></span></p>
+            </div>
+            <div th:if="${idError != null}" class="error">
+                <p th:text="${idError}"></p>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="findinfo-section">
+        <h2>비밀번호 찾기</h2>
+        <form th:if="${foundUser == null}" th:action="@{/findPassword}" method="post">
+            <input type="text" name="userId" placeholder="아이디" required>
+            <input type="text" name="userPhone" placeholder="전화번호" required>
+            <button type="submit">확인</button>
+            <div th:if="${pwdError != null}" class="error">
+                <p th:text="${pwdError}"></p>
+            </div>
+        </form>
+        <div th:if="${foundUser != null}">
+            <p style="color: gray"><span th:text="${foundUser.userName}"></span>님 변경하실 비밀번호를 입력해주세요.</p>
+            <form th:action="@{/resetPassword}" method="post">
+                <input type="hidden" name="userId" th:value="${foundUser.userId}">
+                <input type="password" name="newPassword" placeholder="새 비밀번호" required>
+                <input type="password" name="confirmPassword" placeholder="새 비밀번호 확인" required>
+                <button type="submit">비밀번호 변경</button>
+            </form>
+        </div>
+
+    </div>
+    <p style="margin-top: 100px; margin-bottom: 100px;">가입시 입력한 정보를 입력해주시면 아이디 / 비밀번호 찾기가 가능합니다.</p>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+
+</html>
