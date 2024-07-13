@@ -6,39 +6,43 @@
     <link rel="stylesheet" th:href="@{/css/user/adminpage.css}">
 </head>
 <body>
-<h1>관리자 페이지</h1>
-
-<!-- 사용자 관리 테이블 -->
-<h2>회원 관리</h2>
-<table>
-    <thead>
-    <tr>
-        <th>사용자 번호</th>
-        <th>사용자 이름</th>
-        <th>사용자 아이디</th>
-        <th>생년월일</th>
-        <th>전화번호</th>
-        <th>성별</th>
-        <th>역할</th>
-        <th>삭제</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.userNo}"></td>
-        <td th:text="${user.userName}"></td>
-        <td th:text="${user.userId}"></td>
-        <td th:text="${user.userBirth}"></td>
-        <td th:text="${user.userPhone}"></td>
-        <td th:text="${user.userGender}"></td>
-        <td th:text="${user.userRole}"></td>
-        <td>
-            <form th:action="@{'/admin/deleteUser/' + ${user.userNo}}" method="post">
-                <button type="submit">삭제</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div th:replace="~{fragments/header :: header}"></div>
+<main>
+    <section class="admin-section">
+        <!-- 사용자 관리 테이블 -->
+        <h2>회원 관리</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>사용자 번호</th>
+                <th>사용자 이름</th>
+                <th>사용자 아이디</th>
+                <th>생년월일</th>
+                <th>전화번호</th>
+                <th>성별</th>
+                <th>역할</th>
+                <th>삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.userNo}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.userBirth}"></td>
+                <td th:text="${user.userPhone}"></td>
+                <td th:text="${user.userGender}"></td>
+                <td th:text="${user.userRole}"></td>
+                <td>
+                    <form th:action="@{'/admin/deleteUser/' + ${user.userNo}}" method="post">
+                        <button type="submit">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+<div th:replace="~{fragments/footer :: footer}"></div>
 </body>
 </html>
