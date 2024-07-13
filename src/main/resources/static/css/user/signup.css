@@ -144,6 +144,7 @@ select.input {
     color: red;
     font-size: 13px;
     padding: 5px 0;
+}
 
 .sign-container a {
     text-decoration: none;
@@ -184,5 +185,4 @@ select.input {
     .sign-container {
         width: 100%;
     }
-}
 }
