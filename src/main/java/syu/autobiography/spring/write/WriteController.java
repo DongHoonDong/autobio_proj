@@ -37,7 +37,7 @@ public class WriteController {
             return "redirect:/login";
         }
 
-        audioService.saveFinalDraft(finalText, title, user);
+        audioService.updateFinalDraftAndTitle(finalText, title, user);
         return "redirect:/mypage";
     }
 }
