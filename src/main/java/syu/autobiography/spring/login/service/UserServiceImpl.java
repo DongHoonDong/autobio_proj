@@ -7,10 +7,13 @@ import syu.autobiography.spring.entity.Users;
 import syu.autobiography.spring.login.repository.LoginRepository;
 
 import java.util.Optional;
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
     private final LoginRepository userRepository;
+
 
     @Autowired
     public UserServiceImpl(LoginRepository userRepository) {
@@ -79,5 +82,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByUserPhone(String userPhone) {
         return userRepository.existsByUserPhone(userPhone);
+    }
+
+
+    @Override
+    public List<Users> getAllUsers() {
+        return userRepository.findAll();
     }
 }

@@ -3,6 +3,8 @@ package syu.autobiography.spring.login.service;
 import syu.autobiography.spring.dto.UserDTO;
 import syu.autobiography.spring.entity.Users;
 
+import java.util.List;
+
 public interface UserService {
     Users login(UserDTO userDTO);
     void register(UserDTO userDTO) throws Exception;
@@ -13,4 +15,8 @@ public interface UserService {
     void updatePassword(String userId, String newPassword);
     boolean existsByUserId(String userId);
     boolean existsByUserPhone(String userPhone);
+//    Object getAllUsers();
+    List<Users> getAllUsers();
+
+
 }
