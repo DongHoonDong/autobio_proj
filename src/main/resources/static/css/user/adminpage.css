@@ -1,8 +1,10 @@
 /* adminpage.css */
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
+    margin: 0;
+    padding: 0;
     background-color: #f2f2f2;
+    font-size: 14px; /* 기본 글자 크기 */
 }
 
 h1, h2 {
@@ -15,14 +17,21 @@ h1, h2 {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin: 20px auto;
-    max-width: 800px;
+    margin: 20px;
+    overflow: auto;
+    height: calc(100vh - 40px); /* 화면 전체 높이 활용 */
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* 수평 스크롤 추가 */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 12px; /* 테이블 글자 크기 줄이기 */
 }
 
 table, th, td {
@@ -30,8 +39,11 @@ table, th, td {
 }
 
 th, td {
-    padding: 10px;
+    padding: 8px; /* 패딩 줄이기 */
     text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 th {
@@ -43,20 +55,69 @@ td {
     background-color: #fff;
 }
 
+.text-ellipsis {
+    max-width: 150px; /* 필요에 따라 너비 조정 */
+}
+
 form {
     display: inline;
 }
 
 button {
-    padding: 8px 12px;
+    padding: 6px 10px; /* 버튼 패딩 줄이기 */
     background-color: #337ab7;
     color: #fff;
     border: none;
     cursor: pointer;
     border-radius: 3px;
     transition: background-color 0.3s;
+    font-size: 12px; /* 버튼 글자 크기 줄이기 */
 }
 
 button:hover {
     background-color: #23527c;
+}
+
+/* 팝업 스타일 */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 9998;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 9999;
+    max-width: 500px;
+    width: 80%;
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.popup-close {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#popupContent {
+    white-space: pre-wrap; /* 줄바꿈 유지 */
 }

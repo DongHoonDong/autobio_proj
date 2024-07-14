@@ -11,38 +11,105 @@
     <section class="admin-section">
         <!-- 사용자 관리 테이블 -->
         <h2>회원 관리</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>사용자 번호</th>
-                <th>사용자 이름</th>
-                <th>사용자 아이디</th>
-                <th>생년월일</th>
-                <th>전화번호</th>
-                <th>성별</th>
-                <th>역할</th>
-                <th>삭제</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.userNo}"></td>
-                <td th:text="${user.userName}"></td>
-                <td th:text="${user.userId}"></td>
-                <td th:text="${user.userBirth}"></td>
-                <td th:text="${user.userPhone}"></td>
-                <td th:text="${user.userGender}"></td>
-                <td th:text="${user.userRole}"></td>
-                <td>
-                    <form th:action="@{'/admin/deleteUser/' + ${user.userNo}}" method="post">
-                        <button type="submit">삭제</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <div class="table-container">
+            <table>
+                <thead>
+                <tr>
+                    <th>사용자 번호</th>
+                    <th>사용자 이름</th>
+                    <th>사용자 아이디</th>
+                    <th>생년월일</th>
+                    <th>전화번호</th>
+                    <th>성별</th>
+                    <th>역할</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.userNo}"></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.userBirth}"></td>
+                    <td th:text="${user.userPhone}"></td>
+                    <td th:text="${user.userGender}"></td>
+                    <td th:text="${user.userRole}"></td>
+                    <td>
+                        <form th:action="@{'/admin/deleteUser/' + ${user.userNo}}" method="post">
+                            <button type="submit">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <!-- 자서전 관리 테이블 -->
+        <h2>자서전 관리</h2>
+        <div class="table-container">
+            <table class="posts-table">
+                <thead>
+                <tr>
+                    <th>게시글 번호</th>
+                    <th>제목</th>
+                    <th>초안 텍스트</th>
+                    <th>GPT 텍스트</th>
+                    <th>최종 텍스트</th>
+                    <th>공개 여부</th>
+                    <th>작성일</th>
+                    <th>수정일</th>
+                    <th>작성자 번호</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post : ${posts}">
+                    <td th:text="${post.postsId}"></td>
+                    <td class="text-ellipsis" th:attr="data-content=${post.title}" onclick="showPopup(this)" th:text="${#strings.abbreviate(post.title, 20)}"></td>
+                    <td class="text-ellipsis" th:attr="data-content=${post.draftText}" onclick="showPopup(this)" th:text="${#strings.abbreviate(post.draftText, 20)}"></td>
+                    <td class="text-ellipsis" th:attr="data-content=${post.gptText}" onclick="showPopup(this)" th:text="${#strings.abbreviate(post.gptText, 20)}"></td>
+                    <td class="text-ellipsis" th:attr="data-content=${post.finalText}" onclick="showPopup(this)" th:text="${#strings.abbreviate(post.finalText, 20)}"></td>
+                    <td th:text="${post.isPublic}"></td>
+                    <td th:text="${post.createdAt}"></td>
+                    <td th:text="${post.updatedAt}"></td>
+                    <td th:text="${post.user.userNo}"></td>
+                    <td>
+                        <form th:action="@{'/admin/deletePost/' + ${post.postsId}}" method="post">
+                            <button type="submit">삭제</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 </main>
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- 팝업 창 -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
+<div class="popup" id="popup">
+    <div class="popup-header">
+        <span id="popupTitle">내용</span>
+        <span class="popup-close" onclick="closePopup()">×</span>
+    </div>
+    <div id="popupContent"></div>
+</div>
+
+<script>
+    function showPopup(element) {
+        const content = element.getAttribute('data-content');
+        document.getElementById('popupTitle').innerText = '전체 내용';
+        document.getElementById('popupContent').innerText = content;
+        document.getElementById('popupOverlay').style.display = 'block';
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popupOverlay').style.display = 'none';
+        document.getElementById('popup').style.display = 'none';
+    }
+</script>
+
 </body>
 </html>
