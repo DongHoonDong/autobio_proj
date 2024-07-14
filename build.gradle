@@ -38,6 +38,8 @@ dependencies {
     implementation 'commons-fileupload:commons-fileupload:1.5'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework:spring-web'
+    implementation 'mysql:mysql-connector-java:8.0.32'
+
 }
 
 tasks.named('test') {
