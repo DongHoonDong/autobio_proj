@@ -43,7 +43,9 @@
     });
 
     // 초기 내용 설정
-    var initialContent = /*[[${draft != null ? draft.gptText : ''}]]*/ '';
+    var finalText = /*[[${draft != null && draft.finalText != null ? draft.finalText : ''}]]*/ '';
+    var gptText = /*[[${draft != null ? draft.gptText : ''}]]*/ '';
+    var initialContent = finalText || gptText;
     quill.root.innerHTML = initialContent;
 
     function submitForm() {

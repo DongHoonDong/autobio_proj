@@ -104,9 +104,10 @@ public class AudioService {
             finalDraft.setUser(user);
             finalDraft.setQuestionNumber(0);
             finalDraft.setCreatedAt(LocalDateTime.now());
+            finalDraft.setGptText(finalText);
         }
         finalDraft.setFinalText(finalText);
-        finalDraft.setTitle(title);
+        finalDraft.setTitle(limitTitleLength(title));
         finalDraft.setUpdatedAt(LocalDateTime.now());
         audioRepository.save(finalDraft);
     }
