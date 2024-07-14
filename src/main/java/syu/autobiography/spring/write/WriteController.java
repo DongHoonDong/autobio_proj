@@ -24,7 +24,9 @@ public class WriteController {
         }
 
         Posts draft = audioService.getDraftByUser(user);
+        String textToShow = (draft.getFinalText() != null) ? draft.getFinalText() : draft.getGptText();
         model.addAttribute("draft", draft);
+        model.addAttribute("textToShow", textToShow);
         return "write/write";
     }
 
