@@ -15,7 +15,6 @@ public interface UserService {
     void updatePassword(String userId, String newPassword);
     boolean existsByUserId(String userId);
     boolean existsByUserPhone(String userPhone);
-//    Object getAllUsers();
     List<Users> getAllUsers();
 
 

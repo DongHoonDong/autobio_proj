@@ -21,4 +21,10 @@ public class PostServiceImpl implements PostService {
     public List<Posts> getAllPosts() {
         return postRepository.findAll();
     }
+
+    @Override
+    public void deletePost(int postsId) {
+        postRepository.deleteById(postsId);
+    }
 }
+

@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface PostService {
     List<Posts> getAllPosts();
+    void deletePost(int postsId);
 }

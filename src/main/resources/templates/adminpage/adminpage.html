@@ -9,8 +9,8 @@
 <div th:replace="~{fragments/header :: header}"></div>
 <main>
     <section class="admin-section">
-        <!-- 사용자 관리 테이블 -->
-        <h2>회원 관리</h2>
+        <!-- 사용자 및 자서전 관리 테이블 -->
+        <h2>회원 및 자서전 관리</h2>
         <div class="table-container">
             <table>
                 <thead>
@@ -26,6 +26,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!-- 사용자 데이터 표시 -->
                 <tr th:each="user : ${users}">
                     <td th:text="${user.userNo}"></td>
                     <td th:text="${user.userName}"></td>
@@ -35,7 +36,7 @@
                     <td th:text="${user.userGender}"></td>
                     <td th:text="${user.userRole}"></td>
                     <td>
-                        <form th:action="@{'/admin/deleteUser/' + ${user.userNo}}" method="post">
+                        <form th:action="@{'/admin/deleteUser/' + ${user.userNo}}" method="post" onsubmit="return confirm('사용자를 삭제하시겠습니까?');">
                             <button type="submit">삭제</button>
                         </form>
                     </td>
@@ -43,9 +44,9 @@
                 </tbody>
             </table>
         </div>
+
         <br>
-        <!-- 자서전 관리 테이블 -->
-        <h2>자서전 관리</h2>
+
         <div class="table-container">
             <table class="posts-table">
                 <thead>
@@ -63,6 +64,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!-- 자서전 데이터 표시 -->
                 <tr th:each="post : ${posts}">
                     <td th:text="${post.postsId}"></td>
                     <td class="text-ellipsis" th:attr="data-content=${post.title}" onclick="showPopup(this)" th:text="${#strings.abbreviate(post.title, 20)}"></td>
@@ -74,7 +76,7 @@
                     <td th:text="${post.updatedAt}"></td>
                     <td th:text="${post.user.userNo}"></td>
                     <td>
-                        <form th:action="@{'/admin/deletePost/' + ${post.postsId}}" method="post">
+                        <form th:action="@{'/admin/deletePost/' + ${post.postsId}}" method="post" onsubmit="return confirm('게시물을 삭제하시겠습니까?');">
                             <button type="submit">삭제</button>
                         </form>
                     </td>
