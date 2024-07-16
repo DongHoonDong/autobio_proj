@@ -13,10 +13,6 @@ CORS(app)
 
 load_dotenv()
 
-@app.route('/')
-def index():
-    return render_template('fileupload.html')
-
 @app.route('/upload', methods=['POST'])
 def upload_audio():
     if 'file' not in request.files:
