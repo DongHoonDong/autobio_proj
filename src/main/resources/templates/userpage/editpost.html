@@ -29,9 +29,9 @@
             <h3 th:text="${draft.questionNumber} + '장'"></h3>
             <br>
             <h3>작성 중인 내용</h3>
-            <p th:utext="${draft.draftText}"></p><br>
+            <p th:utext="${draft.draftText}" class="content-preview"></p><br>
             <h3>GPT 응답</h3>
-            <p th:utext="${draft.gptText}"></p>
+            <p th:utext="${draft.gptText}" class="gpt-text"></p>
             <button class="deletepost" type="button" th:attr="onclick=|showDeleteDraftModal(${draft.postsId})|">삭제</button>
             <th:block th:if="${draft.gptText != null and !draft.gptText.isEmpty()}">
               <button class="editpost" th:onclick="'window.location.href=\'/write?id=' + ${draft.postsId} + '\''">글 작성하기</button>
@@ -77,6 +77,16 @@
       closeDeleteDraftModal();
     }
   }
+
+  // GPT 텍스트 더보기/접기 기능
+  document.addEventListener('DOMContentLoaded', function() {
+    const gptTexts = document.querySelectorAll('.gpt-text');
+    gptTexts.forEach(text => {
+      text.addEventListener('click', function() {
+        this.classList.toggle('expanded');
+      });
+    });
+  });
 </script>
 </body>
 </html>

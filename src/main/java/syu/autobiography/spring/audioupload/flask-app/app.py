@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, session
+from flask import Flask, request, jsonify, render_template
 import os
 import speech_recognition as sr
 import requests
@@ -56,7 +56,7 @@ def recognize_speech(audio_data):
     except sr.UnknownValueError:
         return "Your speech cannot be understood"
     except sr.RequestError as e:
-        return f"Request Error; {0}".format(e)
+        return f"Request Error: {e}"
 
 def get_gpt_response(content):
     api_key = os.getenv("OPENAI_API_KEY")
@@ -106,7 +106,7 @@ def get_gpt_response(content):
     """
 
     GPTData = {
-        "model": "gpt-3.5-turbo",
+        "model": "gpt-4o",
         "max_tokens": 4096,
         "n": 1,
         "stop": None,
@@ -181,7 +181,6 @@ def generate_title_with_gpt(draft):
 
 @app.route('/generate-final-draft', methods=['POST'])
 def generate_final_draft():
-
     content = request.json.get('content')
     if not content:
         return jsonify({"error": "No content provided"}), 400

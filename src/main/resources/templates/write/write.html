@@ -4,21 +4,28 @@
     <meta charset="UTF-8">
     <title>자서전 작성하기</title>
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/write/write.css}">
     <style>
         #editor-container {
-            height: 400px;
+            height: 500px;
         }
     </style>
 </head>
 <body>
-<h1>자서전 작성</h1>
-<input type="text" id="title" th:value="${draft != null ? draft.title : ''}" placeholder="제목을 입력하세요" required>
-<div id="editor-container"></div>
-<form id="submit-form" th:action="@{/write}" method="post">
-    <input type="hidden" id="finalText" name="finalText">
-    <input type="hidden" id="hiddenTitle" name="title">
-    <button type="button" onclick="submitForm()">완성하기</button>
-</form>
+<div class="container">
+    <h1>자서전 작성</h1>
+    <div class="title-container">
+        <input type="text" id="title-input" th:value="${draft != null ? draft.title : ''}" placeholder="제목을 입력하세요" required>
+    </div>
+    <div id="editor-container"></div>
+    <form id="submit-form" th:action="@{/write}" method="post">
+        <input type="hidden" id="finalText" name="finalText">
+        <input type="hidden" id="hiddenTitle" name="title">
+        <div class="button-container">
+            <button type="button" id="complete-btn" onclick="submitForm()">완성하기</button>
+        </div>
+    </form>
+</div>
 
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script th:inline="javascript">
@@ -50,7 +57,7 @@
 
     function submitForm() {
         var content = quill.root.innerHTML;
-        var title = document.getElementById('title').value;
+        var title = document.getElementById('title-input').value;
         document.getElementById('finalText').value = content;
         document.getElementById('hiddenTitle').value = title;
         document.getElementById('submit-form').submit();
@@ -59,7 +66,7 @@
     // 자동 저장 기능
     setInterval(function() {
         localStorage.setItem('autobiographyDraft', quill.root.innerHTML);
-        localStorage.setItem('autobiographyTitle', document.getElementById('title').value);
+        localStorage.setItem('autobiographyTitle', document.getElementById('title-input').value);
     }, 5000);
 
     // 페이지 로드 시 저장된 내용 불러오기
@@ -69,8 +76,8 @@
         if (savedContent && !initialContent) {
             quill.root.innerHTML = savedContent;
         }
-        if (savedTitle && !document.getElementById('title').value) {
-            document.getElementById('title').value = savedTitle;
+        if (savedTitle && !document.getElementById('title-input').value) {
+            document.getElementById('title-input').value = savedTitle;
         }
     }
 </script>

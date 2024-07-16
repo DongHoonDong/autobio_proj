@@ -414,3 +414,44 @@
 .editpost:hover {
     background-color: #33a13e;
 }
+
+.content-preview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.5em;
+    max-height: 4.5em;
+}
+
+.gpt-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.5em;
+    max-height: 4.5em;
+    position: relative;
+    cursor: pointer;
+}
+
+.gpt-text.expanded {
+    -webkit-line-clamp: unset;
+    max-height: none;
+}
+
+.gpt-text::after {
+    content: '...더 보기';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    padding-left: 4px;
+    color: blue;
+}
+
+.gpt-text.expanded::after {
+    content: '접기';
+}

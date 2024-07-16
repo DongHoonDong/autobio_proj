@@ -26,7 +26,7 @@
                 <div th:each="post : ${myPosts}" class="story">
                     <div class="story-info">
                         <h3 th:text="${post.title}"></h3>
-                        <p th:utext="${post.finalText}" class="content-preview"></p>
+                        <p th:text="${#strings.abbreviate(#strings.replace(post.finalText, '<p>', ''), 100)}" class="content-preview"></p>
                         <div class="story-meta">
                             <div class="author">
                                 <span th:text="'By ' + ${post.userName}">By User</span>
