@@ -48,7 +48,7 @@
     <section class="side_info">
         <h3>마이 메뉴</h3>
         <ul>
-            <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
+            <li><a th:href="@{/mypage}">내가 쓴 자서전</a></li>
             <li><a th:href="@{/edit}">작성 중인 자서전</a> </li>
             <li><a th:href="@{/likelist}">좋아요 목록</a></li>
             <li><a th:href="@{/myinfo}">정보 수정</a></li>
@@ -79,8 +79,8 @@
                 <p>생년월일</p>
                 <span th:text="${user.userBirth}"></span><br><br>
                 <p>성별</p>
-                <span th:if="${user.userGender == 'M'}">남자</span>
-                <span th:if="${user.userGender == 'F'}">여자</span>
+                <span th:if="${user.userGender == 'M' or user.userGender == '남'}">남자</span>
+                <span th:if="${user.userGender == 'F' or user.userGender == '여'}">여자</span>
                 <div th:if="${error}" style="color: red;">
                     <p th:text="${error}"></p>
                 </div><br>
@@ -119,7 +119,7 @@
 
     //외부 클릭 시 닫기
     window.onclick = function(event) {
-        if (event.target == document.getElementById("myModal")) {
+        if (event.target === document.getElementById("myModal")) {
             closeModal();
         }
     }
