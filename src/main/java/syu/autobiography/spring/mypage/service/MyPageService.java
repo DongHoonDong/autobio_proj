@@ -107,4 +107,39 @@ public class MyPageService {
         LocalDate birthDate = LocalDate.parse(birthDateString, formatter);
         return Period.between(birthDate, LocalDate.now()).getYears();
     }
+
+    // MyPageService.java
+
+    public void updatePost(int postsId, String title, String finalText) {
+        Posts post = myPageRepository.findById(postsId)
+                .orElseThrow(() -> new IllegalArgumentException("글이 존재하지 않습니다."));
+
+        post.setTitle(title);
+        post.setFinalText(finalText);
+
+        myPageRepository.save(post);
+    }
+
+    public PostsDTO getPostById(int postsId) {
+        Posts post = myPageRepository.findById(postsId)
+                .orElseThrow(() -> new IllegalArgumentException("글이 존재하지 않습니다."));
+
+        return new PostsDTO(
+                post.getPostsId(),
+                post.getUser().getUserNo(),
+                post.getQuestionNumber(),
+                post.getDraftText(),
+                post.getGptText(),
+                post.getFinalText(),
+                post.getTitle(),
+                post.getIsPublic(),
+                post.getCreatedAt(),
+                post.getUpdatedAt(),
+                post.getUser().getUserName(),
+                calculateAge(post.getUser().getUserBirth()),
+                likesRepository.countByPostsId(post.getPostsId()),
+                false
+        );
+    }
+
 }
