@@ -25,7 +25,8 @@ public class MyPageController {
         this.myPageService = myPageService;
         this.userService = userService;
     }
-    //마이페이지
+
+    // 마이페이지
     @GetMapping("/mypage")
     public String getMyPage(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -40,7 +41,8 @@ public class MyPageController {
 
         return "userpage/mypage";
     }
-    //마이페이지 정보수정
+
+    // 마이페이지 정보수정
     @GetMapping("/edit")
     public String getDrafts(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -55,9 +57,10 @@ public class MyPageController {
 
         return "userpage/editpost";
     }
-    //글삭제
+
+    // 글삭제
     @PostMapping("/delete-draft")
-    public String deleteDraft(@RequestParam int postId, HttpSession session, Model model) {
+    public String deleteDraft(@RequestParam(name = "postId") int postId, HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
 
         if (currentUser == null) {
@@ -67,13 +70,15 @@ public class MyPageController {
         myPageService.deletePost(postId);
         return "redirect:/edit";
     }
-    //비공개-공개처리
+
+    // 비공개-공개처리
     @PostMapping("/toggleVisibility")
-    public String toggleVisibility(@RequestParam int postsId, @RequestParam String isPublic) {
+    public String toggleVisibility(@RequestParam(name = "postsId") int postsId, @RequestParam(name = "isPublic") String isPublic) {
         myPageService.updatePostVisibility(postsId, isPublic);
         return "redirect:/mypage";
     }
-    //좋아요목록
+
+    // 좋아요목록
     @GetMapping("/likelist")
     public String getLikedPosts(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -88,7 +93,8 @@ public class MyPageController {
 
         return "userpage/likelist";
     }
-    //내정보
+
+    // 내정보
     @GetMapping("/myinfo")
     public String getMyInfo(Model model, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -100,13 +106,14 @@ public class MyPageController {
         model.addAttribute("user", currentUser);
         return "userpage/myinfo";
     }
-    //내정보
+
+    // 내정보 수정
     @PostMapping("/myinfo")
-    public String updateMyInfo(@RequestParam String userName,
-                               @RequestParam String userPhone,
-                               @RequestParam(required = false) String currentPwd,
-                               @RequestParam(required = false) String newPwd,
-                               @RequestParam(required = false) String confirmPwd,
+    public String updateMyInfo(@RequestParam(name = "userName") String userName,
+                               @RequestParam(name = "userPhone") String userPhone,
+                               @RequestParam(name = "currentPwd", required = false) String currentPwd,
+                               @RequestParam(name = "newPwd", required = false) String newPwd,
+                               @RequestParam(name = "confirmPwd", required = false) String confirmPwd,
                                Model model,
                                HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -146,7 +153,8 @@ public class MyPageController {
 
         return "redirect:/myinfo";
     }
-    //탈퇴
+
+    // 탈퇴 페이지
     @GetMapping("/delete-account")
     public String getDeleteAccountPage(HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
@@ -158,9 +166,10 @@ public class MyPageController {
         model.addAttribute("user", currentUser);
         return "userpage/goodbye";
     }
-    //탈퇴
+
+    // 탈퇴 처리
     @PostMapping("/delete-account")
-    public String deleteAccount(@RequestParam String password, HttpSession session, Model model) {
+    public String deleteAccount(@RequestParam(name = "password") String password, HttpSession session, Model model) {
         Users currentUser = (Users) session.getAttribute("user");
 
         if (currentUser == null) {
@@ -177,9 +186,10 @@ public class MyPageController {
 
         return "redirect:/delete-success";
     }
-    //글지우기
+
+    // 글 삭제
     @PostMapping("/delete-post")
-    public String deletePost(@RequestParam int postId, HttpSession session, Model model) {
+    public String deletePost(@RequestParam(name = "postId") int postId, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
 
         if (currentUser == null) {
@@ -189,10 +199,35 @@ public class MyPageController {
         myPageService.deletePost(postId);
         return "redirect:/mypage";
     }
-    //탈퇴완료
+
+    // 탈퇴 완료 페이지
     @GetMapping("/delete-success")
     public String getDeleteSuccessPage() {
         return "userpage/delete-success";
     }
 
+    // 포스트 수정 페이지
+    @GetMapping("/edit-post")
+    public String getEditPostPage(@RequestParam(name = "postsId") int postsId, Model model, HttpSession session) {
+        Users currentUser = (Users) session.getAttribute("user");
+
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+
+        PostsDTO postDTO = myPageService.getPostById(postsId);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("post", postDTO);
+
+        return "userpage/editpost";
+    }
+
+    // 포스트 수정 처리
+    @PostMapping("/edit-post")
+    public String editPost(@RequestParam(name = "postsId") int postsId,
+                           @RequestParam(name = "title") String title,
+                           @RequestParam(name = "finalText") String finalText) {
+        myPageService.updatePost(postsId, title, finalText);
+        return "redirect:/mypage";
+    }
 }

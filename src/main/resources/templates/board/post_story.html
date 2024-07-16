@@ -46,15 +46,6 @@
         <a th:if="${currentPage < totalPages}" th:href="@{/board/post_story(page=${currentPage + 1})}">&gt;</a>
     </div>
 </main>
-<footer>
-    <div class="footer-content">
-        <div class="footer-section">푸터</div>
-        <div class="footer-section">푸터</div>
-        <div class="footer-section">푸터</div>
-        <div class="footer-section">푸터</div>
-    </div>
-    <p>© 2024 autobiography all rights reserved</p>
-</footer>
 
 <div id="loginModal" class="modal">
     <div class="modal-content">
@@ -62,6 +53,9 @@
         <p>로그인이 필요한 서비스입니다.</p>
     </div>
 </div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
 <script>
     function toggleLike(event) {
         const button = event.currentTarget;

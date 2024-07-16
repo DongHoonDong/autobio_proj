@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>마이페이지 - 좋아요 목록</title>
@@ -12,7 +12,7 @@
     <section class="side_info">
         <h3>마이 메뉴</h3>
         <ul>
-            <li><a th:href="@{/mypage}">내 자서전 보기</a></li>
+            <li><a th:href="@{/mypage}">내가 쓴 자서전</a></li>
             <li><a th:href="@{/edit}">작성 중인 자서전</a> </li>
             <li><a th:href="@{/likelist}">좋아요 목록</a></li>
             <li><a th:href="@{/myinfo}">정보 수정</a></li>
@@ -22,9 +22,9 @@
     <section class="main_content">
     <div class = "my_posts_info">
     <h2>관심 있는 자서전</h2>
-    <h3 style="font-family: 'ChosunCentennial'"><span th:text="${user.userName}"></span>님이 좋아요 눌러주신 자서전 목록이에요.</h3>
+    <h3 style="font-family: 'ChosunCentennial', serif"><span th:text="${user.userName}"></span>님이 좋아요 눌러주신 자서전 목록이에요.</h3>
         <div class="stories">
-            <div th:each="post : ${likedPosts}"class="story">
+            <div th:each="post : ${likedPosts}" class="story">
                 <div class="story-info">
                     <h3 th:text="${post.title}">제목</h3>
                     <p th:utext="${post.finalText}" class="content-preview">내용</p>
