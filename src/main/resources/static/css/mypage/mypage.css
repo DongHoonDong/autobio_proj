@@ -233,7 +233,7 @@
 }
 .userdelete .button {
     padding: 8px 10px;
-    border-radius: 12px;
+    border-radius: 15px;
     border: none;
     font-size: 15px;
     margin-top: 20px;
@@ -305,7 +305,7 @@
     background-color: #ff3030;
     color: white;
     padding: 8px 10px;
-    border-radius: 12px;
+    border-radius: 15px;
     border: none;
     cursor: pointer;
 }
@@ -317,7 +317,7 @@
     background-color: #ff3030;
     color: white;
     padding: 8px 10px;
-    border-radius: 12px;
+    border-radius: 15px;
     border: none;
     cursor: pointer;
     margin: 0 0 5px 0;
@@ -329,7 +329,7 @@
     background-color: #616161;
     color: white;
     padding: 8px 10px;
-    border-radius: 12px;
+    border-radius: 15px;
     border: none;
     cursor: pointer;
     margin: 5px 0;
@@ -342,7 +342,7 @@
     background-color: #ff3030;
     color: white;
     padding: 8px 10px;
-    border-radius: 12px;
+    border-radius: 15px;
     border: none;
     cursor: pointer;
     margin: 5px 0;
@@ -393,7 +393,7 @@
 
     padding: 8px 12px;
     font-size: 16px;
-    border-radius: 12px;
+    border-radius: 15px;
     border:none;
     cursor: pointer;
 }

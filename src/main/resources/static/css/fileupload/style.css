@@ -1,27 +1,98 @@
+@font-face {
+    font-family: 'Chosunilbo_myungjo';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Chosunilbo_myungjo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ChosunCentennial';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/ChosunCentennial.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'Pretendard-Regular', sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    padding: 5%;
+    width: 90%;
+    margin: 0 auto;  /* 가운데 정렬 */
+}
+
+h2 {
+    font-family: 'Pretendard-Black', serif;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+form {
+    margin: 20px auto;
+    text-align: center;
+}
+
+input[type="file"] {
+    margin-top: 10px;
+}
+
+button {
+    background-color: #007bff;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-family: 'Pretendard-Medium', sans-serif;
+    font-size: 16px;
+
+}
+
+button:hover {
+    background-color: #3383ff;
+}
+
 .loader-container {
     display: flex;
     align-items: center;
-}
-#result {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-#result p {
-    margin-bottom: 10px;
-}
-
-#error {
-    color: red;
-}
-
-#uploadingMsg, #updatingMsg {
-    display: none;
-    color: #333;
-    margin-top: 10px;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .loader {
@@ -39,4 +110,114 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+.result-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.result-container p {
+    margin-bottom: 10px;
+}
+
+textarea#transcriptEditor {
+    width: 100%;
+    height: auto; /* 자동으로 높이 조절 */
+    resize: none;
+    border: 1px solid #ddd;
+    font-family: 'Pretendard-Light', sans-serif;
+    font-size: 16px;
+    overflow: hidden; /* 스크롤바 숨기기 */
+    margin-top: 7px; /* 상단 여백 추가 */
+}
+
+#transcript {
+    font-family: 'Pretendard-Light', sans-serif;
+}
+
+
+
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.fixed-button {
+    background-color: #2b8335;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 30px auto;
+    text-align: center;
+    font-family: 'Pretendard-Regular', sans-serif;
+}
+
+.fixed-button:hover {
+    background-color: #33a13e;
+}
+
+.fixed-button.position-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.flex-item {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.flex-item:last-child {
+    margin-right: 0;
+}
+
+#voiceRecord {
+    font-family: 'Pretendard-Medium', sans-serif;
+}
+
+#correction {
+    font-family: 'Pretendard-Medium', sans-serif;
+}
+
+.button-container {
+    text-align: right; /* 버튼을 오른쪽으로 정렬 */
+}
+
+.backButton {
+    background-color: #fff;
+    color: #0c1219;
+
+}
+
+.backButton:hover {
+    background-color: #eeeeee;
+
 }

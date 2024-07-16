@@ -2,33 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>우리 후손들이 행복하게 살아가려면 어떻게 해야 할까요? 삶의 지혜를 나눠주세요.</title>
+    <title>마지막 질문</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/fileupload/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h2>우리 후손들이 행복하게 살아가려면 어떻게 해야 할까요? 삶의 지혜를 나눠주세요.</h2>
-<form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="file" required>
-    <input type="hidden" name="questionNumber" value="5">
-    <br><br>
-    <button type="submit">업로드하기</button>
-    <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
-</form>
+<div class="container">
+    <h2>우리 후손들이 행복하게 살아가려면 어떻게 해야 할까요? 삶의 지혜를 나눠주세요.</h2>
 
-<h1>인식 결과</h1>
-<div id="result">
-    <p><strong>녹음된 내용:</strong> <span id="transcript">녹음된 내용이 표시됩니다</span></p>
-    <p><strong>녹음된 내용 수정:</strong><br> <textarea id="transcriptEditor" rows="10" cols="50"></textarea></p>
-    <button id="updateBtn">수정하기</button>
-    <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
-</div>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <input type="hidden" name="questionNumber" value="5">
+        <br><br>
+        <button type="submit" class="button">업로드하기</button>
+        <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
+    </form>
 
-<div id="error"></div>
+    <div class="result-container">
+        <div class="flex-container">
+            <div class="flex-item">
+                <p id="voiceRecord">음성 기록</p>
+                <p id="transcript">이곳에 녹음된 내용이 표시됩니다</p>
+            </div>
+            <div class="flex-item">
+                <p id="correction">수정하기</p>
+                <textarea id="transcriptEditor" rows="10" cols="50" placeholder="초안을 보고 이야기를 더 써내려가 보세요"></textarea>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="updateBtn" class="button">수정하기</button>
+        </div>
+        <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
+    </div>
+
+    <div id="error" class="error"></div>
 
 <button id="completeBtn" class="fixed-button">초안 생성하기</button>
+</div>
 
 <div id="loadingOverlay" class="overlay" style="display: none;">
     <div class="loading-content">
@@ -37,140 +49,147 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        let isRequesting = false;
+    <script>
+        $(document).ready(function() {
+            let isRequesting = false;
 
-        function log(message) {
-            console.log(new Date().toISOString() + ": " + message);
-        }
-
-        $('#uploadForm').on('submit', function(e) {
-            e.preventDefault();
-            if (isRequesting) {
-                log("Upload already in progress");
-                return;
+            function log(message) {
+                console.log(new Date().toISOString() + ": " + message);
             }
-            isRequesting = true;
-            log("Starting file upload");
 
-            var formData = new FormData(this);
-            $.ajax({
-                url: '/upload',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() {
-                    $('#uploadingMsg').show();
-                },
-                success: function(data) {
-                    $('#uploadingMsg').hide();
-                    log("Upload successful");
-
-                    if (data.error) {
-                        $('#error').text(data.error);
-                    } else {
-                        $('#transcript').text(data.transcript);
-                        $('#transcriptEditor').val(data.transcript);
-                        $('#error').text('');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#uploadingMsg').hide();
-                    $('#error').text('An error occurred: ' + errorThrown);
-                    log("Upload error: " + errorThrown);
-                },
-                complete: function() {
-                    isRequesting = false;
+            $('#uploadForm').on('submit', function(e) {
+                e.preventDefault();
+                if (isRequesting) {
+                    log("Upload already in progress");
+                    return;
                 }
+                isRequesting = true;
+                log("Starting file upload");
+
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('#uploadingMsg').show();
+                    },
+                    success: function(data) {
+                        $('#uploadingMsg').hide();
+                        log("Upload successful");
+
+                        if (data.error) {
+                            $('#error').text(data.error);
+                        } else {
+                            $('#transcript').text(data.transcript);
+                            $('#transcriptEditor').val(data.transcript);
+                            $('#error').text('');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#uploadingMsg').hide();
+                        $('#error').text('An error occurred: ' + errorThrown);
+                        log("Upload error: " + errorThrown);
+                    },
+                    complete: function() {
+                        isRequesting = false;
+                    }
+                });
+            });
+
+            $('#updateBtn').on('click', function() {
+                if (isRequesting) {
+                    log("Update already in progress");
+                    return;
+                }
+                isRequesting = true;
+                log("Starting transcript update");
+
+                var updatedTranscript = $('#transcriptEditor').val();
+                var questionNumber = $('input[name="questionNumber"]').val();
+
+                $.ajax({
+                    url: '/update',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        transcript: updatedTranscript,
+                        questionNumber: questionNumber
+                    }),
+                    beforeSend: function() {
+                        $('#updatingMsg').show();
+                    },
+                    success: function(data) {
+                        $('#updatingMsg').hide();
+                        log("Update successful");
+
+                        if (data.error) {
+                            $('#error').text(data.error);
+                        } else {
+                            $('#transcript').text(updatedTranscript);
+                            $('#error').text('');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#updatingMsg').hide();
+                        $('#error').text('An error occurred: ' + errorThrown);
+                        log("Update error: " + errorThrown);
+                    },
+                    complete: function() {
+                        isRequesting = false;
+                    }
+                });
+            });
+
+            // 변경된 부분: 아래의 코드를 추가하여 textarea 자동 높이 조절 기능을 포함시킵니다.
+            $('#transcriptEditor').on('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            $('#completeBtn').on('click', function() {
+                if (isRequesting) {
+                    log("Final draft generation already in progress");
+                    return;
+                }
+                isRequesting = true;
+                log("Starting final draft generation");
+
+                $(this).prop('disabled', true);  // 버튼 비활성화
+
+                $.ajax({
+                    url: '/generate-final-draft',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({}),
+                    beforeSend: function() {
+                        $('#loadingOverlay').fadeIn(300);
+                    },
+                    success: function(data) {
+                        log("Final draft generation successful");
+                        if (data.error) {
+                            $('#error').text("Error: " + data.error);
+                        } else {
+                            window.location.href = '/final-draft';
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#error').text("초안 생성 중 오류가 발생했습니다: " + errorThrown);
+                        log("Final draft generation error: " + errorThrown);
+                    },
+                    complete: function() {
+                        $('#loadingOverlay').fadeOut(300);
+                        $('#completeBtn').prop('disabled', false);
+                        isRequesting = false;
+                    }
+                });
             });
         });
+    </script>
 
-        $('#updateBtn').on('click', function() {
-            if (isRequesting) {
-                log("Update already in progress");
-                return;
-            }
-            isRequesting = true;
-            log("Starting transcript update");
-
-            var updatedTranscript = $('#transcriptEditor').val();
-            var questionNumber = $('input[name="questionNumber"]').val();
-
-            $.ajax({
-                url: '/update',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    transcript: updatedTranscript,
-                    questionNumber: questionNumber
-                }),
-                beforeSend: function() {
-                    $('#updatingMsg').show();
-                },
-                success: function(data) {
-                    $('#updatingMsg').hide();
-                    log("Update successful");
-
-                    if (data.error) {
-                        $('#error').text(data.error);
-                    } else {
-                        $('#transcript').text(updatedTranscript);
-                        $('#error').text('');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#updatingMsg').hide();
-                    $('#error').text('An error occurred: ' + errorThrown);
-                    log("Update error: " + errorThrown);
-                },
-                complete: function() {
-                    isRequesting = false;
-                }
-            });
-        });
-
-        $('#completeBtn').on('click', function() {
-            if (isRequesting) {
-                log("Final draft generation already in progress");
-                return;
-            }
-            isRequesting = true;
-            log("Starting final draft generation");
-
-            $(this).prop('disabled', true);  // 버튼 비활성화
-
-            $.ajax({
-                url: '/generate-final-draft',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({}),
-                beforeSend: function() {
-                    $('#loadingOverlay').fadeIn(300);
-                },
-                success: function(data) {
-                    log("Final draft generation successful");
-                    if (data.error) {
-                        $('#error').text("Error: " + data.error);
-                    } else {
-                        window.location.href = '/final-draft';
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#error').text("초안 생성 중 오류가 발생했습니다: " + errorThrown);
-                    log("Final draft generation error: " + errorThrown);
-                },
-                complete: function() {
-                    $('#loadingOverlay').fadeOut(300);
-                    $('#completeBtn').prop('disabled', false);
-                    isRequesting = false;
-                }
-            });
-        });
-    });
-</script>
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>

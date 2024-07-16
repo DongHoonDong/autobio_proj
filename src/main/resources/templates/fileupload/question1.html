@@ -2,33 +2,45 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>소중한 어린 시절 추억이나 가족 이야기를 들려주시겠어요?</title>
+    <title>첫 번째 질문</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/fileupload/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h2>소중한 어린 시절 추억이나 가족 이야기를 들려주시겠어요?</h2>
-<form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="file" required>
-    <input type="hidden" name="questionNumber" value="1">
-    <br><br>
-    <button type="submit">업로드하기</button>
-    <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
-</form>
+<div class="container">
+    <h2>소중한 어린 시절 추억이나 가족 이야기를 들려주시겠어요?</h2>
 
-<h1>인식 결과</h1>
-<div id="result">
-    <p><strong>녹음된 내용:</strong> <span id="transcript">녹음된 내용이 표시됩니다</span></p>
-    <p><strong>녹음된 내용 수정:</strong><br> <textarea id="transcriptEditor" rows="10" cols="50"></textarea></p>
-    <button id="updateBtn">수정하기</button>
-    <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <input type="hidden" name="questionNumber" value="1">
+        <br><br>
+        <button type="submit" class="button">업로드하기</button>
+        <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
+    </form>
+
+    <div class="result-container">
+        <div class="flex-container">
+            <div class="flex-item">
+                <p id="voiceRecord">음성 기록</p>
+                <p id="transcript">이곳에 녹음된 내용이 표시됩니다</p>
+            </div>
+            <div class="flex-item">
+                <p id="correction">수정하기</p>
+                <textarea id="transcriptEditor" rows="10" cols="50" placeholder="초안을 보고 이야기를 더 써내려가 보세요"></textarea>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="updateBtn" class="button">수정하기</button>
+        </div>
+        <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
+    </div>
+
+    <div id="error" class="error"></div>
+
+    <button class="fixed-button button" onclick="window.location.href='/question2'">두 번째 질문으로 이동하기 →</button>
 </div>
-
-<div id="error"></div>
-
-<button class="fixed-button" onclick="window.location.href='/question2'">두 번째 질문으로 이동하기 →</button>
 
 <script>
     $(document).ready(function() {
@@ -58,7 +70,7 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#uploadingMsg').hide();
-                    $('#error').text('An error occurred: ' + errorThrown);
+                    $('#error').text('오류 발생: ' + errorThrown);
                 }
             });
         });
@@ -90,14 +102,20 @@
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     $('#updatingMsg').hide();
-                    $('#error').text('An error occurred: ' + errorThrown);
+                    $('#error').text('오류 발생: ' + errorThrown);
                 }
             });
         });
+
+        // textarea 자동 높이 조절
+        $('#transcriptEditor').on('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
     });
 </script>
+
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
-
 </html>

@@ -2,101 +2,123 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>살아오시면서 겪으신 어려움 중 가장 기억에 남는 일과 그때의 마음가짐은 어떠셨나요?</title>
+    <title>두 번째 질문</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/fileupload/style.css}">
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
 
-<h2>살아오시면서 겪으신 어려움 중 가장 기억에 남는 일과 그때의 마음가짐은 어떠셨나요?</h2>
-<form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="file" required>
-    <input type="hidden" name="questionNumber" value="2">  <!-- 각 챕터/질문에 맞는 번호로 변경 -->
-    <br><br>
-    <button type="submit">업로드하기</button>
-    <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
-</form>
+<div class="container">
+    <h2>살아오시면서 겪으신 어려움 중 가장 기억에 남는 일과 그때의 마음가짐은 어떠셨나요?</h2>
 
-<h1>인식 결과</h1>
-<div id="result">
-    <p><strong>녹음된 내용:</strong> <span id="transcript">녹음된 내용이 표시됩니다</span></p>
-    <p><strong>녹음된 내용 수정:</strong><br> <textarea id="transcriptEditor" rows="10" cols="50"></textarea></p>
-    <button id="updateBtn">수정하기</button>
-    <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <input type="hidden" name="questionNumber" value="2">
+        <br><br>
+        <button type="submit" class="button">업로드하기</button>
+        <span id="uploadingMsg" class="loader-container" style="display: none;">인식중입니다... <div class="loader"></div></span>
+    </form>
+
+    <div class="result-container">
+        <div class="flex-container">
+            <div class="flex-item">
+                <p id="voiceRecord">음성 기록</p>
+                <p id="transcript">이곳에 녹음된 내용이 표시됩니다</p>
+            </div>
+            <div class="flex-item">
+                <p id="correction">수정하기</p>
+                <textarea id="transcriptEditor" rows="10" cols="50" placeholder="초안을 보고 이야기를 더 써내려가 보세요"></textarea>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="updateBtn" class="button">수정하기</button>
+        </div>
+        <span id="updatingMsg" class="loader-container" style="display: none;">수정 중입니다... <div class="loader"></div></span>
+    </div>
+
+    <div id="error" class="error"></div>
+
+    <div class="button-container" style="display: flex; justify-content: center;">
+        <button class="fixed-button backButton" onclick="window.location.href='/question1'" style="margin-right: 10px;">← 이전 질문으로 이동하기</button>
+        <button class="fixed-button button" onclick="window.location.href='/question3'" style="margin-left: 10px;">세 번째 질문으로 이동하기 →</button>
+    </div>
 </div>
 
-<div id="error"></div>
+    <script>
+        $(document).ready(function() {
+            $('#uploadForm').on('submit', function(e) {
+                e.preventDefault();
 
-<button class="fixed-button" onclick="window.location.href='/question3'">세 번째 질문으로 이동하기 →</button>
+                var formData = new FormData(this);
+                $.ajax({
+                    url: '/upload',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function() {
+                        $('#uploadingMsg').show();
+                    },
+                    success: function(data) {
+                        $('#uploadingMsg').hide();
 
-<script>
-    $(document).ready(function() {
-        $('#uploadForm').on('submit', function(e) {
-            e.preventDefault();
-
-            var formData = new FormData(this);
-            $.ajax({
-                url: '/upload',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() {
-                    $('#uploadingMsg').show();
-                },
-                success: function(data) {
-                    $('#uploadingMsg').hide();
-
-                    if (data.error) {
-                        $('#error').text(data.error);
-                    } else {
-                        $('#transcript').text(data.transcript);
-                        $('#transcriptEditor').val(data.transcript);
-                        $('#error').text('');
+                        if (data.error) {
+                            $('#error').text(data.error);
+                        } else {
+                            $('#transcript').text(data.transcript);
+                            $('#transcriptEditor').val(data.transcript);
+                            $('#error').text('');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#uploadingMsg').hide();
+                        $('#error').text('오류 발생: ' + errorThrown);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#uploadingMsg').hide();
-                    $('#error').text('An error occurred: ' + errorThrown);
-                }
+                });
+            });
+
+            $('#updateBtn').on('click', function() {
+                var updatedTranscript = $('#transcriptEditor').val();
+                var questionNumber = $('input[name="questionNumber"]').val();
+
+                $.ajax({
+                    url: '/update',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        transcript: updatedTranscript,
+                        questionNumber: questionNumber
+                    }),
+                    beforeSend: function() {
+                        $('#updatingMsg').show();
+                    },
+                    success: function(data) {
+                        $('#updatingMsg').hide();
+
+                        if (data.error) {
+                            $('#error').text(data.error);
+                        } else {
+                            $('#transcript').text(updatedTranscript);
+                            $('#error').text('');
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('#updatingMsg').hide();
+                        $('#error').text('오류 발생: ' + errorThrown);
+                    }
+                });
+            });
+
+            // textarea 자동 높이 조절
+            $('#transcriptEditor').on('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
             });
         });
+    </script>
 
-        $('#updateBtn').on('click', function() {
-            var updatedTranscript = $('#transcriptEditor').val();
-            var questionNumber = $('input[name="questionNumber"]').val();
-
-            $.ajax({
-                url: '/update',
-                type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
-                    transcript: updatedTranscript,
-                    questionNumber: questionNumber
-                }),
-                beforeSend: function() {
-                    $('#updatingMsg').show();
-                },
-                success: function(data) {
-                    $('#updatingMsg').hide();
-
-                    if (data.error) {
-                        $('#error').text(data.error);
-                    } else {
-                        $('#transcript').text(updatedTranscript);
-                        $('#error').text('');
-                    }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    $('#updatingMsg').hide();
-                    $('#error').text('An error occurred: ' + errorThrown);
-                }
-            });
-        });
-    });
-</script>
-<div th:replace="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 </body>
 </html>
