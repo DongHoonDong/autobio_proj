@@ -51,6 +51,7 @@
                             </form>
                         </div>
                         <button class="deletepost" type="button" th:attr="onclick=|showDeletePostModal(${post.postsId})|">삭제</button>
+                        <button class="editpost" th:onclick="'window.location.href=\'/write?id=' + ${post.postsId} + '\''">수정</button>
                     </div>
                 </div>
             </div>

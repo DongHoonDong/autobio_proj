@@ -400,3 +400,17 @@
 .my_info button:hover{
     background-color: #33a13e;
 }
+
+.editpost {
+    font-family: 'Pretendard-Regular', sans-serif;
+    background-color: #2b8335;
+    color: white;
+    padding: 8px 10px;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    margin: 0 0 5px 5px;
+}
+.editpost:hover {
+    background-color: #33a13e;
+}

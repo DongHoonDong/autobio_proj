@@ -33,6 +33,9 @@
             <h3>GPT 응답</h3>
             <p th:utext="${draft.gptText}"></p>
             <button class="deletepost" type="button" th:attr="onclick=|showDeleteDraftModal(${draft.postsId})|">삭제</button>
+            <th:block th:if="${draft.gptText != null and !draft.gptText.isEmpty()}">
+              <button class="editpost" th:onclick="'window.location.href=\'/write?id=' + ${draft.postsId} + '\''">글 작성하기</button>
+            </th:block>
           </div>
         </div>
       </div>
