@@ -74,7 +74,6 @@ main {
     flex: 1;
     width: 100%;
 }
-
 footer {
     background-color: #333;
     color: #fff;
@@ -85,21 +84,29 @@ footer {
     margin-top: auto;
 }
 
-.footer-content {
+footer div {
     display: flex;
-    justify-content: space-around;
-    padding: 20px 0;
+    justify-content: center; /* Horizontally center align */
+    align-items: center;
+    flex-wrap: wrap; /* Allow items to wrap if necessary */
+    gap: 20px; /* Adjust the gap between links */
 }
 
-.footer-section {
-    flex: 1;
-    padding: 10px;
+footer div a {
+    text-decoration: none;
+    color: white;
+    font-size: 14px;
+}
+
+footer div a:hover {
+    text-decoration: underline;
 }
 
 footer p {
     margin: 10px 0 0 0;
     font-size: 14px;
 }
+
 
 footer p a {
     text-decoration: none;

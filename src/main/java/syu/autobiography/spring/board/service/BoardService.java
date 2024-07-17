@@ -40,8 +40,11 @@ public class BoardService {
         Users currentUser = (Users) session.getAttribute("user");
         int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1;
 
-        return boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(PageRequest.of(0, limit)).getContent().stream()
-                .filter(posts -> posts.getFinalText() != null) // 필터링 추가
+        List<Posts> allPosts = boardRepository.findAll(); // 모든 게시글 조회
+        List<PostsDTO> topStories = allPosts.stream()
+                .filter(posts -> "Y".equals(posts.getIsPublic()) && posts.getFinalText() != null) // 필터링 추가
+                .sorted((p1, p2) -> Integer.compare(p2.getLikes().size(), p1.getLikes().size())) // 좋아요 수로 정렬
+                .limit(limit) // 상위 limit개의 게시글만 가져오기
                 .map(posts -> {
                     int userAge = calculateAge(posts.getUser().getUserBirth());
                     String truncatedText = truncateContent(posts.getFinalText());
@@ -50,16 +53,19 @@ public class BoardService {
                     return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getGptText(), posts.getFinalText(), posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
                 })
                 .collect(Collectors.toList());
+
+        return topStories;
     }
+
 
     public Page<PostsDTO> getAllDrafts(PageRequest pageRequest, HttpSession session) {
         Users currentUser = (Users) session.getAttribute("user");
         int currentUserNo = (currentUser != null) ? currentUser.getUserNo() : -1;
 
-        Page<Posts> postsPage = boardRepository.findAllPublicWithUsersAndLikesOrderByLikesCountDesc(pageRequest);
-
-        List<PostsDTO> postsDTOList = postsPage.stream()
-                .filter(posts -> posts.getFinalText() != null) // 필터링 추가
+        List<Posts> allPosts = boardRepository.findAll(); // 모든 게시글 조회
+        List<PostsDTO> filteredPostsDTOList = allPosts.stream()
+                .filter(posts -> "Y".equals(posts.getIsPublic()) && posts.getFinalText() != null) // 필터링 추가
+                .sorted((p1, p2) -> Integer.compare(p2.getLikes().size(), p1.getLikes().size())) // 좋아요 수로 정렬
                 .map(posts -> {
                     int userAge = calculateAge(posts.getUser().getUserBirth());
                     String truncatedText = truncateContent(posts.getFinalText());
@@ -69,8 +75,14 @@ public class BoardService {
                 })
                 .collect(Collectors.toList());
 
-        return new PageImpl<>(postsDTOList, pageRequest, postsPage.getTotalElements());
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), filteredPostsDTOList.size());
+
+        List<PostsDTO> pagedPostsDTOList = filteredPostsDTOList.subList(start, end);
+
+        return new PageImpl<>(pagedPostsDTOList, pageRequest, filteredPostsDTOList.size());
     }
+
 
     private int calculateAge(String birthDateString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");

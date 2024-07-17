@@ -41,6 +41,8 @@ public class BoardController {
         return "board/post_story";
     }
 
+
+
     @PostMapping("/toggleLike")
     @ResponseBody
     public LikeResponse toggleLike(@RequestParam(name = "userNo") int userNo,
