@@ -43,8 +43,9 @@ public class BoardController {
 
     @PostMapping("/toggleLike")
     @ResponseBody
-    public LikeResponse toggleLike(@RequestParam int userNo, @RequestParam int postsId, HttpSession session) {
-        Users currentUser = (Users) session.getAttribute("user");
+    public LikeResponse toggleLike(@RequestParam(name = "userNo") int userNo,
+                                   @RequestParam(name = "postsId") int postsId,
+                                   HttpSession session) {        Users currentUser = (Users) session.getAttribute("user");
         if (currentUser == null) {
             return null;
         }
