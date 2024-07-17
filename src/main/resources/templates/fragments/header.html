@@ -1,7 +1,9 @@
 <header>
     <link rel="stylesheet" th:href="@{/css/fragment.css}">
     <script type="text/javascript" th:src="@{/js/hamburger.js}" th:defer></script>
-    <div class="logo">로고</div>
+    <div class="logo">
+        <a th:href="@{/}"><img th:src="@{/img/logo.png}" alt="Logo"></a>
+    </div>
     <button class="hamburger-menu" onclick="toggleMenu()">☰</button>
     <nav>
         <button class="close-menu" onclick="toggleMenu()">✖</button>
