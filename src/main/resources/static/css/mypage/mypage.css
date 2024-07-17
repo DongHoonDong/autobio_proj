@@ -183,15 +183,15 @@
     text-align: left;
     font-size: 30px;
     margin-bottom: 20px;
-    font-family: 'Pretendard-Black', serif;
+    font-family: 'ChosunCentennial', serif;
 }
 .my_info {
-    margin: 20px 30%;
+    margin: 20px;
     padding: 20px;
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-self: center;
+    align-self: flex-start;
 }
 .my_info p {
     font-family: 'Pretendard-Regular', serif;
