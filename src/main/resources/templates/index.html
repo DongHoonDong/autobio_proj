@@ -6,7 +6,6 @@
     <title>메인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <style>
-        /* 팝업 창 스타일 */
         .popup-overlay {
             display: none;
             position: fixed;
@@ -29,7 +28,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             max-width: 90%;
             max-height: 80%;
-            overflow: auto; /* 스크롤 추가 */
+            overflow: auto;
         }
         .popup-header {
             display: flex;
@@ -38,18 +37,27 @@
             margin-bottom: 15px;
         }
         .popup-header h3 {
-            font-size: 1.5em; /* 팝업 제목의 폰트 사이즈 */
-            font-weight: bold; /* 팝업 제목의 글꼴 굵기 */
+            font-size: 1.5em;
+            font-weight: bold;
         }
         .popup-close {
             cursor: pointer;
         }
-        /* 스토리 제목 */
         .story h3 {
-            font-size: 1.2em; /* 스토리 제목의 폰트 사이즈 */
-            font-weight: bold; /* 스토리 제목의 글꼴 굵기 */
-            color: #555; /* 스토리 제목의 글자색 */
-            margin-bottom: 10px; /* 스토리 제목과 내용 사이 여백 */
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        #popupContent {
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-size: 16px;
+            color: #333;
+        }
+        #popupContent p {
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -67,7 +75,7 @@
         <div th:each="story : ${stories}" class="story" th:attr="data-content=${story.finalText}">
             <div class="story-info">
                 <h3 th:text="${story.title}">제목</h3>
-                <p th:text="${story.finalText}" class="content-preview">내용</p>
+                <p th:utext="${story.finalText}" class="content-preview">내용</p>
                 <div class="story-meta">
                     <div class="author">
                         <span th:text="'By ' + ${story.userName}">By User</span><br><br>
@@ -86,7 +94,6 @@
 </section>
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- 팝업 창 -->
 <div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
 <div class="popup" id="popup">
     <div class="popup-header">
@@ -99,9 +106,12 @@
 <script>
     function showPopup(element) {
         const content = element.getAttribute('data-content');
-        const title = element.querySelector('h3').innerText; // 스토리 제목 가져오기
-        document.getElementById('popupTitle').innerText = title; // 팝업 제목 설정
-        document.getElementById('popupContent').innerHTML = content; // 팝업 내용 설정
+        const title = element.querySelector('h3').innerText;
+        document.getElementById('popupTitle').innerText = title;
+
+        const formattedContent = content.split('\n').map(para => `<p>${para}</p>`).join('');
+        document.getElementById('popupContent').innerHTML = formattedContent;
+
         document.getElementById('popupOverlay').style.display = 'block';
         document.getElementById('popup').style.display = 'block';
     }

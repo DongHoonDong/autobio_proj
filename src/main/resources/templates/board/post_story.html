@@ -6,18 +6,16 @@
     <title>Stories Page</title>
     <link rel="stylesheet" th:href="@{/css/board/storied.css}">
     <style>
-        /* Modal CSS */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            position: fixed;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
         }
 
         .modal-content {
@@ -36,13 +34,21 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .close:hover,
         .close:focus {
             color: black;
             text-decoration: none;
-            cursor: pointer;
+        }
+
+        #modalContent {
+            white-space: normal;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
         }
     </style>
 </head>
@@ -53,18 +59,25 @@
         <h2>자서전 구경하기</h2>
         <div class="story_board">
             <div th:if="${stories.isEmpty()}" style="text-align:left; left:50%;">아직 공개된 자서전이 없어요</div>
-            <div th:each="story, iterStat : ${stories}" class="story_post">
+            <div th:each="story, iterStat : ${stories}" class="story_post" th:data-full-text="${story.finalText}">
                 <div class="post-info">
                     <h3 th:text="${story.title}">제목</h3>
-                    <p th:utext="${story.finalText}" class="content-preview">내용</p>
+                    <p th:utext="${#strings.abbreviate(story.finalText, 100)}" class="content-preview">내용</p>
                     <div class="story-meta">
                         <div class="author">
                             <span th:utext="${story.userAge} + '세&nbsp;&nbsp;By ' + ${story.userName}">By User</span>
                         </div>
                         <div class="likes">
-                            <button class="like-button" th:data-user-no="${session.user != null ? session.user.userNo : -1}" th:data-post-id="${story.postsId}" th:classappend="${story.liked} ? 'liked' : 'unliked'" onclick="toggleLike(event)">
+                            <button class="like-button"
+                                    th:data-user-no="${session.user != null ? session.user.userNo : -1}"
+                                    th:data-post-id="${story.postsId}"
+                                    th:classappend="${story.liked} ? 'liked' : 'unliked'"
+                                    onclick="toggleLike(event)">
                                 <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" th:attr="fill=${story.liked} ? 'red' : 'none'" stroke="red" stroke-width="2"/>
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                                          th:attr="fill=${story.liked} ? 'red' : 'none'"
+                                          stroke="red"
+                                          stroke-width="2"/>
                                 </svg>
                             </button>
                             <span class="likeCount" th:text="${story.likesCount}"></span>
@@ -86,12 +99,11 @@
     </div>
 </main>
 
-<!-- Modal for Story Details -->
 <div id="storyDetailModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2 id="modalTitle">제목</h2>
-        <p id="modalContent" class="content-detail">내용</p>
+        <div id="modalContent" class="content-detail">내용</div>
         <p id="modalAuthor">By User</p>
         <div>
             <button id="modalLikeButton" class="like-button">
@@ -104,7 +116,6 @@
     </div>
 </div>
 
-<!-- Login Modal -->
 <div id="loginModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
@@ -114,14 +125,15 @@
 
 <div th:replace="~{fragments/footer :: footer}"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
 <script>
-    // Function to toggle like status
     function toggleLike(event) {
         const button = event.currentTarget;
         const userNo = button.getAttribute('data-user-no');
         const postId = button.getAttribute('data-post-id');
 
-        if (userNo === -1) {
+        if (userNo === '-1') {
             document.getElementById('loginModal').style.display = 'block';
             return;
         }
@@ -151,14 +163,13 @@
                     }
 
                     likeCountElement.textContent = data.likeCount;
-                    document.getElementById('modalLikeCount').textContent = data.likeCount; // Update like count in modal
+                    document.getElementById('modalLikeCount').textContent = data.likeCount;
                 } else {
                     document.getElementById('loginModal').style.display = 'block';
                 }
             });
     }
 
-    // Open modal and populate with story details
     document.addEventListener('DOMContentLoaded', function() {
         const storyPosts = document.querySelectorAll('.story_post');
         const modal = document.getElementById('storyDetailModal');
@@ -168,41 +179,38 @@
             post.addEventListener('click', function() {
                 modal.style.display = 'block';
 
-                // Get story details
                 const title = post.querySelector('h3').textContent;
-                const content = post.querySelector('.content-preview').textContent;
+                const content = post.getAttribute('data-full-text');
                 const author = post.querySelector('.author span').textContent;
                 const userNo = post.querySelector('.like-button').getAttribute('data-user-no');
                 const postId = post.querySelector('.like-button').getAttribute('data-post-id');
                 const liked = post.querySelector('.like-button').classList.contains('liked');
                 const likeCount = post.querySelector('.likeCount').textContent;
 
-                // Set modal content
                 document.getElementById('modalTitle').textContent = title;
-                document.getElementById('modalContent').textContent = content;
+                const htmlContent = marked(content);
+                document.getElementById('modalContent').innerHTML = DOMPurify.sanitize(htmlContent);
                 document.getElementById('modalAuthor').textContent = author;
                 document.getElementById('modalLikeCount').textContent = likeCount;
 
-                // Set data attributes for like button in modal
                 const modalLikeButton = document.getElementById('modalLikeButton');
                 modalLikeButton.setAttribute('data-user-no', userNo);
                 modalLikeButton.setAttribute('data-post-id', postId);
 
-                // Set like button state
                 if (liked) {
                     modalLikeButton.classList.add('liked');
+                    modalLikeButton.querySelector('.heart-icon path').setAttribute('fill', 'red');
                 } else {
                     modalLikeButton.classList.remove('liked');
+                    modalLikeButton.querySelector('.heart-icon path').setAttribute('fill', 'none');
                 }
             });
         });
 
-        // Close modal when close button is clicked
         closeModal.onclick = function() {
             modal.style.display = 'none';
         };
 
-        // Close modal when clicking outside the modal
         window.onclick = function(event) {
             if (event.target === modal) {
                 modal.style.display = 'none';
@@ -210,10 +218,11 @@
         };
     });
 
-    // Close login modal
     document.getElementById('loginModal').querySelector('.close').onclick = function() {
         document.getElementById('loginModal').style.display = 'none';
     };
+
+    document.getElementById('modalLikeButton').addEventListener('click', toggleLike);
 </script>
 
 </body>
