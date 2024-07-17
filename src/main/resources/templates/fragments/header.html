@@ -5,7 +5,7 @@
     <button class="hamburger-menu" onclick="toggleMenu()">☰</button>
     <nav>
         <button class="close-menu" onclick="toggleMenu()">✖</button>
-        <!-- ul.nav-links 조건부 렌더링 -->
+
         <div th:unless="${session.user != null and session.user.userRole == 'Y'}">
             <ul class="nav-links">
                 <li><a th:href="@{/}">홈</a></li>

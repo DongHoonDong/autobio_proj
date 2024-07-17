@@ -71,22 +71,7 @@ input[type="file"] {
     margin-top: 10px;
 }
 
-button {
-    background-color: #007bff;
-    border-radius: 15px;
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    margin-top: 20px;
-    cursor: pointer;
-    font-family: 'Pretendard-Medium', sans-serif;
-    font-size: 16px;
 
-}
-
-button:hover {
-    background-color: #3383ff;
-}
 
 .loader-container {
     display: flex;
@@ -158,6 +143,7 @@ textarea#transcriptEditor {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+    font-family: 'Pretendard-Medium', sans-serif;
     border-radius: 15px;
 }
 

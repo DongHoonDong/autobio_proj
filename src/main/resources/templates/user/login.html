@@ -10,7 +10,7 @@
 <div th:replace="~{fragments/header :: header}"></div>
 
 <div class="login-container">
-    <div class="logo">LOG<span>IN</span></div>
+    <div class="logo-login">LOG<span>IN</span></div>
     <p class="message">로그인을 하시면 자서전 서비스를 이용하실 수 있습니다.</p>
     <form th:action="@{/login}" method="post">
         <input type="text" name="userId" placeholder="아이디를 입력해주세요." required>

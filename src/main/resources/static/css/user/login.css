@@ -57,13 +57,13 @@ body {
     width: 400px;
 
 }
-.logo {
+.logo-login {
     font-size: 35px !important;
     font-family: 'Pretendard-Black', serif;
     font-weight: bold;
     margin-bottom: 20px;
 }
-.logo span {
+.logo-login span {
     font-size: 35px !important;
     font-weight: bold;
     color: #0b5700;
