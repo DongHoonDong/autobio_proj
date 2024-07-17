@@ -6,6 +6,42 @@
     <title>메인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
     <script type="text/javascript" th:src="@{/js/index.js}" th:defer></script>
+    <style>
+        /* 팝업 창 스타일 */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            z-index: 1001;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 90%;
+            max-height: 80%;
+            overflow: auto; /* 스크롤 추가 */
+        }
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .popup-close {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
@@ -18,10 +54,10 @@
     <h2>내 이야기 들려주기</h2>
     <p>제 인생 스토리 읽어보실래요?</p>
     <div class="stories">
-        <div th:each="story : ${stories}" class="story">
+        <div th:each="story : ${stories}" class="story" th:attr="data-content=${story.finalText}">
             <div class="story-info">
                 <h3 th:text="${story.title}">제목</h3>
-                <p th:utext="${story.finalText}" class="content-preview">내용</p>
+                <p th:text="${story.finalText}" class="content-preview">내용</p>
                 <div class="story-meta">
                     <div class="author">
                         <span th:text="'By ' + ${story.userName}">By User</span><br><br>
@@ -39,5 +75,37 @@
     </div>
 </section>
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- 팝업 창 -->
+<div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
+<div class="popup" id="popup">
+    <div class="popup-header">
+        <span id="popupTitle">전체 내용</span>
+        <span class="popup-close" onclick="closePopup()">×</span>
+    </div>
+    <div id="popupContent"></div>
+</div>
+
+<script>
+    function showPopup(element) {
+        const content = element.getAttribute('data-content');
+        document.getElementById('popupTitle').innerText = '전체 내용';
+        document.getElementById('popupContent').innerHTML = content; // innerHTML로 변경
+        document.getElementById('popupOverlay').style.display = 'block';
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popupOverlay').style.display = 'none';
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    document.querySelectorAll('.story').forEach(story => {
+        story.addEventListener('click', function() {
+            showPopup(this);
+        });
+    });
+</script>
+
 </body>
 </html>
