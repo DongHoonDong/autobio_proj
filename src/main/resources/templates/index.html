@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
-    <script type="text/javascript" th:src="@{/js/index.js}" th:defer></script>
     <style>
         /* 팝업 창 스타일 */
         .popup-overlay {
@@ -38,8 +37,19 @@
             align-items: center;
             margin-bottom: 15px;
         }
+        .popup-header h3 {
+            font-size: 1.5em; /* 팝업 제목의 폰트 사이즈 */
+            font-weight: bold; /* 팝업 제목의 글꼴 굵기 */
+        }
         .popup-close {
             cursor: pointer;
+        }
+        /* 스토리 제목 */
+        .story h3 {
+            font-size: 1.2em; /* 스토리 제목의 폰트 사이즈 */
+            font-weight: bold; /* 스토리 제목의 글꼴 굵기 */
+            color: #555; /* 스토리 제목의 글자색 */
+            margin-bottom: 10px; /* 스토리 제목과 내용 사이 여백 */
         }
     </style>
 </head>
@@ -80,7 +90,7 @@
 <div class="popup-overlay" id="popupOverlay" onclick="closePopup()"></div>
 <div class="popup" id="popup">
     <div class="popup-header">
-        <span id="popupTitle">전체 내용</span>
+        <h3 id="popupTitle">전체 내용</h3>
         <span class="popup-close" onclick="closePopup()">×</span>
     </div>
     <div id="popupContent"></div>
@@ -89,8 +99,9 @@
 <script>
     function showPopup(element) {
         const content = element.getAttribute('data-content');
-        document.getElementById('popupTitle').innerText = '전체 내용';
-        document.getElementById('popupContent').innerHTML = content; // innerHTML로 변경
+        const title = element.querySelector('h3').innerText; // 스토리 제목 가져오기
+        document.getElementById('popupTitle').innerText = title; // 팝업 제목 설정
+        document.getElementById('popupContent').innerHTML = content; // 팝업 내용 설정
         document.getElementById('popupOverlay').style.display = 'block';
         document.getElementById('popup').style.display = 'block';
     }

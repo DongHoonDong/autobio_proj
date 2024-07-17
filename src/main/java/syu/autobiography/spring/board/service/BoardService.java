@@ -21,6 +21,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class BoardService {
 
@@ -46,7 +47,7 @@ public class BoardService {
                     String truncatedText = truncateContent(posts.getFinalText());
                     int likesCount = likesRepository.countByPostsId(posts.getPostsId());
                     boolean liked = (currentUserNo != -1) && likesRepository.findByUserUserNoAndPostsPostsId(currentUserNo, posts.getPostsId()).isPresent();
-                    return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getFinalText(), truncatedText, posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
+                    return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getGptText(), posts.getFinalText(), posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
                 })
                 .collect(Collectors.toList());
     }
@@ -64,7 +65,7 @@ public class BoardService {
                     String truncatedText = truncateContent(posts.getFinalText());
                     int likesCount = likesRepository.countByPostsId(posts.getPostsId());
                     boolean liked = (currentUserNo != -1) && likesRepository.findByUserUserNoAndPostsPostsId(currentUserNo, posts.getPostsId()).isPresent();
-                    return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getFinalText(), truncatedText, posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
+                    return new PostsDTO(posts.getPostsId(), posts.getUser().getUserNo(), posts.getQuestionNumber(), posts.getDraftText(), posts.getGptText(), posts.getFinalText(), posts.getTitle(), posts.getIsPublic(), posts.getCreatedAt(), posts.getUpdatedAt(), posts.getUser().getUserName(), userAge, likesCount, liked);
                 })
                 .collect(Collectors.toList());
 
