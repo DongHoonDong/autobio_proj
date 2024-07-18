@@ -135,6 +135,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.3/purify.min.js"></script>
 <script>
     function toggleLike(event) {
+        event.stopPropagation();  // 이벤트 전파 막기
         const button = event.currentTarget;
         const userNo = button.getAttribute('data-user-no');
         const postId = button.getAttribute('data-post-id');
@@ -191,7 +192,12 @@
         const closeModal = modal.querySelector('.close');
 
         storyPosts.forEach(function(post) {
-            post.addEventListener('click', function() {
+            post.addEventListener('click', function(event) {
+                // 좋아요 버튼 클릭시 이벤트 전파 막기
+                if (event.target.closest('.like-button')) {
+                    return;
+                }
+
                 modal.style.display = 'block';
 
                 const title = post.querySelector('h3').textContent;
@@ -232,6 +238,7 @@
             }
         };
     });
+
 
     document.getElementById('loginModal').querySelector('.close').onclick = function() {
         document.getElementById('loginModal').style.display = 'none';
