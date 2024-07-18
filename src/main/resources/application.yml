@@ -8,6 +8,8 @@ spring:
     hidden-method:
       filter:
         enabled: true
+      favicon:
+          enabled: true
 
   datasource:
     url: jdbc:mysql://localhost:3306/autobiography

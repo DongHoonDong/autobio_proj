@@ -5,7 +5,7 @@
     <title>마이페이지 - 좋아요 목록</title>
     <link rel="stylesheet" th:href="@{/css/mypage/mypage.css}">
     <link rel="icon" th:href="@{/img/favlo.ico}" type="image/x-icon">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
 </head>
 <body>
 <div th:replace="~{fragments/header :: header}"></div>
@@ -21,33 +21,41 @@
         </ul>
     </section>
     <section class="main_content">
-    <div class = "my_posts_info">
-    <h2>관심 있는 자서전</h2>
-    <h3 style="font-family: 'ChosunCentennial', serif"><span th:text="${user.userName}"></span>님이 좋아요 눌러주신 자서전 목록이에요.</h3>
-        <div class="stories">
-            <div th:each="post : ${likedPosts}" class="story">
-                <div class="story-info">
-                    <h3 th:text="${post.title}">제목</h3>
-                    <p th:utext="${post.finalText}" class="content-preview">내용</p>
-                    <div class="story-meta">
-                        <div class="author">
-                            <span th:text="'By ' + ${post.userName}">By User</span>
+        <div class="my_posts_info">
+            <h2>관심 있는 자서전</h2>
+            <h3 style="font-family: 'ChosunCentennial', serif"><span th:text="${user.userName}"></span>님이 좋아요 눌러주신 자서전 목록이에요.</h3>
+            <div class="stories">
+                <div th:each="post : ${likedPosts}" class="story">
+                    <div class="story-info">
+                        <h3 th:text="${post.title}">제목</h3>
+                        <p th:attr="data-content=${post.finalText}" class="content-preview">내용</p>
+                        <div class="story-meta">
+                            <div class="author">
+                                <span th:text="'By ' + ${post.userName}">By User</span>
+                            </div>
                         </div>
-<!--
-                        <div class="likes">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                            </svg>
-                            <span th:text="${post.likesCount}"></span>
-                        </div>
--->
                     </div>
                 </div>
-            </div></div>
-    </div></section>
+            </div>
+        </div>
+    </section>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        var converter = new showdown.Converter();
+        var previews = document.querySelectorAll('.content-preview');
+        previews.forEach(function(preview) {
+            var content = preview.getAttribute('data-content');
+            content = content.replace(/<\/?[^>]+(>|$)/g, "");  // Remove HTML tags
+            var html = converter.makeHtml(content);
+            html = html.replace(/<\/?[^>]+(>|$)/g, "");  // Remove any HTML tags created by markdown conversion
+            preview.innerHTML = html.substring(0, 100) + (html.length > 100 ? '...' : '');
+        });
+    });
+</script>
 
 </body>
 </html>
